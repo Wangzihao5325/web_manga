@@ -65,6 +65,41 @@ class WhiteBorder extends Component {
     }
 }
 
+class Banner extends Component {
+    render() {
+        return (
+            <div style={{ height: 101, width: document.body.clientWidth, backgroundColor: 'rgb(251,248,247)' }}></div>
+        );
+    }
+}
+
+class ListItem extends Component {
+    render() {
+        return (
+            <div style={{ height: 53, width: document.body.clientWidth, display: 'flex' }}>
+                <div style={{ height: 53, width: document.body.clientWidth - 14, display: 'flex', flexDirection: 'row', borderBottomColor: 'rgb(244,244,244)', borderBottomWidth: 1 }}>
+                    <img style={{ height: 17, width: 17, marginLeft: 22 }} src={require('../../image/mine/my_write.png')} />
+                    <div>绑定手机</div>
+                    <div style={{ flex: 1 }} />
+                    <div style={{ height: 53, width: 53, display: 'flex', justifyContent: 'center', flexDirection: 'row' }}>
+                        {/* <img style={}/> */}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
+
+class Flatlist extends Component {
+    render() {
+        return (
+            <ul>
+
+            </ul>
+        );
+    }
+}
+
 class Mine extends Component {
     render() {
         return (
@@ -74,6 +109,7 @@ class Mine extends Component {
                     <Header />
                 </div>
                 <Tabs />
+                <Banner />
             </div>
         );
     }
