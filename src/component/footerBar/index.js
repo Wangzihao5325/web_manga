@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
+
 //import './index.css';
 import main_active from '../../image/main_tab_active.png';
 import main_default from '../../image/main_tab_default.png';
@@ -38,20 +40,23 @@ class Item extends Component {
 
         switch (this.props.index) {
             case 0:
+                this.props.navi.push('/');
                 break;
             case 1:
+                this.props.navi.push('/collect/');
                 break;
             case 2:
+                this.props.navi.push('/task/');
                 break;
             case 3:
+                this.props.navi.push('/mine/');
                 break;
         }
-        console.log('1111');
         this.props.callback(this.props.index);
     }
 }
 
-export default class Footer extends Component {
+class Footer extends Component {
 
     state = {
         highlightIndex: 0
@@ -73,10 +78,10 @@ export default class Footer extends Component {
                     flexDirection: 'row'
                 }}
             >
-                <Item callback={this.pressCallback} index={0} highLightIndex={this.state.highlightIndex} icon={main_active} defalut={main_default} name={'首页'} />
-                <Item callback={this.pressCallback} index={1} highLightIndex={this.state.highlightIndex} icon={collect_active} defalut={collect_default} name={'书架'} />
-                <Item callback={this.pressCallback} index={2} highLightIndex={this.state.highlightIndex} icon={task_active} defalut={task_default} name={'任务'} />
-                <Item callback={this.pressCallback} index={3} highLightIndex={this.state.highlightIndex} icon={mine_active} defalut={mine_default} name={'我的'} />
+                <Item navi={this.props.history} callback={this.pressCallback} index={0} highLightIndex={this.state.highlightIndex} icon={main_active} defalut={main_default} name={'首页'} />
+                <Item navi={this.props.history} callback={this.pressCallback} index={1} highLightIndex={this.state.highlightIndex} icon={collect_active} defalut={collect_default} name={'书架'} />
+                <Item navi={this.props.history} callback={this.pressCallback} index={2} highLightIndex={this.state.highlightIndex} icon={task_active} defalut={task_default} name={'任务'} />
+                <Item navi={this.props.history} callback={this.pressCallback} index={3} highLightIndex={this.state.highlightIndex} icon={mine_active} defalut={mine_default} name={'我的'} />
             </div>
         );
     }
@@ -87,3 +92,6 @@ export default class Footer extends Component {
         });
     }
 }
+
+const FooterWithRouter = withRouter(Footer);
+export default FooterWithRouter;
