@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 
-//import './index.css';
+//image
 import main_active from '../../image/main_tab_active.png';
 import main_default from '../../image/main_tab_default.png';
 import collect_active from '../../image/collect_tab_active.png';
@@ -14,7 +14,7 @@ import mine_default from '../../image/mine_tab_default.png';
 class Item extends Component {
 
     render() {
-        let image = this.props.highLightIndex == this.props.index ? this.props.icon : this.props.defalut;
+        let image = this.props.highLightIndex === this.props.index ? this.props.icon : this.props.defalut;
         return (
             <div
                 onClick={this.btnClick}
@@ -27,14 +27,14 @@ class Item extends Component {
                     flexDirection: 'column'
                 }}
             >
-                <img style={{ height: 25, width: 25, alignSelf: 'center' }} src={image} />
+                <img style={{ height: 25, width: 25, alignSelf: 'center' }} src={image} alt='' />
                 <div style={{ marginTop: 2 }}>{this.props.name}</div>
             </div>
         );
     }
 
     btnClick = () => {
-        if (this.props.highLightIndex == this.props.index) {
+        if (this.props.highLightIndex === this.props.index) {
             return;
         }
 
@@ -50,6 +50,8 @@ class Item extends Component {
                 break;
             case 3:
                 this.props.navi.push('/mine/');
+                break;
+            default:
                 break;
         }
         this.props.callback(this.props.index);
