@@ -1,0 +1,150 @@
+import CryptoJS from 'crypto-js';
+import { browser } from '../util/browserTest';
+import { SERVICE_URL } from '../global/config';
+import Variables from '../global/Variables';
+
+const IsSecurty = true;
+const OriginKey = '1s1z1GYRRNZRSJam';
+const SecurtyKey = CryptoJS.enc.Utf8.parse('1s1z1GYRRNZRSJam');
+const PlatformStr = browser.versions.ios ? 'H-I' : 'H-A';
+
+
+
+class api {
+
+    getSign(paramObj) {
+        let str = '';
+        for (let item in paramObj) {
+            let value = paramObj[item];
+            if (typeof value == 'object') {
+                value = JSON.stringify(value);
+            }
+            str = `${str}${item}=${value}&`;
+        }
+        str = `${str}key=${OriginKey}`;
+        console.log('md5');
+        console.log(str);
+        const hash = CryptoJS.MD5(str).toString();
+        return hash.toUpperCase();
+    }
+
+    securtyFetch(url, paramObj, onSuccess, onError) {
+        const sign = this.getSign(paramObj);
+        let paramObjReg = { ...paramObj };
+        paramObjReg.sign = sign;
+
+        const paramObjStr = JSON.stringify(paramObjReg);
+        const encryptedData = CryptoJS.AES.encrypt(paramObjStr, SecurtyKey, {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        });
+        let securtyReg = encodeURI(encryptedData.toString());
+
+        console.log('body');
+        console.log(securtyReg);
+
+        let formData = new FormData();
+        formData.append('data', securtyReg);
+
+        this.unsecurtyFetch(url, formData, (result, code, message) => {
+            //解密
+            let resultDecipher = null;
+            if (result) {
+                let decodeUrl = decodeURIComponent(result);
+                let bytes = CryptoJS.AES.decrypt(decodeUrl, SecurtyKey, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7, iv: '', });
+                resultDecipher = JSON.parse(CryptoJS.enc.Utf8.stringify(bytes));
+            }
+            if (onSuccess) {
+                onSuccess(resultDecipher, code, message);
+            }
+        }, onError);
+
+    }
+
+    unsecurtyFetch(url, formData, onSuccess, onError) {
+        const fullUrl = `${SERVICE_URL.DomainUrl}${url}`;
+
+        let headerDataReg = { platform: PlatformStr };
+        if (Variables.account.token) {
+            headerDataReg = { Authorization: `Bearer ${Variables.account.token}`, platform: PlatformStr };
+        }
+
+        const headerDataRegStr = JSON.stringify(headerDataReg);
+        const encryptedData = CryptoJS.AES.encrypt(headerDataRegStr, SecurtyKey, {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        });
+        let securtyHeader = encodeURI(encryptedData.toString());
+        console.log('header');
+        console.log(securtyHeader);
+
+        let header = { Accept: 'application/json', data: securtyHeader };
+
+        let obj = { method: 'POST', headers: header, body: formData };
+
+        fetch(fullUrl, obj).then((response) => response.json())
+            .then(
+                (reponseJson) => {
+                    console.log('unEncode Object');
+                    console.log(reponseJson);
+                    const result = reponseJson.result ? reponseJson.result : null;
+                    const code = reponseJson.code ? reponseJson.code : null;
+                    const message = reponseJson.message ? reponseJson.message : null;
+                    try {
+                        onSuccess(result, code, message);
+                    } catch (error) {
+                        onError ? onError(result, code, message) : console.log(`error: socket error! ${error}`);
+                    }
+                }
+            )
+
+    }
+
+    normalFetch(url, formData, onSuccess, onError) {
+        const fullUrl = `${SERVICE_URL.DomainUrl}${url}`;
+
+        let header = { Accept: 'application/json', platform: PlatformStr };
+
+        if (Variables.account.token) {
+            header = { Accept: 'application/json', platform: PlatformStr, Authorization: `Bearer ${Variables.account.token}` };
+        }
+
+        let obj = { method: 'POST', headers: header, body: formData };
+
+        fetch(fullUrl, obj).then((response) => response.json())
+            .then(
+                (reponseJson) => {
+                    const result = reponseJson.result ? reponseJson.result : null;
+                    const code = reponseJson.code ? reponseJson.code : null;
+                    const message = reponseJson.message ? reponseJson.message : null;
+                    try {
+                        onSuccess(result, code, message);
+                    } catch (error) {
+                        onError ? onError(result, code, message) : console.log(`error: socket error! ${error}`);
+                    }
+                }
+            )
+
+
+    }
+
+    fetchAppNotice(onSuccess, onError) {
+        const url = '/api/notice';
+
+        if (!IsSecurty) {
+
+        }
+
+        const timestamp = (new Date().getTime() / 1000).toFixed(0);
+        let paramObj = {
+            platform: PlatformStr,
+            timestamp
+        }
+
+        this.securtyFetch(url, paramObj, onSuccess, onError);
+
+    }
+
+}
+
+export default new api();
