@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import store from '../../store/index';
 import { tab_navi_show } from '../../store/actions/tabBottomNaviAction';
+import { pop_show } from '../../store/actions/popAction';
 import './index.css';
 
 class Header extends Component {
@@ -128,6 +129,7 @@ class Mine extends Component {
     }
 
     goToInviteCode = () => {
+        store.dispatch(pop_show('InviteCode'));
         //this.props.history.push('/inviteCode/');
         // this.props.history.push({ pathname: `/inviteCode/`, state: { modal: true } });
 

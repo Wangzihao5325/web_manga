@@ -3,17 +3,20 @@ import { connect } from 'react-redux';
 
 import InviteCodeModel from '../inviteCode/index';
 
-export default class ModelContainer extends Component {
+class ModelContainer extends Component {
     render() {
-        return (
-            <div></div>
-        );
+        switch (this.props.type) {
+            case 'InviteCode':
+                return <InviteCodeModel />;
+            default:
+                return <div style={{ height: 1, width: 1 }} />
+        }
     }
 }
 
 function mapState2Props(store) {
     return {
-        type: store.tabNavi.isShow,
+        type: store.pop.popType,
     }
 }
 

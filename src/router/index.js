@@ -33,7 +33,10 @@ class AppRouter extends Component {
                                 left: 0,
                                 right: 0,
                                 bottom: 0,
-                                backgroundColor: 'rgb(0,0,0,0.5)'
+                                backgroundColor: 'rgb(0,0,0,0.5)',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center'
                             }}
                         >
                             <ModelContainer />
@@ -48,6 +51,7 @@ class AppRouter extends Component {
 function mapState2Props(store) {
     return {
         isShow: store.tabNavi.isShow,
+        popShow: store.pop.popShow
     }
 }
 
