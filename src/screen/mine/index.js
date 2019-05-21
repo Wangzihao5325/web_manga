@@ -118,7 +118,7 @@ class Mine extends Component {
                 <Tabs />
                 <Banner />
                 <ListItem onPress={this.goToRegister} title='绑定信息' imgPath={require('../../image/mine/my_write.png')} />
-                <ListItem onPress={this.itemOnPress} title='邀请码' imgPath={require('../../image/mine/my_write.png')} />
+                <ListItem onPress={this.goToInviteCode} title='邀请码' imgPath={require('../../image/mine/my_write.png')} />
             </div>
         );
     }
@@ -127,8 +127,8 @@ class Mine extends Component {
         this.props.history.push('/register/');
     }
 
-    itemOnPress = () => {
-
+    goToInviteCode = () => {
+        this.props.history.push('/inviteCode/');
     }
 
 }
