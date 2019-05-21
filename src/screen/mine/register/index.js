@@ -1,7 +1,31 @@
-import React from 'react';
+import React, { Component } from 'react';
+import store from '../../../store/index';
+import { tab_navi_unshow } from '../../../store/actions/tabBottomNaviAction';
+import Header from '../../../component/header/index';
+import { withRouter } from 'react-router';
 
-function Register() {
-    return <h2>Register</h2>;
+import { PhoneNumInput } from '../../../component/input/index';
+
+class Register extends Component {
+
+    componentDidMount() {
+        store.dispatch(tab_navi_unshow());
+    }
+
+    render() {
+        return (
+            <div style={{ flex: 1 }}>
+                <Header back={this.goBack} />
+                <h2 style={{ marginTop: 86, fontSize: 26, color: 'rgb(34,34,34)', marginLeft: 36 }}>手机号码注册</h2>
+                <PhoneNumInput />
+            </div>
+        );
+    }
+
+    goBack = () => {
+        this.props.history.push('/mine/');
+    }
 }
 
-export default Register;
+const RegisterWithRouter = withRouter(Register);
+export default RegisterWithRouter;
