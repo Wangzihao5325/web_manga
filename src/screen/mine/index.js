@@ -3,7 +3,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import store from '../../store/index';
 import { tab_navi_show } from '../../store/actions/tabBottomNaviAction';
-import { pop_show } from '../../store/actions/popAction';
+//import { pop_show } from '../../store/actions/popAction';
 import './index.css';
 
 class Header extends Component {
