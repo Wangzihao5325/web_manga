@@ -5,10 +5,15 @@ import store from '../store/index';
 import { pop_unshow } from '../store/actions/popAction';
 
 import Index from '../screen/home/index';
+
 import Collect from '../screen/collect/index';
+
 import Task from '../screen/task/index';
+
 import Mine from '../screen/mine/index';
 import Register from '../screen/mine/register/index';
+//import SetInviteCode
+
 
 import ModelContainer from '../screen/modelContainer/index';
 

@@ -22,7 +22,7 @@ class Register extends Component {
                 <h2 style={{ marginTop: 86, fontSize: 26, color: 'rgb(34,34,34)', marginLeft: 36 }}>手机号码注册</h2>
                 <PhoneNumInput callback={this.mobileChange} />
                 <VerCodeInput send={this.sendMessage} callback={this.verCodeChange} />
-                <NormalBtn onPress={this.register} title='立即注册' onPress={this.register} marginTop={41} />
+                <NormalBtn title='立即注册' onPress={this.register} marginTop={41} />
             </div>
         );
     }
@@ -54,7 +54,7 @@ class Register extends Component {
     }
 
     register = () => {
-        Api.register(18700121234, 1234, 6856, '123456', '123456', null, (e) => {
+        Api.register('18700121234', '1234', '6856', '123456', '123456', null, (e) => {
             console.log(e);
         });
     }
