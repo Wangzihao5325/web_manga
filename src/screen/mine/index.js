@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 import './index.css';
 
 class Header extends Component {
@@ -109,10 +110,14 @@ class Mine extends Component {
                 </div>
                 <Tabs />
                 <Banner />
-                <ListItem onPress={this.itemOnPress} title='绑定信息' imgPath={require('../../image/mine/my_write.png')} />
+                <ListItem onPress={this.goToRegister} title='绑定信息' imgPath={require('../../image/mine/my_write.png')} />
                 <ListItem onPress={this.itemOnPress} title='邀请码' imgPath={require('../../image/mine/my_write.png')} />
             </div>
         );
+    }
+
+    goToRegister = () => {
+        this.props.history.push('/register/');
     }
 
     itemOnPress = () => {
@@ -121,4 +126,5 @@ class Mine extends Component {
 
 }
 
-export default Mine;
+const MineWithRouter = withRouter(Mine);
+export default MineWithRouter;
