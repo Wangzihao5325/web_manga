@@ -4,7 +4,7 @@ import { tab_navi_unshow } from '../../../store/actions/tabBottomNaviAction';
 import Header from '../../../component/header/index';
 import { withRouter } from 'react-router';
 
-import { PhoneNumInput } from '../../../component/input/index';
+import { PhoneNumInput, VerCodeInput } from '../../../component/input/index';
 
 class Register extends Component {
 
@@ -18,6 +18,7 @@ class Register extends Component {
                 <Header back={this.goBack} />
                 <h2 style={{ marginTop: 86, fontSize: 26, color: 'rgb(34,34,34)', marginLeft: 36 }}>手机号码注册</h2>
                 <PhoneNumInput />
+                <VerCodeInput />
             </div>
         );
     }
