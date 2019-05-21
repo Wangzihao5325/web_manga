@@ -28,7 +28,7 @@ class VerCodeInput extends Component {
         return (
             <div style={{ height: 67, width: document.body.clientWidth, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{ borderBottomColor: 'rgb(244,244,244)', borderBottomStyle: 'solid', borderBottomWidth: 1, display: 'flex', height: 67, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                    <input className='phone-number-input' style={{ height: 14, width: document.body.clientWidth - 56 - 72 }} onChange={this.inputOnChange} type='text' placeholder='请输入手机号码' />
+                    <input className='phone-number-input' style={{ height: 14, width: document.body.clientWidth - 56 - 72, marginRight: 13 }} onChange={this.inputOnChange} type='text' placeholder='请输入验证码' />
                     <div style={{ fontSize: 12, color: 'rgb(255,42,49)', height: 31, width: 72, borderWidth: 1, borderStyle: 'solid', borderColor: 'rgb(255,42,49)', borderRadius: 15, alignItems: 'center', display: 'flex', justifyContent: 'center' }}>
                         {this.state.text}
                     </div>
