@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './index.css';
-import { redBright } from 'ansi-colors';
 
 class Header extends Component {
     render() {
@@ -12,7 +11,7 @@ class Header extends Component {
                     <div style={{ color: 'white', fontSize: 13, marginTop: 5 }}>满足你所有幻想</div>
                 </div>
                 <div style={{ width: 44, height: 55, paddingLeft: 18, paddingTop: 19 }}>
-                    <img style={{ height: 16, width: 8, alignSelf: 'center' }} src={require('../../image/mine/mine_right_arrow.png')} />
+                    <img style={{ height: 16, width: 8, alignSelf: 'center' }} src={require('../../image/mine/mine_right_arrow.png')} alt='' />
                 </div>
             </div>
         );
@@ -24,22 +23,22 @@ class Tabs extends Component {
         return (
             <div style={{ height: 95, paddingTop: 53, width: '100%', display: 'flex', flexDirection: 'row' }}>
                 <div style={{ height: 80, width: '25%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <img style={{ height: 51, width: 51 }} src={require('../../image/collect_tab_default.png')} />
+                    <img style={{ height: 51, width: 51 }} src={require('../../image/collect_tab_default.png')} alt='' />
                     <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginTop: 10 }}>分享推广</div>
                 </div>
 
                 <div style={{ height: 80, width: '25%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <img style={{ height: 51, width: 51 }} src={require('../../image/collect_tab_default.png')} />
+                    <img style={{ height: 51, width: 51 }} src={require('../../image/collect_tab_default.png')} alt='' />
                     <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginTop: 10 }}>分享推广</div>
                 </div>
 
                 <div style={{ height: 80, width: '25%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <img style={{ height: 51, width: 51 }} src={require('../../image/collect_tab_default.png')} />
+                    <img style={{ height: 51, width: 51 }} src={require('../../image/collect_tab_default.png')} alt='' />
                     <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginTop: 10 }}>分享推广</div>
                 </div>
 
                 <div style={{ height: 80, width: '25%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <img style={{ height: 51, width: 51 }} src={require('../../image/collect_tab_default.png')} />
+                    <img style={{ height: 51, width: 51 }} src={require('../../image/collect_tab_default.png')} alt='' />
                     <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginTop: 10 }}>分享推广</div>
                 </div>
             </div>
@@ -76,13 +75,13 @@ class Banner extends Component {
 class ListItem extends Component {
     render() {
         return (
-            <div style={{ height: 53, width: document.body.clientWidth, display: 'flex' }}>
-                <div style={{ height: 53, width: document.body.clientWidth - 14, display: 'flex', flexDirection: 'row', borderBottomColor: 'rgb(244,244,244)', borderBottomWidth: 1 }}>
-                    <img style={{ height: 17, width: 17, marginLeft: 22 }} src={require('../../image/mine/my_write.png')} />
-                    <div>绑定手机</div>
+            <div onClick={this.props.onPress} style={{ height: 53, width: document.body.clientWidth, display: 'flex', justifyContent: 'center' }}>
+                <div style={{ height: 53, width: document.body.clientWidth - 14, display: 'flex', flexDirection: 'row', alignItems: 'center', borderBottomStyle: 'solid', borderBottomColor: 'rgb(244,244,244)', borderBottomWidth: 1 }}>
+                    <img style={{ height: 17, width: 17, marginLeft: 22 }} src={this.props.imgPath} alt='' />
+                    <div style={{ marginLeft: 18, color: 'rgb(34,34,34)', fontSize: 14 }}>{this.props.title}</div>
                     <div style={{ flex: 1 }} />
-                    <div style={{ height: 53, width: 53, display: 'flex', justifyContent: 'center', flexDirection: 'row' }}>
-                        {/* <img style={}/> */}
+                    <div style={{ height: 53, width: 53, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
+                        <img style={{ height: 15, width: 8 }} src={require('../../image/mine/mine_right_arrow_2.png')} />
                     </div>
                 </div>
             </div>
@@ -110,8 +109,14 @@ class Mine extends Component {
                 </div>
                 <Tabs />
                 <Banner />
+                <ListItem onPress={this.itemOnPress} title='绑定信息' imgPath={require('../../image/mine/my_write.png')} />
+                <ListItem onPress={this.itemOnPress} title='邀请码' imgPath={require('../../image/mine/my_write.png')} />
             </div>
         );
+    }
+
+    itemOnPress = () => {
+
     }
 
 }
