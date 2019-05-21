@@ -3,6 +3,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import store from '../../store/index';
 import { tab_navi_show } from '../../store/actions/tabBottomNaviAction';
+import { CLIENT_WIDTH } from '../../global/sizes';
 //import { pop_show } from '../../store/actions/popAction';
 import './index.css';
 
@@ -54,7 +55,7 @@ class Tabs extends Component {
 class WhiteBorder extends Component {
     render() {
         return (
-            <div className='white-bord' style={{ height: 93, width: document.body.clientWidth - 24, position: 'absolute', top: 127, left: 12, right: 12, backgroundColor: 'white', borderRadius: 5, display: 'flex', flexDirection: 'row' }}>
+            <div className='white-bord' style={{ height: 93, width: CLIENT_WIDTH - 24, position: 'absolute', top: 127, left: 12, right: 12, backgroundColor: 'white', borderRadius: 5, display: 'flex', flexDirection: 'row' }}>
                 <div className='total-center'>
                     <div style={{ color: 'rgb(34,34,34)', fontSize: 23, fontWeight: 'bold' }}>{`${this.props.inviteNum}人`}</div>
                     <div style={{ color: 'rgb(193,193,193)', fontSize: 13 }}>已邀请</div>
@@ -72,7 +73,7 @@ class WhiteBorder extends Component {
 class Banner extends Component {
     render() {
         return (
-            <div style={{ height: 101, width: document.body.clientWidth, backgroundColor: 'rgb(251,248,247)' }}></div>
+            <div style={{ height: 101, width: CLIENT_WIDTH, backgroundColor: 'rgb(251,248,247)' }}></div>
         );
     }
 }
@@ -80,8 +81,8 @@ class Banner extends Component {
 class ListItem extends Component {
     render() {
         return (
-            <div onClick={this.props.onPress} style={{ height: 53, width: document.body.clientWidth, display: 'flex', justifyContent: 'center' }}>
-                <div style={{ height: 53, width: document.body.clientWidth - 14, display: 'flex', flexDirection: 'row', alignItems: 'center', borderBottomStyle: 'solid', borderBottomColor: 'rgb(244,244,244)', borderBottomWidth: 1 }}>
+            <div onClick={this.props.onPress} style={{ height: 53, width: CLIENT_WIDTH, display: 'flex', justifyContent: 'center' }}>
+                <div style={{ height: 53, width: CLIENT_WIDTH - 14, display: 'flex', flexDirection: 'row', alignItems: 'center', borderBottomStyle: 'solid', borderBottomColor: 'rgb(244,244,244)', borderBottomWidth: 1 }}>
                     <img style={{ height: 17, width: 17, marginLeft: 22 }} src={this.props.imgPath} alt='' />
                     <div style={{ marginLeft: 18, color: 'rgb(34,34,34)', fontSize: 14 }}>{this.props.title}</div>
                     <div style={{ flex: 1 }} />

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { CLIENT_WIDTH } from '../../global/sizes';
 
 class Header extends Component {
     render() {
         return (
-            <div style={{ height: 38, width: document.body.clientWidth, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            <div style={{ height: 38, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                 <div onClick={this.props.back} style={{ height: 16, width: 8, marginLeft: 15 }}>
                     <img style={{ height: 16, width: 8 }} src={require('../../image/usual/usual_left_arrow_2.png')} alt='' />
                 </div>
@@ -15,7 +16,7 @@ class Header extends Component {
 class HeaderPro extends Component {
     render() {
         return (
-            <div style={{ borderBottomStyle: 'solid', borderBottomWidth: 1, borderBottomColor: 'rgb(244,244,244)', height: 38, width: document.body.clientWidth, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            <div style={{ borderBottomStyle: 'solid', borderBottomWidth: 1, borderBottomColor: 'rgb(244,244,244)', height: 38, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                 <div onClick={this.goBack} style={{ height: 38, width: 70, marginLeft: 15, display: 'flex', alignItems: 'center' }}>
                     <img style={{ height: 16, width: 8 }} src={require('../../image/usual/usual_left_arrow_2.png')} alt='' />
                 </div>
