@@ -8,6 +8,8 @@ import Task from '../screen/task/index';
 import Mine from '../screen/mine/index';
 import Register from '../screen/mine/register/index';
 
+import ModelContainer from '../screen/modelContainer/index';
+
 import Footer from '../component/footerBar/index';
 
 class AppRouter extends Component {
@@ -23,6 +25,20 @@ class AppRouter extends Component {
                         <Route path="/register/" component={Register} />
                     </Switch>
                     {this.props.isShow && <Footer />}
+                    {this.props.popShow &&
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                backgroundColor: 'rgb(0,0,0,0.5)'
+                            }}
+                        >
+                            <ModelContainer />
+                        </div>
+                    }
                 </div>
             </Router >
         );

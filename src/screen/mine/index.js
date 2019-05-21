@@ -128,7 +128,9 @@ class Mine extends Component {
     }
 
     goToInviteCode = () => {
-        this.props.history.push('/inviteCode/');
+        //this.props.history.push('/inviteCode/');
+        // this.props.history.push({ pathname: `/inviteCode/`, state: { modal: true } });
+
     }
 
 }
