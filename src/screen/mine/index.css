@@ -1,5 +1,7 @@
 .mine-header-container {
-    background: linear-gradient(to bottom,#ff2a31,#e82127);
+    /*background: linear-gradient(to bottom,#ff2a31,#e82127);*/
+    background-size: cover;
+    background-position: center;
 }
 
 .arrow-btn-container {
@@ -10,7 +12,7 @@
 }
 
 .white-bord {
-    box-shadow: 0px 0px 1px #d5d3d3;
+    box-shadow: 0px 0px 3px #d5d3d3;
 }
 
 .total-center {

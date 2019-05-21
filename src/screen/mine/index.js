@@ -7,6 +7,8 @@ import { CLIENT_WIDTH } from '../../global/sizes';
 //import { pop_show } from '../../store/actions/popAction';
 import './index.css';
 
+import bg_image from '../../image/mine/mine_header_bg.png';
+
 class Header extends Component {
     render() {
         return (
@@ -73,7 +75,9 @@ class WhiteBorder extends Component {
 class Banner extends Component {
     render() {
         return (
-            <div style={{ height: 101, width: CLIENT_WIDTH, backgroundColor: 'rgb(251,248,247)' }}></div>
+            <div style={{ height: 101, width: CLIENT_WIDTH, display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgb(251,248,247)' }}>
+                <img style={{ height: 84, width: CLIENT_WIDTH - 28 }} src={require('../../image/mine/mine_banner.png')} />
+            </div>
         );
     }
 }
@@ -105,7 +109,7 @@ class Mine extends Component {
         return (
             <div style={{ flex: 1 }}>
                 <WhiteBorder inviteNum={this.props.inviteNum} coins={this.props.coins} />
-                <div className='mine-header-container' style={{ height: 135, width: '100%', paddingTop: 53 }} >
+                <div className='mine-header-container' style={{ height: 135, width: '100%', paddingTop: 53, backgroundImage: `url(${bg_image})` }} >
                     <Header userName={this.props.userName} slogan={this.props.slogan} />
                 </div>
                 <Tabs
