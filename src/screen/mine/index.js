@@ -54,7 +54,7 @@ class Tabs extends Component {
 class WhiteBorder extends Component {
     render() {
         return (
-            <div className='white-bord' style={{ height: 93, width: document.body.clientWidth - 24, position: 'absolute', top: 127, left: 14, backgroundColor: 'white', borderRadius: 5, display: 'flex', flexDirection: 'row' }}>
+            <div className='white-bord' style={{ height: 93, width: document.body.clientWidth - 24, position: 'absolute', top: 127, left: 12, right: 12, backgroundColor: 'white', borderRadius: 5, display: 'flex', flexDirection: 'row' }}>
                 <div className='total-center'>
                     <div style={{ color: 'rgb(34,34,34)', fontSize: 23, fontWeight: 'bold' }}>{`${this.props.inviteNum}人`}</div>
                     <div style={{ color: 'rgb(193,193,193)', fontSize: 13 }}>已邀请</div>
