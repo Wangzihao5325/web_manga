@@ -27,24 +27,24 @@ class Tabs extends Component {
     render() {
         return (
             <div style={{ height: 95, paddingTop: 53, width: '100%', display: 'flex', flexDirection: 'row' }}>
-                <div style={{ height: 80, width: '25%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <img style={{ height: 51, width: 51 }} src={require('../../image/collect_tab_default.png')} alt='' />
+                <div onClick={this.props.share} style={{ height: 80, width: '25%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <img style={{ height: 51, width: 51 }} src={require('../../image/mine/invite.png')} alt='' />
                     <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginTop: 10 }}>分享推广</div>
                 </div>
 
-                <div style={{ height: 80, width: '25%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <img style={{ height: 51, width: 51 }} src={require('../../image/collect_tab_default.png')} alt='' />
-                    <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginTop: 10 }}>分享推广</div>
+                <div onClick={this.props.pay} style={{ height: 80, width: '25%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <img style={{ height: 51, width: 51 }} src={require('../../image/mine/pay.png')} alt='' />
+                    <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginTop: 10 }}>充值中心</div>
                 </div>
 
-                <div style={{ height: 80, width: '25%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <img style={{ height: 51, width: 51 }} src={require('../../image/collect_tab_default.png')} alt='' />
-                    <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginTop: 10 }}>分享推广</div>
+                <div onClick={this.props.feedback} style={{ height: 80, width: '25%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <img style={{ height: 51, width: 51 }} src={require('../../image/mine/feedback.png')} alt='' />
+                    <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginTop: 10 }}>意见反馈</div>
                 </div>
 
-                <div style={{ height: 80, width: '25%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <img style={{ height: 51, width: 51 }} src={require('../../image/collect_tab_default.png')} alt='' />
-                    <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginTop: 10 }}>分享推广</div>
+                <div onClick={this.props.custom} style={{ height: 80, width: '25%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <img style={{ height: 51, width: 51 }} src={require('../../image/mine/custom.png')} alt='' />
+                    <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginTop: 10 }}>官方客服</div>
                 </div>
             </div>
         );
@@ -107,12 +107,33 @@ class Mine extends Component {
                 <div className='mine-header-container' style={{ height: 135, width: '100%', paddingTop: 53 }} >
                     <Header userName={this.props.userName} slogan={this.props.slogan} />
                 </div>
-                <Tabs />
+                <Tabs
+                    share={this.goToShare}
+                    pay={this.goToPay}
+                    feedback={this.goToFeedback}
+                    custom={this.goToCustom}
+                />
                 <Banner />
-                <ListItem onPress={this.goToRegister} title='绑定信息' imgPath={require('../../image/mine/my_write.png')} />
-                <ListItem onPress={this.goToInviteCode} title='邀请码' imgPath={require('../../image/mine/my_write.png')} />
+                <ListItem onPress={this.goToRegister} title='注册账号' imgPath={require('../../image/mine/my_write.png')} />
+                <ListItem onPress={this.goToInviteCode} title='邀请码' imgPath={require('../../image/mine/set_invite_code.png')} />
             </div>
         );
+    }
+
+    goToShare = () => {
+
+    }
+
+    goToPay = () => {
+
+    }
+
+    goToFeedback = () => {
+
+    }
+
+    goToCustom = () => {
+
     }
 
     goToRegister = () => {
