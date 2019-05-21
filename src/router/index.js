@@ -12,7 +12,7 @@ import Task from '../screen/task/index';
 
 import Mine from '../screen/mine/index';
 import Register from '../screen/mine/register/index';
-//import SetInviteCode
+import SetInviteCode from '../screen/mine/setInviteCode/index';
 
 
 import ModelContainer from '../screen/modelContainer/index';
@@ -30,6 +30,7 @@ class AppRouter extends Component {
                         <Route path="/task/" component={Task} />
                         <Route path="/mine/" component={Mine} />
                         <Route path="/register/" component={Register} />
+                        <Route path="/set_invite_code/" component={SetInviteCode} />
                     </Switch>
                     {this.props.isShow && <Footer />}
                     {this.props.popShow &&

@@ -115,7 +115,7 @@ class Mine extends Component {
                 />
                 <Banner />
                 <ListItem onPress={this.goToRegister} title='注册账号' imgPath={require('../../image/mine/my_write.png')} />
-                <ListItem onPress={this.goToInviteCode} title='邀请码' imgPath={require('../../image/mine/set_invite_code.png')} />
+                <ListItem onPress={this.goToSetInviteCode} title='邀请码' imgPath={require('../../image/mine/set_invite_code.png')} />
             </div>
         );
     }
@@ -142,6 +142,7 @@ class Mine extends Component {
 
     goToSetInviteCode = () => {
         // store.dispatch(pop_show('InviteCode'));
+        this.props.history.push('/set_invite_code/');
     }
 
 }

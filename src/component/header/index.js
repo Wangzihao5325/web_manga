@@ -15,13 +15,13 @@ class Header extends Component {
 class HeaderPro extends Component {
     render() {
         return (
-            <div style={{ height: 38, width: document.body.clientWidth, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                <div onClick={this.goBack} style={{ height: 38, width: 70, marginLeft: 15 }}>
+            <div style={{ borderBottomStyle: 'solid', borderBottomWidth: 1, borderBottomColor: 'rgb(244,244,244)', height: 38, width: document.body.clientWidth, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                <div onClick={this.goBack} style={{ height: 38, width: 70, marginLeft: 15, display: 'flex', alignItems: 'center' }}>
                     <img style={{ height: 16, width: 8 }} src={require('../../image/usual/usual_left_arrow_2.png')} alt='' />
                 </div>
-                <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>{this.props.title}</div>
+                <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: 18, color: 'rgb(34,34,34)' }}>{this.props.title}</div>
                 <div style={{ height: 38, width: 70, marginRight: 15, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                    {this.props.rightBtnText && <div onClick={this.rigthBtnClick}>{this.props.rightBtnText}</div>}
+                    {this.props.rightBtnText && <div style={{ color: 'rgb(255,42,49)', fontSize: 16 }} onClick={this.rigthBtnClick}>{this.props.rightBtnText}</div>}
                 </div>
             </div>
         );
