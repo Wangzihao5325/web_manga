@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
+import store from '../store/index';
+import { pop_unshow } from '../store/actions/popAction';
 
 import Index from '../screen/home/index';
 import Collect from '../screen/collect/index';
@@ -38,6 +40,7 @@ class AppRouter extends Component {
                                 justifyContent: 'center',
                                 alignItems: 'center'
                             }}
+                            onClick={this._popUnshow}
                         >
                             <ModelContainer />
                         </div>
@@ -45,6 +48,10 @@ class AppRouter extends Component {
                 </div>
             </Router >
         );
+    }
+
+    _popUnshow = () => {
+        store.dispatch(pop_unshow());
     }
 }
 
