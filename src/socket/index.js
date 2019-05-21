@@ -3,7 +3,7 @@ import { browser } from '../util/browserTest';
 import { SERVICE_URL } from '../global/config';
 import Variables from '../global/Variables';
 
-const IsSecurty = true;
+const IsSecurty = false;
 const OriginKey = '1s1z1GYRRNZRSJam';
 const SecurtyKey = CryptoJS.enc.Utf8.parse('1s1z1GYRRNZRSJam');
 const PlatformStr = browser.versions.ios ? 'H-I' : 'H-A';
@@ -130,12 +130,15 @@ class api {
 
     fetchAppNotice(onSuccess, onError) {
         const url = '/api/notice';
+        const timestamp = (new Date().getTime() / 1000).toFixed(0);
 
         if (!IsSecurty) {
-
+            let formData = new FormData();
+            formData.append('timestamp', timestamp);
+            this.normalFetch(url, formData, onSuccess, onError);
+            return;
         }
 
-        const timestamp = (new Date().getTime() / 1000).toFixed(0);
         let paramObj = {
             platform: PlatformStr,
             timestamp

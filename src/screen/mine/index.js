@@ -85,20 +85,10 @@ class ListItem extends Component {
                     <div style={{ marginLeft: 18, color: 'rgb(34,34,34)', fontSize: 14 }}>{this.props.title}</div>
                     <div style={{ flex: 1 }} />
                     <div style={{ height: 53, width: 53, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
-                        <img style={{ height: 15, width: 8 }} src={require('../../image/mine/mine_right_arrow_2.png')} />
+                        <img style={{ height: 15, width: 8 }} src={require('../../image/mine/mine_right_arrow_2.png')} alt=''/>
                     </div>
                 </div>
             </div>
-        );
-    }
-}
-
-class Flatlist extends Component {
-    render() {
-        return (
-            <ul>
-
-            </ul>
         );
     }
 }
