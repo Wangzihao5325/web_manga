@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import store from '../../../store/index';
 import { tab_navi_unshow } from '../../../store/actions/tabBottomNaviAction';
-import Header from '../../../component/header/index';
+import { Header } from '../../../component/header/index';
 import { withRouter } from 'react-router';
 
 import { PhoneNumInput, VerCodeInput } from '../../../component/input/index';

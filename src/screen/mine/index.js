@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
 import store from '../../store/index';
 import { tab_navi_show } from '../../store/actions/tabBottomNaviAction';
 import { pop_show } from '../../store/actions/popAction';
@@ -11,8 +12,8 @@ class Header extends Component {
             <div style={{ height: 55, width: '100%', marginLeft: 16, display: 'flex', flexDirection: 'row' }}>
                 <img style={{ height: 55, width: 55 }} src={require('../../image/mine_tab_default.png')} alt='' />
                 <div style={{ flex: 1, paddingLeft: 16 }}>
-                    <div style={{ color: 'white', fontSize: 17 }}>中二病</div>
-                    <div style={{ color: 'white', fontSize: 13, marginTop: 5 }}>满足你所有幻想</div>
+                    <div style={{ color: 'white', fontSize: 17, fontWeight: 'bold' }}>{this.props.userName}</div>
+                    <div style={{ color: 'white', fontSize: 13, marginTop: 5 }}>{this.props.slogan}</div>
                 </div>
                 <div style={{ width: 44, height: 55, paddingLeft: 18, paddingTop: 19 }}>
                     <img style={{ height: 16, width: 8, alignSelf: 'center' }} src={require('../../image/mine/mine_right_arrow.png')} alt='' />
@@ -55,12 +56,12 @@ class WhiteBorder extends Component {
         return (
             <div className='white-bord' style={{ height: 93, width: document.body.clientWidth - 24, position: 'absolute', top: 127, left: 14, backgroundColor: 'white', borderRadius: 5, display: 'flex', flexDirection: 'row' }}>
                 <div className='total-center'>
-                    <div style={{ color: 'rgb(34,34,34)', fontSize: 23 }}>{`136人`}</div>
+                    <div style={{ color: 'rgb(34,34,34)', fontSize: 23, fontWeight: 'bold' }}>{`${this.props.inviteNum}人`}</div>
                     <div style={{ color: 'rgb(193,193,193)', fontSize: 13 }}>已邀请</div>
                 </div>
                 <div style={{ height: 39, width: 1, backgroundColor: 'rgb(193,193,193)', alignSelf: 'center' }} />
                 <div className='total-center'>
-                    <div style={{ color: 'rgb(34,34,34)', fontSize: 23 }}>{`136C`}</div>
+                    <div style={{ color: 'rgb(34,34,34)', fontSize: 23, fontWeight: 'bold' }}>{`${this.props.coins}C`}</div>
                     <div style={{ color: 'rgb(193,193,193)', fontSize: 13 }} >我的C币</div>
                 </div>
             </div>
@@ -85,7 +86,7 @@ class ListItem extends Component {
                     <div style={{ marginLeft: 18, color: 'rgb(34,34,34)', fontSize: 14 }}>{this.props.title}</div>
                     <div style={{ flex: 1 }} />
                     <div style={{ height: 53, width: 53, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
-                        <img style={{ height: 15, width: 8 }} src={require('../../image/mine/mine_right_arrow_2.png')} alt=''/>
+                        <img style={{ height: 15, width: 8 }} src={require('../../image/mine/mine_right_arrow_2.png')} alt='' />
                     </div>
                 </div>
             </div>
@@ -102,9 +103,9 @@ class Mine extends Component {
     render() {
         return (
             <div style={{ flex: 1 }}>
-                <WhiteBorder />
+                <WhiteBorder inviteNum={this.props.inviteNum} coins={this.props.coins} />
                 <div className='mine-header-container' style={{ height: 135, width: '100%', paddingTop: 53 }} >
-                    <Header />
+                    <Header userName={this.props.userName} slogan={this.props.slogan} />
                 </div>
                 <Tabs />
                 <Banner />
@@ -118,14 +119,20 @@ class Mine extends Component {
         this.props.history.push('/register/');
     }
 
-    goToInviteCode = () => {
-        store.dispatch(pop_show('InviteCode'));
-        //this.props.history.push('/inviteCode/');
-        // this.props.history.push({ pathname: `/inviteCode/`, state: { modal: true } });
-
+    goToSetInviteCode = () => {
+        // store.dispatch(pop_show('InviteCode'));
     }
 
 }
 
-const MineWithRouter = withRouter(Mine);
+function mapState2Props(store) {
+    return {
+        userName: store.user.userName,
+        slogan: store.user.slogan,
+        inviteNum: store.user.invite,
+        coins: store.user.coins
+    }
+}
+
+const MineWithRouter = withRouter(connect(mapState2Props)(Mine));
 export default MineWithRouter;
