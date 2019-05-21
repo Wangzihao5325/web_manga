@@ -148,6 +148,73 @@ class api {
 
     }
 
+    sendMessage(mobile, onSuccess, onError) {
+        const url = '/api/verify-code';
+        const timestamp = (new Date().getTime() / 1000).toFixed(0);
+
+        if (!IsSecurty) {
+            let formData = new FormData();
+            formData.append('timestamp', timestamp);
+            formData.append('mobile', mobile);
+            this.normalFetch(url, formData, onSuccess, onError);
+            return;
+        }
+
+        let paramObj = {
+            mobile: mobile,
+            platform: PlatformStr,
+            timestamp
+        }
+
+        this.securtyFetch(url, paramObj, onSuccess, onError);
+
+    }
+
+    register(mobile, verification_key, code, password, password_confirmation, invite_code, onSuccess, onError) {
+        const url = '/api/register';
+        const timestamp = (new Date().getTime() / 1000).toFixed(0);
+
+        if (!IsSecurty) {
+            let formData = new FormData();
+            formData.append('timestamp', timestamp);
+            formData.append('mobile', mobile);
+            formData.append('verification_key', verification_key);
+            formData.append('code', code);
+            formData.append('password', password);
+            formData.append('password_confirmation', password_confirmation);
+            if (invite_code) {
+                formData.append('invite_code', invite_code);
+            }
+            this.normalFetch(url, formData, onSuccess, onError);
+            return;
+        }
+
+        let paramObj = {
+            code,
+            mobile,
+            password,
+            password_confirmation,
+            platform: PlatformStr,
+            timestamp,
+            verification_key,
+        }
+        if (invite_code) {
+            paramObj = {
+                code,
+                invite_code,
+                mobile,
+                password,
+                password_confirmation,
+                platform: PlatformStr,
+                timestamp,
+                verification_key,
+            }
+        }
+
+        this.securtyFetch(url, paramObj, onSuccess, onError);
+
+    }
+
 }
 
 export default new api();
