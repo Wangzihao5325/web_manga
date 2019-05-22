@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import QRCode from 'qrcode.react';
 import { withRouter } from 'react-router-dom';
 import store from '../../../store/index';
 import { tab_navi_unshow } from '../../../store/actions/tabBottomNaviAction';
@@ -61,8 +62,25 @@ class Share extends PureComponent {
                     </div>
                 </div>
                 <div style={{ height: 110, width: CLIENT_WIDTH, position: 'absolute', left: 0, bottom: 0, backgroundColor: 'white' }}>
+                    <div style={{ marginTop: 10, width: CLIENT_WIDTH, height: 40, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <div style={{ marginLeft: 15 }}>
+                            <QRCode value='www.baidu.com' size={40} />
+                        </div>
+                        <div>
+                            <div style={{ color: 'rgb(170,170,170)', fontSize: 10, marginLeft: 10 }}>我的邀请码</div>
+                            <div style={{ color: 'rgb(231,100,54)', fontSize: 15, marginTop: 3, marginLeft: 10 }}>我的邀请码</div>
+                        </div>
+                        <div style={{ flex: 1 }} />
+                        <div style={{ height: 40, width: 40, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                            <img style={{ height: 16, width: 8 }} src={require('../../../image/mine/share_left_arrow.png')} alt='' />
+                        </div>
+                    </div>
 
-                    
+                    <div style={{ height: 60, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
+                        <div style={{ height: 30, width: 120, backgroundColor: 'rgb(255,42,49)', borderRadius: 15, color: 'white', justifyContent: 'center', alignItems: 'center', display: 'flex' }}>保存二维码</div>
+                        <div style={{ height: 30, width: 120, backgroundColor: 'rgb(255,42,49)', borderRadius: 15, color: 'white', justifyContent: 'center', alignItems: 'center', display: 'flex' }}>复制邀请链接</div>
+                    </div>
+
                 </div>
             </div>
         );
