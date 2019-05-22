@@ -14,6 +14,7 @@ import Mine from '../screen/mine/index';
 import Register from '../screen/mine/register/index';
 import SetInviteCode from '../screen/mine/setInviteCode/index';
 import Login from '../screen/mine/login/index';
+import Share from '../screen/mine/share/index';
 
 
 import ModelContainer from '../screen/modelContainer/index';
@@ -33,6 +34,7 @@ class AppRouter extends Component {
                         <Route path="/register/" component={Register} />
                         <Route path="/set_invite_code/" component={SetInviteCode} />
                         <Route path="/login/" component={Login} />
+                        <Route path="/share/" component={Share} />
                     </Switch>
                     {this.props.isShow && <Footer />}
                     {this.props.popShow &&

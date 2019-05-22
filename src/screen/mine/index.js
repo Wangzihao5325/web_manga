@@ -140,7 +140,7 @@ class Mine extends Component {
     }
 
     goToShare = () => {
-
+        this.props.history.push('/share/');
     }
 
     goToPay = () => {
