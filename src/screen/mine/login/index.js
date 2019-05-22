@@ -50,11 +50,11 @@ class Login extends Component {
     }
 
     register = () => {
-
+        this.props.history.push('/register/');
     }
 
     forgetPassword = () => {
-
+        this.props.history.push('/forget_password/');
     }
 
     login = () => {

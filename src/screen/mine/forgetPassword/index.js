@@ -10,7 +10,7 @@ import { LoginBtn } from '../../../component/btn/index';
 import bg_image from '../../../image/mine/login_bg.png'
 import './index.css';
 
-class Register extends Component {
+class ForgetPassword extends Component {
 
     componentDidMount() {
         store.dispatch(tab_navi_unshow());
@@ -38,7 +38,7 @@ class Register extends Component {
                         <LoginPasswordInput marginTop={15} />
                         <LoginVerCodeInput marginTop={15} />
 
-                        <LoginBtn onPress={this.login} title='立即注册' marginTop={29} />
+                        <LoginBtn onPress={this.login} title='修改密码' marginTop={29} />
                     </div>
                 </div>
             </div>
@@ -62,5 +62,5 @@ class Register extends Component {
     }
 }
 
-const RegisterWithRouter = withRouter(Register);
+const RegisterWithRouter = withRouter(ForgetPassword);
 export default RegisterWithRouter;
