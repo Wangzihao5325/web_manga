@@ -9,6 +9,7 @@ const initialState = {
     userState: '',
     type: '',
     invite_code: '',
+    invite_me_code: '',
     salt: '',
     invite: 0,
     coins: 0,
@@ -19,15 +20,10 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case Types.TEST_INCREMENT:
+        case Types.GET_USER_INFO:
             return {
                 ...state,
-                num: state.num + 1
-            };
-        case Types.TEST_DECREMENT:
-            return {
-                ...state,
-                num: state.num - 1
+                ...action.data
             };
         default: return state;
     }

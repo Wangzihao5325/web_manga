@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ToastsStore } from 'react-toasts';
 import { withRouter } from 'react-router-dom';
 import store from '../../../store/index';
+import { get_user_info } from '../../../store/actions/userAction';
 import { tab_navi_unshow } from '../../../store/actions/tabBottomNaviAction';
 import Api from '../../../socket/index';
 import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../../global/sizes';
@@ -76,6 +77,8 @@ class Login extends Component {
         if (reg.mobile.length === 11 && reg.password.length >= 8 && reg.password.length <= 16) {
             Api.login(reg.mobile, reg.password, (e, code, message) => {
                 ToastsStore.success('登陆成功');
+                store.dispatch(get_user_info(e));
+                this.props.history.push('/mine/');
             });
         } else {
             ToastsStore.error('请输入正确的信息');

@@ -8,6 +8,8 @@ const POP_SHOW = 'POP_SHOW';
 const POP_UNSHOW = 'POP_UNSHOW';
 const POP_STATE_CHANGE = 'POP_STATE_CHANGE';
 
+const GET_USER_INFO = 'GET_USER_INFO';
+
 export {
     TEST_INCREMENT,
     TEST_DECREMENT,
@@ -17,5 +19,7 @@ export {
 
     POP_SHOW,
     POP_UNSHOW,
-    POP_STATE_CHANGE
+    POP_STATE_CHANGE,
+
+    GET_USER_INFO
 }
