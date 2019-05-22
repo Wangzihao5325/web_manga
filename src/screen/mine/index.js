@@ -14,15 +14,21 @@ class Header extends Component {
         return (
             <div style={{ height: 55, width: '100%', marginLeft: 16, display: 'flex', flexDirection: 'row' }}>
                 <img style={{ height: 55, width: 55 }} src={require('../../image/mine_tab_default.png')} alt='' />
-                <div style={{ flex: 1, paddingLeft: 16 }}>
+                <div onClick={this.callback} style={{ flex: 1, paddingLeft: 16 }}>
                     <div style={{ color: 'white', fontSize: 17, fontWeight: 'bold' }}>{this.props.userName}</div>
                     <div style={{ color: 'white', fontSize: 13, marginTop: 5 }}>{this.props.slogan}</div>
                 </div>
-                <div style={{ width: 44, height: 55, paddingLeft: 18, paddingTop: 19 }}>
+                <div onClick={this.callback} style={{ width: 44, height: 55, paddingLeft: 18, paddingTop: 19 }}>
                     <img style={{ height: 16, width: 8, alignSelf: 'center' }} src={require('../../image/mine/mine_right_arrow.png')} alt='' />
                 </div>
             </div>
         );
+    }
+
+    callback = () => {
+        if (this.props.goToLogin) {
+            this.props.goToLogin();
+        }
     }
 }
 
@@ -110,7 +116,7 @@ class Mine extends Component {
             <div style={{ flex: 1 }}>
                 <WhiteBorder inviteNum={this.props.inviteNum} coins={this.props.coins} />
                 <div className='mine-header-container' style={{ height: 135, width: '100%', paddingTop: 53, backgroundImage: `url(${bg_image})` }} >
-                    <Header userName={this.props.userName} slogan={this.props.slogan} />
+                    <Header goToLogin={this.goToLogin} userName={this.props.userName} slogan={this.props.slogan} />
                 </div>
                 <Tabs
                     share={this.goToShare}
@@ -123,6 +129,14 @@ class Mine extends Component {
                 <ListItem onPress={this.goToSetInviteCode} title='邀请码' imgPath={require('../../image/mine/set_invite_code.png')} />
             </div>
         );
+    }
+
+    goToLogin = () => {
+        if (this.props.login) {
+
+        } else {
+            this.props.history.push('/login/');
+        }
     }
 
     goToShare = () => {
@@ -157,7 +171,8 @@ function mapState2Props(store) {
         userName: store.user.userName,
         slogan: store.user.slogan,
         inviteNum: store.user.invite,
-        coins: store.user.coins
+        coins: store.user.coins,
+        login: store.user.isLogin,
     }
 }
 
