@@ -34,7 +34,7 @@ class Pay extends PureComponent {
     render() {
         return (
             <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }}>
-                <HeaderPro title='立即充值' rightBtnTextColor='rgb(0,0,0)' rightBtnText='充值说明' back={this.goBack} />
+                <HeaderPro title='立即充值' rightBtnTextColor='rgb(0,0,0)' rightBtnText='充值说明' back={this.goBack} rightBtnClick={this.goToPayInfo} />
                 <div className='bg-image-container' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: 26, alignSelf: 'center', height: 104, width: CLIENT_WIDTH - 40, backgroundImage: `url(${bg_image})` }}>
                     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                         <div style={{ marginTop: 24, marginLeft: 35, color: 'white', fontSize: 12 }}>我的c币</div>
@@ -79,6 +79,10 @@ class Pay extends PureComponent {
 
             </div>
         );
+    }
+
+    goToPayInfo = () => {
+        this.props.history.push('/pay_info/');
     }
 
     goBack = () => {
