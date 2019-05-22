@@ -5,6 +5,8 @@ import { tab_navi_unshow } from '../../../store/actions/tabBottomNaviAction';
 import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../../global/sizes';
 
 import { HeaderPro } from '../../../component/header/index';
+import { LoginPhoneNumInput, LoginVerCodeInput } from '../../../component/input/index';
+import { LoginBtn } from '../../../component/btn/index';
 import bg_image from '../../../image/mine/login_bg.png'
 import './index.css';
 
@@ -34,10 +36,17 @@ class Login extends Component {
                                 <div style={{ marginLeft: 10, fontSize: 12, color: 'rgb(169,169,169)' }}>满足你所有幻想</div>
                             </div>
                         </div>
+                        <LoginPhoneNumInput />
+                        <LoginVerCodeInput />
+                        <LoginBtn onPress={this.login} title='登陆' marginTop={44} />
                     </div>
                 </div>
             </div>
         );
+    }
+
+    login = () => {
+
     }
 
     goBack = () => {
