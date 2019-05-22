@@ -215,7 +215,9 @@ class api {
 
     }
 
-    
+    inviteRules() {
+
+    }
 
 }
 
