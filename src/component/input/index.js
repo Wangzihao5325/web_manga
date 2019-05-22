@@ -99,7 +99,7 @@ class VerCodeInput extends Component {
 class LoginPhoneNumInput extends Component {
     render() {
         return (
-            <div style={{ height: 43, marginTop: 43, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ height: 43, marginTop: this.props.marginTop ? this.props.marginTop : 0, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{ borderRadius: 21, backgroundColor: 'white', display: 'flex', height: 43, width: 270, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                     <input className='phone-number-input' style={{ height: 14, width: 250 }} onChange={this.inputOnChange} type='text' placeholder='请输入手机号码' />
                 </div>
@@ -129,7 +129,7 @@ class LoginVerCodeInput extends Component {
 
     render() {
         return (
-            <div style={{ marginTop: 19, height: 43, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ marginTop: this.props.marginTop ? this.props.marginTop : 0, height: 43, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{ backgroundColor: 'white', borderRadius: 21, display: 'flex', height: 43, width: 270, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                     <input className='phone-number-input' style={{ height: 14, width: 160, marginRight: 13 }} onChange={this.inputOnChange} type='text' placeholder='请输入验证码' />
                     <div style={{ height: 25, width: 1, backgroundColor: 'rgb(182,182,182)' }} />
@@ -186,9 +186,29 @@ class LoginVerCodeInput extends Component {
     }
 }
 
+class LoginPasswordInput extends Component {
+    render() {
+        return (
+            <div style={{ height: 43, marginTop: this.props.marginTop ? this.props.marginTop : 0, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ borderRadius: 21, backgroundColor: 'white', display: 'flex', height: 43, width: 270, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                    <input className='phone-number-input' style={{ height: 14, width: 250 }} onChange={this.inputOnChange} type='text' placeholder='请输入密码' />
+                </div>
+            </div>
+        );
+    }
+
+    inputOnChange = ({ target }) => {
+        if (this.props.callback) {
+            this.props.callback(target.value);
+        }
+        //console.log(target.value);
+    }
+}
+
 export {
     PhoneNumInput,
     VerCodeInput,
     LoginPhoneNumInput,
-    LoginVerCodeInput
+    LoginVerCodeInput,
+    LoginPasswordInput
 }
