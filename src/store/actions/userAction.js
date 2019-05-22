@@ -20,3 +20,7 @@ export function get_user_info(userData) {
     }
     return { type: Types.GET_USER_INFO, data: dataObj };
 }
+
+export function set_invite_me_code(code) {
+    return { type: Types.SET_INVITE_ME_CODE, code: code }
+}

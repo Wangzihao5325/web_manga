@@ -127,6 +127,8 @@ class api {
                             onSuccess(result, code, message);
                         } else {
                             ToastsStore.error(message);
+                            console.log(message);
+                            console.log(code);
                         }
                     } catch (error) {
                         onError ? onError(result, code, message) : console.log(`error: socket error! ${error}`);
@@ -241,8 +243,31 @@ class api {
         let paramObj = {
             mobile,
             password,
+            platform: PlatformStr,
             timestamp,
             type: 'P',
+        }
+
+        this.securtyFetch(url, paramObj, onSuccess, onError);
+    }
+
+    bindInviteMeCode(code, onSuccess, onError) {
+        const url = '/api/bind-code';
+        const timestamp = (new Date().getTime() / 1000).toFixed(0);
+
+        if (!IsSecurty) {
+            let formData = new FormData();
+            // formData.append('timestamp', timestamp);
+            formData.append('code', code);
+
+            this.normalFetch(url, formData, onSuccess, onError);
+            return;
+        }
+
+        let paramObj = {
+            code,
+            platform: PlatformStr,
+            timestamp,
         }
 
         this.securtyFetch(url, paramObj, onSuccess, onError);

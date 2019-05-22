@@ -6,6 +6,7 @@ import { get_user_info } from '../../../store/actions/userAction';
 import { tab_navi_unshow } from '../../../store/actions/tabBottomNaviAction';
 import Api from '../../../socket/index';
 import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../../global/sizes';
+import Variables from '../../../global/Variables';
 
 import { HeaderPro } from '../../../component/header/index';
 import { LoginPhoneNumInput, LoginPasswordInput } from '../../../component/input/index';
@@ -77,6 +78,7 @@ class Login extends Component {
         if (reg.mobile.length === 11 && reg.password.length >= 8 && reg.password.length <= 16) {
             Api.login(reg.mobile, reg.password, (e, code, message) => {
                 ToastsStore.success('登陆成功');
+                Variables.account.token = e.api_token;
                 store.dispatch(get_user_info(e));
                 this.props.history.push('/mine/');
             });

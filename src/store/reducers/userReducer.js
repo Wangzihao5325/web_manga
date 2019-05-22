@@ -25,6 +25,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 ...action.data
             };
+        case Types.SET_INVITE_ME_CODE:
+            return {
+                ...state,
+                invite_me_code: action.code
+            };
         default: return state;
     }
 };
