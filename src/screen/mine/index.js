@@ -125,7 +125,6 @@ class Mine extends Component {
                     custom={this.goToCustom}
                 />
                 <Banner />
-                <ListItem onPress={this.goToRegister} title='注册账号' imgPath={require('../../image/mine/my_write.png')} />
                 <ListItem onPress={this.goToSetInviteCode} title='邀请码' imgPath={require('../../image/mine/set_invite_code.png')} />
             </div>
         );
@@ -153,10 +152,6 @@ class Mine extends Component {
 
     goToCustom = () => {
 
-    }
-
-    goToRegister = () => {
-        this.props.history.push('/register/');
     }
 
     goToSetInviteCode = () => {
