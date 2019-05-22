@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import QRCode from 'qrcode.react';
 import { withRouter } from 'react-router-dom';
 import store from '../../../store/index';
+import Api from '../../../socket/index';
 import { tab_navi_unshow } from '../../../store/actions/tabBottomNaviAction';
 import { HeaderPro } from '../../../component/header/index';
 import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../../global/sizes';
@@ -34,11 +35,32 @@ class Progress extends PureComponent {
 
 class Share extends PureComponent {
 
+    state = {
+        ruleData: []
+    }
+
     componentDidMount() {
         store.dispatch(tab_navi_unshow());
+        Api.getInviteRule((e) => {
+            this.setState({
+                ruleData: e
+            });
+        });
     }
 
     render() {
+        let humanNumber = [];
+        let coinNum = [];
+        this.state.ruleData.forEach((item, index) => {
+            let humanText = `${item.begin}~${item.end}`;
+            if (index === this.state.ruleData.length - 1) {
+                humanText = `${item.begin}及以上`
+            }
+            const humanItem = <div key={index} style={{ height: 27, fontSize: 14, color: 'rgb(34,34,34)' }}>{`${humanText}`}</div>;
+            const coinItem = <div key={index} style={{ height: 27, fontSize: 14, color: 'rgb(34,34,34)' }}>{`${item.coins}/人`}</div>;
+            humanNumber.push(humanItem);
+            coinNum.push(coinItem);
+        });
         return (
             <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }}>
                 <HeaderPro title='推广分享' back={this.goBack} />
@@ -46,9 +68,15 @@ class Share extends PureComponent {
                     <div><img style={{ height: 175, width: 360 }} src={require('../../../image/mine/invite_bg.png')} alt='' /></div>
                     <div style={{ height: 292, width: CLIENT_WIDTH - 28, backgroundColor: 'white', borderRadius: 10 }}>
                         <div style={{ height: 150, width: CLIENT_WIDTH - 28, marginTop: 24, display: 'flex', flexDirection: 'row' }}>
-                            <div style={{ flex: 1 }}></div>
+                            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                <div style={{ marginBottom: 15, fontSize: 14, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>邀请人数</div>
+                                {humanNumber}
+                            </div>
                             <div style={{ width: 1, height: 150, backgroundColor: 'rgb(205,205,205)' }} />
-                            <div style={{ flex: 1 }}></div>
+                            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                <div style={{ marginBottom: 15, fontSize: 14, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>奖励C币</div>
+                                {coinNum}
+                            </div>
                         </div>
                         <Progress />
                     </div>
@@ -61,7 +89,7 @@ class Share extends PureComponent {
 
                     </div>
                 </div>
-                <div style={{ height: 110, width: CLIENT_WIDTH, position: 'absolute', left: 0, bottom: 0, backgroundColor: 'white' }}>
+                <div style={{ borderTopStyle: 'solid', borderTopColor: 'rgba(136,136,136,0.14)', borderTopWidth: 1, height: 110, width: CLIENT_WIDTH, position: 'absolute', left: 0, bottom: 0, backgroundColor: 'white' }}>
                     <div style={{ marginTop: 10, width: CLIENT_WIDTH, height: 40, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <div style={{ marginLeft: 15 }}>
                             <QRCode value='www.baidu.com' size={40} />
