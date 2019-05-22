@@ -2,6 +2,7 @@ import CryptoJS from 'crypto-js';
 import { browser } from '../util/browserTest';
 import { SERVICE_URL } from '../global/config';
 import Variables from '../global/Variables';
+import { ToastsStore } from 'react-toasts';
 
 const IsSecurty = false;
 const OriginKey = '1s1z1GYRRNZRSJam';
@@ -88,10 +89,14 @@ class api {
                     console.log('unEncode Object');
                     console.log(reponseJson);
                     const result = reponseJson.result ? reponseJson.result : null;
-                    const code = reponseJson.code ? reponseJson.code : null;
+                    const code = (reponseJson.code || reponseJson.code === 0) ? reponseJson.code : null;
                     const message = reponseJson.message ? reponseJson.message : null;
                     try {
-                        onSuccess(result, code, message);
+                        if (code === 0) {
+                            onSuccess(result, code, message);
+                        } else {
+                            ToastsStore.error(message);
+                        }
                     } catch (error) {
                         onError ? onError(result, code, message) : console.log(`error: socket error! ${error}`);
                     }
@@ -115,10 +120,14 @@ class api {
             .then(
                 (reponseJson) => {
                     const result = reponseJson.result ? reponseJson.result : null;
-                    const code = reponseJson.code ? reponseJson.code : null;
+                    const code = (reponseJson.code || reponseJson.code === 0) ? reponseJson.code : 0;
                     const message = reponseJson.message ? reponseJson.message : null;
                     try {
-                        onSuccess(result, code, message);
+                        if (code === 0) {
+                            onSuccess(result, code, message);
+                        } else {
+                            ToastsStore.error(message);
+                        }
                     } catch (error) {
                         onError ? onError(result, code, message) : console.log(`error: socket error! ${error}`);
                     }

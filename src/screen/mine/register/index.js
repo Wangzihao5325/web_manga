@@ -80,9 +80,6 @@ class Register extends Component {
     register = () => {
         if (reg.mobile.length === 11 && reg.verCode.length > 0 && reg.password.length >= 8 && reg.password.length <= 16) {
             Api.register(reg.mobile, '123', reg.verCode, reg.password, reg.password, null, (e, code, message) => {
-                console.log(e);
-                console.log(code);
-                console.log(message);
                 ToastsStore.success('注册成功，快去登陆吧！');
                 this.props.history.push('/login/');
             });

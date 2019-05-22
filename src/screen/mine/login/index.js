@@ -73,8 +73,6 @@ class Login extends Component {
     }
 
     login = () => {
-        console.log(reg.mobile);
-        console.log(reg.password);
         if (reg.mobile.length === 11 && reg.password.length >= 8 && reg.password.length <= 16) {
             Api.login(reg.mobile, reg.password, (e, code, message) => {
                 ToastsStore.success('登陆成功');
