@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import QRCode from 'qrcode.react';
 import { withRouter } from 'react-router-dom';
 import store from '../../../store/index';
@@ -96,7 +97,7 @@ class Share extends PureComponent {
                         </div>
                         <div>
                             <div style={{ color: 'rgb(170,170,170)', fontSize: 10, marginLeft: 10 }}>我的邀请码</div>
-                            <div style={{ color: 'rgb(231,100,54)', fontSize: 15, marginTop: 3, marginLeft: 10 }}>我的邀请码</div>
+                            <div style={{ color: 'rgb(231,100,54)', fontSize: 15, marginTop: 3, marginLeft: 10 }}>{this.props.invite_code}</div>
                         </div>
                         <div style={{ flex: 1 }} />
                         <div style={{ height: 40, width: 40, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
@@ -119,5 +120,11 @@ class Share extends PureComponent {
     }
 }
 
-const ShareWithRouter = withRouter(Share);
+function mapState2Props(store) {
+    return {
+        invite_code: store.user.invite_code,
+    }
+}
+
+const ShareWithRouter = withRouter(connect(mapState2Props)(Share));
 export default ShareWithRouter;
