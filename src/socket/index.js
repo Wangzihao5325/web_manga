@@ -215,8 +215,28 @@ class api {
 
     }
 
-    inviteRules() {
+    login(mobile, password, onSuccess, onError) {
+        const url = '/api/login';
+        const timestamp = (new Date().getTime() / 1000).toFixed(0);
 
+        if (!IsSecurty) {
+            let formData = new FormData();
+            formData.append('timestamp', timestamp);
+            formData.append('mobile', mobile);
+            formData.append('password', password);
+            formData.append('type', 'P');
+            this.normalFetch(url, formData, onSuccess, onError);
+            return;
+        }
+
+        let paramObj = {
+            mobile,
+            password,
+            timestamp,
+            type: 'P',
+        }
+
+        this.securtyFetch(url, paramObj, onSuccess, onError);
     }
 
 }

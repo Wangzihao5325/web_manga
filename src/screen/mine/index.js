@@ -82,7 +82,7 @@ class Banner extends Component {
     render() {
         return (
             <div style={{ height: 101, width: CLIENT_WIDTH, display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgb(251,248,247)' }}>
-                <img style={{ height: 84, width: CLIENT_WIDTH - 28 }} src={require('../../image/mine/mine_banner.png')} />
+                <img style={{ height: 84, width: CLIENT_WIDTH - 28 }} src={require('../../image/mine/mine_banner.png')} alt='' />
             </div>
         );
     }

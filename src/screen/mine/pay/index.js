@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import store from '../../../store/index';
 import { tab_navi_unshow } from '../../../store/actions/tabBottomNaviAction';
 import { HeaderPro } from '../../../component/header/index';
-import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../../global/sizes';
+import { CLIENT_WIDTH } from '../../../global/sizes';
 import bg_image from '../../../image/mine/pay_banner_bg.png';
 import './index.js';
 

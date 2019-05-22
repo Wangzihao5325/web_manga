@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { ToastsStore } from 'react-toasts';
 import { withRouter } from 'react-router-dom';
 import store from '../../../store/index';
 import { tab_navi_unshow } from '../../../store/actions/tabBottomNaviAction';
+import Api from '../../../socket/index';
 import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../../global/sizes';
 
 import { HeaderPro } from '../../../component/header/index';
@@ -10,15 +12,20 @@ import { LoginBtn } from '../../../component/btn/index';
 import bg_image from '../../../image/mine/login_bg.png'
 import './index.css';
 
+const reg = { mobile: '', password: '' };
+
 class Login extends Component {
 
     componentDidMount() {
         store.dispatch(tab_navi_unshow());
     }
 
+    componentWillUnmount() {
+        reg.mobile = '';
+        reg.password = '';
+    }
+
     render() {
-        console.log(CLIENT_WIDTH);
-        console.log(CLIENT_HEIGHT);
         let imageHeight = CLIENT_HEIGHT - 40;
         let imageWidth = CLIENT_WIDTH;
         let borderHeight = 0.7 * imageHeight;
@@ -36,8 +43,8 @@ class Login extends Component {
                                 <div style={{ marginLeft: 10, fontSize: 12, color: 'rgb(169,169,169)' }}>满足你所有幻想</div>
                             </div>
                         </div>
-                        <LoginPhoneNumInput marginTop={43} />
-                        <LoginPasswordInput marginTop={19} />
+                        <LoginPhoneNumInput callback={this.mobileTextChange} marginTop={43} />
+                        <LoginPasswordInput callback={this.passwordTextChange} marginTop={19} />
                         <div style={{ marginTop: 15, height: 20, width: borderWidth - 60, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                             <div onClick={this.register} style={{ color: 'rgb(34,34,34)', fontSize: 13 }}>立即注册</div>
                             <div onClick={this.forgetPassword} style={{ color: 'rgb(34,34,34)', fontSize: 13 }}>忘记密码？</div>
@@ -49,6 +56,14 @@ class Login extends Component {
         );
     }
 
+    mobileTextChange = (e) => {
+        reg.mobile = e;
+    }
+
+    passwordTextChange = (e) => {
+        reg.password = e;
+    }
+
     register = () => {
         this.props.history.push('/register/');
     }
@@ -58,7 +73,15 @@ class Login extends Component {
     }
 
     login = () => {
-
+        console.log(reg.mobile);
+        console.log(reg.password);
+        if (reg.mobile.length === 11 && reg.password.length >= 8 && reg.password.length <= 16) {
+            Api.login(reg.mobile, reg.password, (e, code, message) => {
+                ToastsStore.success('登陆成功');
+            });
+        } else {
+            ToastsStore.error('请输入正确的信息');
+        }
     }
 
     goBack = () => {

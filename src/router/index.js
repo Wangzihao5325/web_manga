@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
 import store from '../store/index';
 import { pop_unshow } from '../store/actions/popAction';
+import { ToastsContainer, ToastsStore } from 'react-toasts';
 
 import Index from '../screen/home/index';
 
@@ -61,6 +62,7 @@ class AppRouter extends Component {
                             <ModelContainer />
                         </div>
                     }
+                    <ToastsContainer store={ToastsStore} />
                 </div>
             </Router >
         );

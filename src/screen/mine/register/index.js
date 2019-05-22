@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import { ToastsStore } from 'react-toasts';
 import store from '../../../store/index';
 import { tab_navi_unshow } from '../../../store/actions/tabBottomNaviAction';
 import Api from '../../../socket/index';
@@ -45,9 +46,9 @@ class Register extends Component {
                         </div>
                         <LoginPhoneNumInput callback={this.mobileTextChange} marginTop={43} />
                         <LoginPasswordInput callback={this.passwordTextChange} marginTop={15} />
-                        <LoginVerCodeInput send={} callback={this.passwordTextChange} marginTop={15} />
+                        <LoginVerCodeInput send={this.sendMessage} callback={this.verCodeTextChange} marginTop={15} />
 
-                        <LoginBtn onPress={this.login} title='立即注册' marginTop={29} />
+                        <LoginBtn onPress={this.register} title='立即注册' marginTop={29} />
                     </div>
                 </div>
             </div>
@@ -67,16 +68,26 @@ class Register extends Component {
     }
 
     sendMessage = () => {
-        if (reg.mobile.length == 11) {
+        if (reg.mobile.length === 11) {
             Api.sendMessage(reg.mobile, (e) => {
                 // send message success
             });
+        } else {
+            ToastsStore.error('请输入手机号码!');
         }
     }
 
     register = () => {
-        if (reg.mobile.length == 11 && reg.verCode.length > 0 && reg.password.length > 8 && reg.password.length < 16) {
-            Api.register();
+        if (reg.mobile.length === 11 && reg.verCode.length > 0 && reg.password.length >= 8 && reg.password.length <= 16) {
+            Api.register(reg.mobile, '123', reg.verCode, reg.password, reg.password, null, (e, code, message) => {
+                console.log(e);
+                console.log(code);
+                console.log(message);
+                ToastsStore.success('注册成功，快去登陆吧！');
+                this.props.history.push('/login/');
+            });
+        } else {
+            ToastsStore.error('请输入正确的信息!');
         }
     }
 
