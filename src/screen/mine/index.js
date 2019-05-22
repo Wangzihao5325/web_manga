@@ -144,7 +144,7 @@ class Mine extends Component {
     }
 
     goToPay = () => {
-
+        this.props.history.push('/pay/');
     }
 
     goToFeedback = () => {

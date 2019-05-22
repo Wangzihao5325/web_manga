@@ -22,7 +22,7 @@ class HeaderPro extends Component {
                 </div>
                 <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: 18, color: 'rgb(34,34,34)' }}>{this.props.title}</div>
                 <div style={{ height: 38, width: 70, marginRight: 15, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                    {this.props.rightBtnText && <div style={{ color: 'rgb(255,42,49)', fontSize: 16 }} onClick={this.rigthBtnClick}>{this.props.rightBtnText}</div>}
+                    {this.props.rightBtnText && <div style={{ color: this.props.rightBtnTextColor ? this.props.rightBtnTextColor : 'rgb(255,42,49)', fontSize: 16 }} onClick={this.rigthBtnClick}>{this.props.rightBtnText}</div>}
                 </div>
             </div>
         );
