@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import store from '../../../store/index';
 import { tab_navi_unshow } from '../../../store/actions/tabBottomNaviAction';
+import Api from '../../../socket/index';
 import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../../global/sizes';
 
 import { HeaderPro } from '../../../component/header/index';
@@ -10,10 +11,18 @@ import { LoginBtn } from '../../../component/btn/index';
 import bg_image from '../../../image/mine/login_bg.png'
 import './index.css';
 
+const reg = { mobile: '', password: '', verCode: '' };
+
 class Register extends Component {
 
     componentDidMount() {
         store.dispatch(tab_navi_unshow());
+    }
+
+    componentWillUnmount() {
+        reg.mobile = '';
+        reg.password = '';
+        reg.verCode = '';
     }
 
     render() {
@@ -34,9 +43,9 @@ class Register extends Component {
                                 <div style={{ marginLeft: 10, fontSize: 12, color: 'rgb(169,169,169)' }}>满足你所有幻想</div>
                             </div>
                         </div>
-                        <LoginPhoneNumInput marginTop={43} />
-                        <LoginPasswordInput marginTop={15} />
-                        <LoginVerCodeInput marginTop={15} />
+                        <LoginPhoneNumInput callback={this.mobileTextChange} marginTop={43} />
+                        <LoginPasswordInput callback={this.passwordTextChange} marginTop={15} />
+                        <LoginVerCodeInput send={} callback={this.passwordTextChange} marginTop={15} />
 
                         <LoginBtn onPress={this.login} title='立即注册' marginTop={29} />
                     </div>
@@ -45,16 +54,30 @@ class Register extends Component {
         );
     }
 
+    mobileTextChange = (e) => {
+        reg.mobile = e;
+    }
+
+    passwordTextChange = (e) => {
+        reg.password = e;
+    }
+
+    verCodeTextChange = (e) => {
+        reg.verCode = e;
+    }
+
+    sendMessage = () => {
+        if (reg.mobile.length == 11) {
+            Api.sendMessage(reg.mobile, (e) => {
+                // send message success
+            });
+        }
+    }
+
     register = () => {
-
-    }
-
-    forgetPassword = () => {
-
-    }
-
-    login = () => {
-
+        if (reg.mobile.length == 11 && reg.verCode.length > 0 && reg.password.length > 8 && reg.password.length < 16) {
+            Api.register();
+        }
     }
 
     goBack = () => {
