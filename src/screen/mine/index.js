@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import store from '../../store/index';
 import { get_user_info } from '../../store/actions/userAction';
 import { tab_navi_show } from '../../store/actions/tabBottomNaviAction';
-import { CLIENT_WIDTH } from '../../global/sizes';
+import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../global/sizes';
 import Api from '../../socket/index';
 //import { pop_show } from '../../store/actions/popAction';
 import './index.css';
@@ -14,7 +14,7 @@ import bg_image from '../../image/mine/mine_header_bg.png';
 class Header extends Component {
     render() {
         return (
-            <div style={{ height: 55, width: '100%', marginLeft: 16, display: 'flex', flexDirection: 'row' }}>
+            <div style={{ height: 55, width: '100%', paddingLeft: 15, paddingRight: 15, display: 'flex', flexDirection: 'row' }}>
                 <img style={{ height: 55, width: 55 }} src={require('../../image/mine_tab_default.png')} alt='' />
                 <div onClick={this.callback} style={{ flex: 1, paddingLeft: 16 }}>
                     <div style={{ color: 'white', fontSize: 17, fontWeight: 'bold' }}>{this.props.userName}</div>
@@ -37,7 +37,7 @@ class Header extends Component {
 class Tabs extends Component {
     render() {
         return (
-            <div style={{ height: 95, paddingTop: 53, width: '100%', display: 'flex', flexDirection: 'row' }}>
+            <div style={{ height: 148, paddingTop: 53, width: '100%', display: 'flex', flexDirection: 'row' }}>
                 <div onClick={this.props.share} style={{ height: 80, width: '25%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                     <img style={{ height: 51, width: 51 }} src={require('../../image/mine/invite.png')} alt='' />
                     <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginTop: 10 }}>分享推广</div>
@@ -120,9 +120,9 @@ class Mine extends Component {
 
     render() {
         return (
-            <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ height: CLIENT_HEIGHT, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'column' }}>
                 <WhiteBorder toInviteList={this.goToInviteNum} toCoinsList={this.goToMyCoins} inviteNum={this.props.inviteNum} coins={this.props.coins} />
-                <div className='mine-header-container' style={{ height: 135, width: '100%', paddingTop: 53, backgroundImage: `url(${bg_image})` }} >
+                <div className='mine-header-container' style={{ height: 188, width: '100%', paddingTop: 53, backgroundImage: `url(${bg_image})` }} >
                     <Header goToLogin={this.goToLogin} userName={this.props.userName} slogan={this.props.slogan} />
                 </div>
                 <Tabs
