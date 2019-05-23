@@ -2,7 +2,7 @@ import * as Types from '../actionTypes';
 
 const initialState = {
     id: -1,
-    isLogin: false,
+    isLogin: true,//* */
     userName: '点击登陆',
     slogan: '登陆后更多精彩随你看',
     mobile: '',

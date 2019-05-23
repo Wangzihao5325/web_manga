@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import store from '../../store/index';
+import { get_user_info } from '../../store/actions/userAction';
 import { tab_navi_show } from '../../store/actions/tabBottomNaviAction';
 import { CLIENT_WIDTH } from '../../global/sizes';
+import Api from '../../socket/index';
 //import { pop_show } from '../../store/actions/popAction';
 import './index.css';
 
@@ -64,12 +66,12 @@ class WhiteBorder extends Component {
     render() {
         return (
             <div className='white-bord' style={{ height: 93, width: CLIENT_WIDTH - 24, position: 'absolute', top: 127, left: 12, right: 12, backgroundColor: 'white', borderRadius: 5, display: 'flex', flexDirection: 'row' }}>
-                <div className='total-center'>
+                <div onClick={this.props.toInviteList} className='total-center'>
                     <div style={{ color: 'rgb(34,34,34)', fontSize: 23, fontWeight: 'bold' }}>{`${this.props.inviteNum}人`}</div>
                     <div style={{ color: 'rgb(193,193,193)', fontSize: 13 }}>已邀请</div>
                 </div>
                 <div style={{ height: 39, width: 1, backgroundColor: 'rgb(193,193,193)', alignSelf: 'center' }} />
-                <div className='total-center'>
+                <div onClick={this.props.toCoinsList} className='total-center'>
                     <div style={{ color: 'rgb(34,34,34)', fontSize: 23, fontWeight: 'bold' }}>{`${this.props.coins}C`}</div>
                     <div style={{ color: 'rgb(193,193,193)', fontSize: 13 }} >我的C币</div>
                 </div>
@@ -109,12 +111,17 @@ class Mine extends Component {
 
     componentDidMount() {
         store.dispatch(tab_navi_show());
+        if (this.props.login) {
+            Api.userInfo((e) => {
+                store.dispatch(get_user_info(e));
+            });
+        }
     }
 
     render() {
         return (
             <div style={{ flex: 1 }}>
-                <WhiteBorder inviteNum={this.props.inviteNum} coins={this.props.coins} />
+                <WhiteBorder toInviteList={this.goToInviteNum} toCoinsList={this.goToMyCoins} inviteNum={this.props.inviteNum} coins={this.props.coins} />
                 <div className='mine-header-container' style={{ height: 135, width: '100%', paddingTop: 53, backgroundImage: `url(${bg_image})` }} >
                     <Header goToLogin={this.goToLogin} userName={this.props.userName} slogan={this.props.slogan} />
                 </div>
@@ -128,6 +135,18 @@ class Mine extends Component {
                 <ListItem onPress={this.goToSetInviteCode} title='邀请码' imgPath={require('../../image/mine/set_invite_code.png')} />
             </div>
         );
+    }
+
+    goToInviteNum = () => {
+        if (this.props.login) {
+            this.props.history.push('/invite_list/');
+        }
+    }
+
+    goToMyCoins = () => {
+        if (this.props.login) {
+            //  this.props.history.push('/login/');
+        }
     }
 
     goToLogin = () => {
