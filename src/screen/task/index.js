@@ -10,7 +10,7 @@ import './index.css';
 class StateBtn extends Component {
 
     render() {
-        let containerStyle = { borderRadius: 14, height: 28, width: 69, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' };
+        let containerStyle = { fontSize: 12, borderRadius: 14, height: 28, width: 69, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' };
         let text = '做任务';
         switch (this.props.state) {
             case 0:
