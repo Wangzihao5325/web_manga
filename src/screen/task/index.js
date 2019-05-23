@@ -4,6 +4,7 @@ import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../global/sizes';
 import bg_image from '../../image/task/task_bg.jpg';
 import header_bg_image from '../../image/task/task_header_bg.png';
 import page_bg from '../../image/task/page_bg.png';
+import done_open from '../../image/task/done_open.png';
 import './index.css';
 
 class StateBtn extends Component {
@@ -23,6 +24,8 @@ class StateBtn extends Component {
             case 2:
                 containerStyle = { ...containerStyle, borderStyle: 'solid', borderWidth: 1, borderColor: 'rgb(168,168,168)', color: 'rgb(168,168,168)' };
                 text = '已完成';
+                break;
+            default:
                 break;
         }
         return (
@@ -84,6 +87,8 @@ class TaskItem extends Component {
             case 'READ_SIXTY_MORE':
                 imgPath = require('../../image/task/read_hour.png');
                 break;
+            default:
+                break;
         }
         return (
             <div style={{ borderTopStyle: 'solid', borderTopColor: 'rgb(244,244,244)', borderTopWidth: 1, alignSelf: 'center', width: 320 - 36, height: 65, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -102,14 +107,81 @@ class TaskItem extends Component {
     }
 }
 
+class MoneyItemDone extends Component {
+    render() {
+        return (
+            <div className='image-bg-container' style={{ height: 70, width: 48, backgroundImage: `url(${done_open})`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end' }}>
+                <div style={{ marginBottom: 15, fontSize: 17, color: 'white' }}>
+                    {this.props.coins}
+                </div>
+            </div>
+        );
+    }
+}
+
+class MoneyItemWillOPen extends Component {
+    render() {
+        return (
+            <div style={{ height: 70, width: 48, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end' }}>
+                <img style={{ width: 47, height: 61 }} src={require('../../image/task/will_open.png')} alt='' />
+            </div>
+        );
+    }
+}
+
+class MoneyItemWillShow extends Component {
+    render() {
+        return (
+            <div style={{ height: 70, width: 48, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end' }}>
+                <img style={{ width: 47, height: 61 }} src={require('../../image/task/will_show.png')} alt='' />
+            </div>
+        );
+    }
+}
+
 export default class Task extends Component {
 
     state = {
         newData: [],
-        dailyData: []
+        dailyData: [],
+        coinData: []
     };
 
     componentDidMount() {
+        Api.signList((e) => {
+            let block = e.block;
+            let coins = e.coins;
+            let stateArr = [];
+            let dataReg = [];
+            coins.forEach((item) => {
+                stateArr.push(item.value);
+            });
+            for (let i = 0; i < block; i++) {
+                if (i === 0) {
+                    stateArr.push(-20);
+                } else {
+                    stateArr.push(-10);
+                }
+            }
+
+            stateArr.forEach((item, index) => {
+                let enve = null;
+                if (item === -20) {
+                    enve = <MoneyItemWillOPen key={index} />
+                } else if (item === -10) {
+                    enve = <MoneyItemWillShow key={index} />
+                } else {
+                    enve = <MoneyItemDone coins={item} key={index} />
+                }
+                dataReg.push(enve);
+            });
+
+            this.setState({
+                coinData: dataReg
+            });
+
+        });
+
         Api.taskList((e) => {
             let newReg = [];
             let dailyReg = [];
@@ -143,7 +215,14 @@ export default class Task extends Component {
                     <img style={{ height: 33, width: 351, marginLeft: 1 }} src={require('../../image/task/task_page_top.png')} alt='' />
                 </div>
                 <div className='image-bg-container' style={{ borderBottomLeftRadius: 10, borderBottomRightRadius: 10, marginTop: -20, height: 163, width: 320, alignSelf: 'center', display: 'flex', flexDirection: 'column', backgroundImage: `url(${page_bg})` }} >
-                    红包
+                    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 22, marginLeft: 20 }}>
+                        <div style={{ fontSize: 16, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>连续第</div>
+                        <div style={{ fontSize: 16, color: 'red', fontWeight: 'bold' }}>2</div>
+                        <div style={{ fontSize: 16, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>天</div>
+                    </div>
+                    <div style={{ marginTop: 20, height: 70, width: 280, alignSelf: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'end' }}>
+                        {this.state.coinData}
+                    </div>
                 </div>
                 <LinkBar />
                 <div style={{ marginTop: -12, borderRadius: 10, alignSelf: 'center', height: 332, width: 320, display: 'flex', flexDirection: 'column', backgroundColor: 'white' }}>
