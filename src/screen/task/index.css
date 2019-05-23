@@ -1,0 +1,5 @@
+.image-bg-container {
+    /*background: linear-gradient(to bottom,#ff2a31,#e82127);*/
+    background-size: cover;
+    background-position: center;
+}

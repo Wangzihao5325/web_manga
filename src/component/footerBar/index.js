@@ -68,7 +68,7 @@ class Footer extends Component {
         return (
             <div
                 style={{
-                    position: 'absolute',
+                    position: 'fixed',
                     left: 0,
                     bottom: 0,
                     height: 69,

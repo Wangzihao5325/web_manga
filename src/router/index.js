@@ -30,6 +30,7 @@ class AppRouter extends Component {
         return (
             <Router>
                 <div>
+                    <ToastsContainer store={ToastsStore} />
                     <Switch>
                         <Route path="/" exact component={Index} />
                         <Route path="/collect/" component={Collect} />
@@ -43,7 +44,6 @@ class AppRouter extends Component {
                         <Route path="/pay_info/" component={PayInfo} />
                         <Route path="/forget_password/" component={ForgetPassword} />
                     </Switch>
-                    {this.props.isShow && <Footer />}
                     {this.props.popShow &&
                         <div
                             style={{
@@ -62,7 +62,7 @@ class AppRouter extends Component {
                             <ModelContainer />
                         </div>
                     }
-                    <ToastsContainer store={ToastsStore} />
+                    {this.props.isShow && <Footer />}
                 </div>
             </Router >
         );
