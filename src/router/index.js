@@ -20,6 +20,7 @@ import Pay from '../screen/mine/pay/index';
 import PayInfo from '../screen/mine/pay/payInfo/index';
 import ForgetPassword from '../screen/mine/forgetPassword/index';
 import InviteList from '../screen/mine/inviteList/index';
+import CoinList from '../screen/mine/coinList/index';
 
 
 import ModelContainer from '../screen/modelContainer/index';
@@ -45,6 +46,7 @@ class AppRouter extends Component {
                         <Route path="/pay_info/" component={PayInfo} />
                         <Route path="/forget_password/" component={ForgetPassword} />
                         <Route path="/invite_list/" component={InviteList} />
+                        <Route path="/coin_list/" component={CoinList} />
                     </Switch>
                     {this.props.popShow &&
                         <div

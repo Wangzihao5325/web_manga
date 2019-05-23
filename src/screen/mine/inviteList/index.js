@@ -9,6 +9,7 @@ import { hidden } from 'ansi-colors';
 import image_bg from '../../../image/mine/invite_list_bg.png';
 import './index.css';
 import Api from '../../../socket/index';
+import InfiniteScroll from 'react-infinite-scroller';
 
 
 class InviteList extends PureComponent {
@@ -57,9 +58,27 @@ class InviteList extends PureComponent {
                         邀请时间
                     </div>
                 </div>
-                {listItems}
+
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }} ref={(ref) => this.scrollParentRef = ref}>
+                    <div>
+                        <InfiniteScroll
+                            pageStart={0}
+                            loadMore={this.loadFunc}
+                            hasMore={true}
+                            useWindow={false}
+                            getScrollParent={() => this.scrollParentRef}
+                        >
+                            {listItems}
+                        </InfiniteScroll>
+                    </div>
+                </div>
+
             </div>
         );
+    }
+
+    loadFunc = (e) => {
+        console.log(e);
     }
 
     goBack = () => {

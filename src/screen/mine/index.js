@@ -120,7 +120,7 @@ class Mine extends Component {
 
     render() {
         return (
-            <div style={{ flex: 1 }}>
+            <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }}>
                 <WhiteBorder toInviteList={this.goToInviteNum} toCoinsList={this.goToMyCoins} inviteNum={this.props.inviteNum} coins={this.props.coins} />
                 <div className='mine-header-container' style={{ height: 135, width: '100%', paddingTop: 53, backgroundImage: `url(${bg_image})` }} >
                     <Header goToLogin={this.goToLogin} userName={this.props.userName} slogan={this.props.slogan} />
@@ -145,7 +145,7 @@ class Mine extends Component {
 
     goToMyCoins = () => {
         if (this.props.login) {
-            //  this.props.history.push('/login/');
+            this.props.history.push('/coin_list/');
         }
     }
 
