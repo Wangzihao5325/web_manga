@@ -77,7 +77,8 @@ class Footer extends Component {
                     borderTopColor: 'red',
                     borderTopWidth: 1,
                     display: 'flex',
-                    flexDirection: 'row'
+                    flexDirection: 'row',
+                    zIndex: 20
                 }}
             >
                 <Item navi={this.props.history} callback={this.pressCallback} index={0} highLightIndex={this.state.highlightIndex} icon={main_active} defalut={main_default} name={'首页'} />
