@@ -50,7 +50,6 @@ class Item extends Component {
     }
 
 }
-let data = [{ title: '任务明细', key: 1 }, { title: '充值明细', key: 2 }, { title: '消费明细', key: 3 }];
 
 export default class TabSelect extends Component {
 

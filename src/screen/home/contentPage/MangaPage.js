@@ -1,6 +1,10 @@
 import React, { PureComponent } from 'react';
 import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../../global/sizes';
 import Api from '../../../socket/index';
+import {
+    ButtonBack, ButtonFirst, ButtonLast, ButtonNext, ButtonPlay,
+    CarouselProvider, DotGroup, ImageWithZoom, Slide, Slider
+} from 'pure-react-carousel';
 
 class SearchBtn extends PureComponent {
     render() {
@@ -24,10 +28,13 @@ class MangaPage extends PureComponent {
     render() {
         return (
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <div style={{ justifyContent: 'space-between', height: 34, width: CLIENT_WIDTH - 24, alignSelf: 'center', alignItems: 'center', display: 'flex', flexDirection: 'row' }}>
+                <div style={{ marginTop: 10, justifyContent: 'space-between', height: 34, width: CLIENT_WIDTH - 24, alignSelf: 'center', alignItems: 'center', display: 'flex', flexDirection: 'row' }}>
                     <SearchBtn />
                     <div><img style={{ height: 20, width: 20 }} src={require('../../../image/main/leaderBoard.png')} alt='' /></div>
                     <div><img style={{ height: 20, width: 20 }} src={require('../../../image/main/main_types.png')} alt='' /></div>
+                </div>
+                <div style={{ height: 125, width: CLIENT_WIDTH }}>
+
                 </div>
             </div>
         );

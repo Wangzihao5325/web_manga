@@ -37,6 +37,7 @@ class Home extends Component {
                             data={menu}
                             selected={selected}
                             onSelect={this.onSelect}
+                            itemStyle={{ outline: 'none' }}
                         />
                     </div>
                     <div style={{ marginRight: 12, marginLeft: 12, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
