@@ -91,6 +91,10 @@ export default class TabSelect extends Component {
     itemPress = (key, index, title) => {
         this.setState({
             highlightIndex: index
+        }, () => {
+            if (this.props.callback) {
+                this.props.callback(key, index, title);
+            }
         });
     }
 }
