@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../../global/sizes';
+import Api from '../../../socket/index';
 
 class SearchBtn extends PureComponent {
     render() {
@@ -13,6 +14,13 @@ class SearchBtn extends PureComponent {
 }
 
 class MangaPage extends PureComponent {
+
+    componentDidMount() {
+        Api.viewModule('hanman', 'index', 1, 4, (e) => {
+
+        });
+    }
+
     render() {
         return (
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
