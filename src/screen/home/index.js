@@ -5,16 +5,15 @@ import Api from '../../socket/index';
 
 class Home extends Component {
 
-    btnPress = () => {
-        this.props.history.push('/collect/');
+    componentDidMount() {
+        Api.comicGlobal((e) => {
+            console.log(e);
+        });
     }
 
     render() {
-        Api.fetchAppNotice((e) => {
-            console.log(e);
-        });
         return (
-            <div onClick={this.btnPress}>
+            <div >
                 home
             </div>
         );
