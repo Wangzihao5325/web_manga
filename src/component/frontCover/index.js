@@ -84,16 +84,29 @@ const COMIC3_ITEM_IMAGE_WIDTH = COMIC3_ITEM_IMAGE_HEIGHT / 1.5;
 
 class Comic3Item extends Component {
     render() {
+        let hotImage = require('../../image/main/first_fire.png');
+        switch (this.props.index) {
+            case 0:
+                hotImage = require('../../image/main/first_fire.png');
+                break;
+            case 1:
+                hotImage = require('../../image/main/second_fire.png');
+                break;
+            case 2:
+                hotImage = require('../../image/main/third_fire.png');
+                break;
+        }
+
         return (
-            <div style={{ width: COMIC3_ITEM_WIDTH, height: COMIC3_ITEM_HEIGHT, display: 'flex', flexDirection: 'row', backgroundColor: 'rgb(249,249,249)', borderRadius: 4 }}>
-                <div className='bg-image-container' style={{ position: 'absolute', top: 6, left: 24, height: 28, width: 25, backgroundImage: `url(${indexTabImage})`, display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'white', marginTop: 5, fontSize: 12, fontWeight: 'bold' }}>
-                    1
+            <div style={{ marginTop: 10, width: COMIC3_ITEM_WIDTH, height: COMIC3_ITEM_HEIGHT, display: 'flex', flexDirection: 'row', backgroundColor: 'rgb(249,249,249)', borderRadius: 4 }}>
+                <div className='bg-image-container' style={{ position: 'relative', top: 6, left: 30, height: 28, width: 25, backgroundImage: `url(${indexTabImage})`, display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'white', marginTop: 5, fontSize: 12, fontWeight: 'bold' }}>
+                    {this.props.index + 1}
                 </div>
-                <div style={{ marginLeft: 18, alignSelf: 'center', display: 'flex' }}>
-                    <SecurtyImage borderRadius={5} style={{ width: COMIC3_ITEM_IMAGE_WIDTH, height: COMIC3_ITEM_IMAGE_HEIGHT }} source={this.props.source} />
+                <div style={{ marginTop: 15, marginBottom: 15, alignSelf: 'center', display: 'flex' }}>
+                    <SecurtyImage borderRadius={5} style={{ width: COMIC3_ITEM_IMAGE_WIDTH, height: COMIC3_ITEM_IMAGE_HEIGHT }} source={this.props.item.cover_url} />
                 </div>
                 <div style={{ marginRight: 18, marginLeft: 21, flex: 1, height: COMIC3_ITEM_IMAGE_HEIGHT, display: 'flex', flexDirection: 'column', alignSelf: 'center' }}>
-                    <div className='text_div' style={{ fontSize: 15, color: 'rgb(34,34,34)', fontWeight: 'bold', marginTop: 3 }}>瑜珈人妻的濕熱呻吟</div>
+                    <div className='text_div' style={{ fontSize: 15, color: 'rgb(34,34,34)', fontWeight: 'bold', marginTop: 3 }}>{this.props.item.title}</div>
                     <div style={{ height: 20, display: 'flex', flexDirection: 'row', backgroundColor: 'yellow' }}>
 
                     </div>
@@ -105,7 +118,7 @@ class Comic3Item extends Component {
                         更新至108话
                     </div>
                     <div style={{ marginTop: 5, height: 20, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                        <div><img style={{ height: 17, width: 17 }} src={require('../../image/main/first_fire.png')} alt='' /></div>
+                        <div><img style={{ height: 17, width: 17 }} src={hotImage} alt='' /></div>
                         <div style={{ fontSize: 16, color: 'rgb(255,42,49)', marginLeft: 6 }}>1234</div>
                     </div>
                 </div>

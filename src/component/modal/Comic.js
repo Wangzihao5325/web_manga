@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../global/sizes';
-import { FrontCoverHo, FrontCover, HO_HEIGHT, VER_HEIGHT, BannerCover, BANNER_WIDTH, BANNER_TOTAL_HEIGHT } from '../../component/frontCover/index';
+import { FrontCoverHo, FrontCover, HO_HEIGHT, VER_HEIGHT, BannerCover, BANNER_WIDTH, BANNER_TOTAL_HEIGHT, COMIC3_ITEM_HEIGHT, Comic3Item } from '../../component/frontCover/index';
 
 const SudokuHo_WIDTH = CLIENT_WIDTH - 24;
 const BOTTOM_BTN_WIDTH = (SudokuHo_WIDTH - 10) / 2;
@@ -212,11 +212,48 @@ class Comic2 extends Component {
     }
 }
 
+const Comic3_WIDTH = CLIENT_WIDTH - 24;
+const Comic3_ITEMS_HEIGHT = COMIC3_ITEM_HEIGHT * 3 + 20;
+
 class Comic3 extends Component {
     render() {
+        const totalHeight = Comic3_ITEMS_HEIGHT + 64 + 50;
         return (
-            <div />
+            <div style={{ width: Comic3_WIDTH, height: totalHeight, display: 'flex', flexDirection: 'column' }}>
+                <div style={{ marginTop: 20, height: 30, width: SudokuVe_WIDTH, display: 'flex', flexDirection: 'column', fontSize: 20, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>
+                    {this.props.title}
+                </div>
+                <div style={{ width: Comic3_WIDTH, height: Comic3_ITEMS_HEIGHT, display: 'flex', flexDirection: 'column' }}>
+                    {this.itemsGen(this.props.data)}
+                </div>
+                <div style={{ height: 44, width: SudokuVe_WIDTH, marginTop: 20, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div onClick={this._more} style={{ height: 44, width: SudokuHo_WIDTH, backgroundColor: 'rgb(244,244,244)', borderRadius: 4, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                        <div style={{ height: 14, width: 14 }}><img style={{ height: 14, width: 14 }} src={require('../../image/main/more.png')} alt='' /></div>
+                        <div style={{ fontSize: 14, color: 'rgb(152,152,152)', marginLeft: 5 }}>更多</div>
+                    </div>
+                </div>
+            </div>
         );
+    }
+
+    itemsGen = (data) => {
+        let result = [];
+        data.every((item, index) => {
+            if (index > 2) {
+                return false;
+            }
+            result.push(<Comic3Item index={index} key={index} item={item} />);
+            return true;
+        });
+        return result;
+    }
+
+    _more = () => {
+        console.log('more');
+    }
+
+    _changePage = () => {
+
     }
 }
 
@@ -238,8 +275,8 @@ export default class Comic extends Component {
                 return <SudokuVe title={this.props.title} data={this.props.data} limit={this.props.limit} />;
             case 'comic_2':
                 return <Comic2 title={this.props.title} data={this.props.data} />;
-            // case 'comic_3':
-            //     return <SudokuVe title={this.props.title} data={this.props.data} limit={this.props.limit} />;
+            case 'comic_3':
+                return <Comic3 title={this.props.title} data={this.props.data} limit={this.props.limit} />;
             // case 'comic_4':
             //     return <SudokuVe title={this.props.title} data={this.props.data} limit={this.props.limit} />;
             default:
