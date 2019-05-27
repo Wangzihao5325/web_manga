@@ -154,8 +154,25 @@ class Comic2 extends Component {
                 <div style={{ height: BANNER_TOTAL_HEIGHT, width: BANNER_WIDTH, display: 'flex', flexDirection: 'column' }}>
                     <BannerCover />
                 </div>
+                <div style={{ marginTop: 10, height: 200, width: Comic2_WIDTH, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+                    {
+                        this.itemsGen(this.props.data, this.state.page, this.props.limit)
+                    }
+                </div>
             </div>
         );
+    }
+
+    itemsGen = (data, page, limit) => {
+        let result = [];
+        for (let i = limit * (page - 1); i < limit * page; i++) {
+            if (i >= data.length) {
+                break;
+            }
+            const item = data[i];
+            result.push(<FrontCover key={i} title={item.title} intro={item.intro} source={item.cover_url} />);
+        }
+        return result;
     }
 }
 
