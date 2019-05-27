@@ -131,11 +131,39 @@ class Comic3Item extends Component {
     }
 }
 
+const COMIC4_ITEM_WIDTH = (CLIENT_WIDTH - 12 - 30 - 30) / 3;
+const COMIC4_IMAGE_HEIGHT = COMIC4_ITEM_WIDTH * 1.4;
+const COMIC4_TOTAL_HEIGHT = COMIC4_IMAGE_HEIGHT + 50;
+
+class Comic4Item extends Component {
+
+    static defaultProps = {
+        title: '',
+        intro: '',
+    }
+
+    render() {
+        return (
+            <div className='cover_container' style={{ height: COMIC4_TOTAL_HEIGHT, width: COMIC4_ITEM_WIDTH + 4, display: 'flex', flexDirection: 'column', justifyContent: 'start', alignItems: 'center', position: 'relative' }}>
+                <div className='bg-image-container' style={{ position: 'absolute', top: 0, left: 0, height: 28, width: 25, backgroundImage: `url(${indexTabImage})`, display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'white', fontSize: 12, fontWeight: 'bold' }}>
+                    {this.props.index + 1}
+                </div>
+                <div style={{ width: COMIC4_ITEM_WIDTH, height: COMIC4_IMAGE_HEIGHT, display: 'flex', flexDirection: 'column', marginTop: 4 }}>
+                    <SecurtyImage borderRadius={5} style={{ width: COMIC4_ITEM_WIDTH, height: COMIC4_IMAGE_HEIGHT }} source={this.props.item.cover_url} />
+                </div>
+                <div className='text_div' style={{ height: 30, width: COMIC4_ITEM_WIDTH, color: 'rgb(34,34,34)', fontSize: 15, marginTop: 5, fontWeight: 'bold' }}>{this.props.item.title}</div>
+                <div className='text_div' style={{ height: 30, width: COMIC4_ITEM_WIDTH, color: 'rgb(168,168,168)', fontSize: 12 }}>{this.props.item.intro}</div>
+            </div>
+        );
+    }
+}
+
 export {
     FrontCover,
     FrontCoverHo,
     BannerCover,
     Comic3Item,
+    Comic4Item,
 
     VER_WIDTH,
     VER_HEIGHT,
@@ -145,4 +173,6 @@ export {
     BANNER_TOTAL_HEIGHT,
     COMIC3_ITEM_WIDTH,
     COMIC3_ITEM_HEIGHT,
+    COMIC4_ITEM_WIDTH,
+    COMIC4_TOTAL_HEIGHT
 }

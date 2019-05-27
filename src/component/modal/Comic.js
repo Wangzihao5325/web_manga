@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import ScrollMenu from 'react-horizontal-scrolling-menu';
 import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../global/sizes';
-import { FrontCoverHo, FrontCover, HO_HEIGHT, VER_HEIGHT, BannerCover, BANNER_WIDTH, BANNER_TOTAL_HEIGHT, COMIC3_ITEM_HEIGHT, Comic3Item } from '../../component/frontCover/index';
+import { FrontCoverHo, FrontCover, HO_HEIGHT, VER_HEIGHT, BannerCover, BANNER_WIDTH, BANNER_TOTAL_HEIGHT, COMIC3_ITEM_HEIGHT, Comic3Item, Comic4Item, COMIC4_TOTAL_HEIGHT, COMIC4_ITEM_WIDTH } from '../../component/frontCover/index';
 
 const SudokuHo_WIDTH = CLIENT_WIDTH - 24;
 const BOTTOM_BTN_WIDTH = (SudokuHo_WIDTH - 10) / 2;
@@ -257,13 +258,46 @@ class Comic3 extends Component {
     }
 }
 
-export default class Comic extends Component {
+const Comic4_WIDTH = CLIENT_WIDTH - 24;
+const Comic4_HEIGHT = COMIC4_TOTAL_HEIGHT + 50;
 
-    static defaultProps = {
-        styleText: 's_sudoku_2',
-        data: [],
-        limit: 4,
+class Comic4 extends Component {
+    render() {
+        const items = this.itemsGen(this.props.data);
+        return (
+            <div style={{ height: Comic4_HEIGHT, width: Comic4_WIDTH, display: 'flex', flexDirection: 'column' }}>
+                <div style={{ marginTop: 20, height: 30, width: SudokuVe_WIDTH, display: 'flex', flexDirection: 'column', fontSize: 20, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>
+                    {this.props.title}
+                </div>
+                <div style={{ height: COMIC4_TOTAL_HEIGHT, width: Comic4_WIDTH }}>
+                    <ScrollMenu
+                        data={items}
+                        onSelect={this.onSelect}
+                        itemStyle={{ outline: 'none' }}
+                    />
+                </div>
+            </div>
+        );
     }
+
+    itemsGen = (data) => {
+        let result = [];
+        data.every((item, index) => {
+            if (index >= this.props.limit) {
+                return false;
+            }
+            result.push(<Comic4Item index={index} key={index} item={item} />);
+            return true;
+        });
+        return result;
+    }
+
+    onSelect = (key) => {
+        console.log(key);
+    }
+}
+
+export default class Comic extends Component {
 
     render() {
         switch (this.props.styleText) {
@@ -277,8 +311,8 @@ export default class Comic extends Component {
                 return <Comic2 title={this.props.title} data={this.props.data} />;
             case 'comic_3':
                 return <Comic3 title={this.props.title} data={this.props.data} limit={this.props.limit} />;
-            // case 'comic_4':
-            //     return <SudokuVe title={this.props.title} data={this.props.data} limit={this.props.limit} />;
+            case 'comic_4':
+                return <Comic4 title={this.props.title} data={this.props.data} limit={this.props.limit} />;
             default:
                 return null;
         }
