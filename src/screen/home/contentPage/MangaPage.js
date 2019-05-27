@@ -21,7 +21,7 @@ class MangaPage extends PureComponent {
     }
 
     componentDidMount() {
-        Api.viewModule('hanman', 'index', 1, 4, (e) => {
+        Api.viewModule('hanman', 'index', 1, 10, (e) => {
             this.setState({
                 data: e.data
             });

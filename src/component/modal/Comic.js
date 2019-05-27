@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../global/sizes';
-import { FrontCoverHo, FrontCover, HO_HEIGHT, VER_HEIGHT } from '../../component/frontCover/index';
+import { FrontCoverHo, FrontCover, HO_HEIGHT, VER_HEIGHT, BannerCover, BANNER_WIDTH, BANNER_TOTAL_HEIGHT } from '../../component/frontCover/index';
 
 
 const SudokuHo_WIDTH = CLIENT_WIDTH - 24;
@@ -145,10 +145,16 @@ class SudokuVe extends Component {
     }
 }
 
-class Gundong extends Component {
+const Comic2_WIDTH = CLIENT_WIDTH - 24;
+
+class Comic2 extends Component {
     render() {
         return (
-            <div></div>
+            <div style={{ height: 600, width: Comic2_WIDTH, display: 'flex', flexDirection: 'column' }}>
+                <div style={{ height: BANNER_TOTAL_HEIGHT, width: BANNER_WIDTH, display: 'flex', flexDirection: 'column' }}>
+                    <BannerCover />
+                </div>
+            </div>
         );
     }
 }
@@ -163,10 +169,18 @@ export default class Comic extends Component {
 
     render() {
         switch (this.props.styleText) {
+            /*
             case 's_sudoku_2':
                 return <SudokuHo title={this.props.title} data={this.props.data} limit={this.props.limit} />;
-            case 's_sudoku_3':
+                */
+            case 'comic_1':
                 return <SudokuVe title={this.props.title} data={this.props.data} limit={this.props.limit} />;
+            // case 'comic_2':
+            //     return <SudokuVe title={this.props.title} data={this.props.data} limit={this.props.limit} />;
+            // case 'comic_3':
+            //     return <SudokuVe title={this.props.title} data={this.props.data} limit={this.props.limit} />;
+            // case 'comic_4':
+            //     return <SudokuVe title={this.props.title} data={this.props.data} limit={this.props.limit} />;
             default:
                 return null;
         }

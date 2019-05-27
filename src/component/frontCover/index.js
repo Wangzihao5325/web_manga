@@ -51,11 +51,37 @@ class FrontCoverHo extends Component {
     }
 }
 
+const BANNER_WIDTH = CLIENT_WIDTH - 24;
+const BANNER_IMAGE_HEIGHT = BANNER_WIDTH / 2.4;
+const BANNER_TOTAL_HEIGHT = BANNER_IMAGE_HEIGHT + 50;
+
+class BannerCover extends Component {
+    static defaultProps = {
+        title: '',
+        intro: '',
+    }
+
+    render() {
+        return (
+            <div className='cover_container' style={{ height: BANNER_TOTAL_HEIGHT, width: BANNER_WIDTH, display: 'flex', flexDirection: 'column' }}>
+                <div style={{ width: BANNER_WIDTH, height: BANNER_IMAGE_HEIGHT }}>
+                    <SecurtyImage borderRadius={5} style={{ width: BANNER_WIDTH, height: BANNER_IMAGE_HEIGHT }} source={this.props.source} />
+                </div>
+                <div className='text_div' style={{ color: 'rgb(34,34,34)', fontSize: 15, marginTop: 5, fontWeight: 'bold' }}>{this.props.title}</div>
+                <div className='text_div' style={{ color: 'rgb(168,168,168)', fontSize: 12 }}>{this.props.intro}</div>
+            </div>
+        );
+    }
+}
+
 export {
     FrontCover,
     FrontCoverHo,
+    BannerCover,
     VER_WIDTH,
     VER_HEIGHT,
     HO_WIDTH,
-    HO_HEIGHT
+    HO_HEIGHT,
+    BANNER_WIDTH,
+    BANNER_TOTAL_HEIGHT
 }
