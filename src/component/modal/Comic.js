@@ -192,8 +192,8 @@ export default class Comic extends Component {
                 */
             case 'comic_1':
                 return <SudokuVe title={this.props.title} data={this.props.data} limit={this.props.limit} />;
-            // case 'comic_2':
-            //     return <SudokuVe title={this.props.title} data={this.props.data} limit={this.props.limit} />;
+            case 'comic_2':
+                return <SudokuHo title={this.props.title} data={this.props.data} limit={this.props.limit} />;
             // case 'comic_3':
             //     return <SudokuVe title={this.props.title} data={this.props.data} limit={this.props.limit} />;
             // case 'comic_4':
