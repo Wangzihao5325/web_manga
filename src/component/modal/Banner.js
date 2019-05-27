@@ -12,7 +12,7 @@ class BannerItem extends Component {
     render() {
         return (
             <div style={{ height: HEIGHT, width: WIDTH }}>
-                <SecurtyImage style={{ height: HEIGHT, width: WIDTH }} source={this.props.item.url} />
+                <SecurtyImage borderRadius={5} style={{ height: HEIGHT, width: WIDTH }} source={this.props.item.cover_oss_filename} />
             </div>
         );
     }
@@ -25,11 +25,8 @@ export default class Banner extends Component {
     }
 
     render() {
-        const BannerItems = this.props.data.map((item) => {
-            return <div><BannerItem item={item} /></div>;
-        });
         return (
-            <div style={{ height: HEIGHT, width: WIDTH }}>
+            <div style={{ height: HEIGHT, width: WIDTH, display: 'flex', flexDirection: 'column' }}>
                 <Carousel
                     showArrows={false}
                     showStatus={false}
@@ -38,7 +35,9 @@ export default class Banner extends Component {
                     interval={2000}
                 >
                     {
-                        BannerItems
+                        this.props.data.map((item, index) => {
+                            return <BannerItem key={index} item={item} />;
+                        })
                     }
                 </Carousel>
             </div>

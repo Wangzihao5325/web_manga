@@ -21,9 +21,10 @@ export default class SecurtyImage extends Component {
     render() {
         let height = this.props.style.height ? this.props.style.height : 0;
         let width = this.props.style.width ? this.props.style.width : 0;
+        let borderRadius = this.props.borderRadius ? this.props.borderRadius : 0;
         return (
             <div style={this.props.style}>
-                <img className='image-container' style={{ height: height, width: width }} src={this.state.source} alt='' />
+                <img className='image-container' style={{ height: height, width: width, borderRadius: borderRadius }} src={this.state.source} alt='' />
             </div>
         );
     }
@@ -35,6 +36,7 @@ export default class SecurtyImage extends Component {
             let typeStr = regArr[regArr.length - 1];
             if (typeStr === 'ceb') {
                 //ceb图片
+                console.log('222222');
                 let xhr = new XMLHttpRequest();
                 xhr.open("GET", uri, true);
                 xhr.responseType = "arraybuffer";

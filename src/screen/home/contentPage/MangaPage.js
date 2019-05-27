@@ -1,9 +1,7 @@
 import React, { PureComponent } from 'react';
 import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../../global/sizes';
 import Api from '../../../socket/index';
-import SecurtyImage from '../../../component/securtyImage/Image';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from 'react-responsive-carousel';
+import Model from '../../../component/modal/Model';
 
 class SearchBtn extends PureComponent {
     render() {
@@ -18,21 +16,27 @@ class SearchBtn extends PureComponent {
 
 class MangaPage extends PureComponent {
 
+    state = {
+        data: []
+    }
+
     componentDidMount() {
         Api.viewModule('hanman', 'index', 1, 4, (e) => {
-
+            this.setState({
+                data: e.data
+            });
         });
     }
 
     render() {
         return (
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <div style={{ marginTop: 10, justifyContent: 'space-between', height: 34, width: CLIENT_WIDTH - 24, alignSelf: 'center', alignItems: 'center', display: 'flex', flexDirection: 'row' }}>
+                <div style={{ marginTop: 10, marginBottom: 15, justifyContent: 'space-between', height: 34, width: CLIENT_WIDTH - 24, alignSelf: 'center', alignItems: 'center', display: 'flex', flexDirection: 'row' }}>
                     <SearchBtn />
                     <div><img style={{ height: 20, width: 20 }} src={require('../../../image/main/leaderBoard.png')} alt='' /></div>
                     <div><img style={{ height: 20, width: 20 }} src={require('../../../image/main/main_types.png')} alt='' /></div>
                 </div>
-                {/** */}
+                <Model data={this.state.data} />
             </div>
         );
     }
