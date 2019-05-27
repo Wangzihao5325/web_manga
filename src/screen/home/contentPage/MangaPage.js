@@ -5,6 +5,7 @@ import {
     ButtonBack, ButtonFirst, ButtonLast, ButtonNext, ButtonPlay,
     CarouselProvider, DotGroup, ImageWithZoom, Slide, Slider
 } from 'pure-react-carousel';
+import SecurtyImage from '../../../component/securtyImage/Image';
 
 class SearchBtn extends PureComponent {
     render() {
@@ -34,7 +35,7 @@ class MangaPage extends PureComponent {
                     <div><img style={{ height: 20, width: 20 }} src={require('../../../image/main/main_types.png')} alt='' /></div>
                 </div>
                 <div style={{ height: 125, width: CLIENT_WIDTH }}>
-
+                    <SecurtyImage style={{ height: 100, width: 100 }} source='http://192.168.0.146:50010/storage/ad/f2/4c/12f24cea8b938a74554829bc260f71580e80f54360.ceb' />
                 </div>
             </div>
         );
