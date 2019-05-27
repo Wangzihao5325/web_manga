@@ -36,7 +36,6 @@ export default class SecurtyImage extends Component {
             let typeStr = regArr[regArr.length - 1];
             if (typeStr === 'ceb') {
                 //ceb图片
-                console.log('222222');
                 let xhr = new XMLHttpRequest();
                 xhr.open("GET", uri, true);
                 xhr.responseType = "arraybuffer";
