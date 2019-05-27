@@ -23,7 +23,7 @@ export default class SecurtyImage extends Component {
         let width = this.props.style.width ? this.props.style.width : 0;
         return (
             <div style={this.props.style}>
-                <img className='image-container' style={{ height: height, width: width }} src={this.state.source} />
+                <img className='image-container' style={{ height: height, width: width }} src={this.state.source} alt='' />
             </div>
         );
     }

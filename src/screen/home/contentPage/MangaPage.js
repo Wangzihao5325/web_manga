@@ -1,10 +1,6 @@
 import React, { PureComponent } from 'react';
 import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../../global/sizes';
 import Api from '../../../socket/index';
-import {
-    ButtonBack, ButtonFirst, ButtonLast, ButtonNext, ButtonPlay,
-    CarouselProvider, DotGroup, ImageWithZoom, Slide, Slider
-} from 'pure-react-carousel';
 import SecurtyImage from '../../../component/securtyImage/Image';
 
 class SearchBtn extends PureComponent {
