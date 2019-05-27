@@ -4,3 +4,9 @@
     text-overflow: ellipsis;
     overflow:hidden;
 }
+
+.bg-image-container {
+    /*background: linear-gradient(to bottom,#ff2a31,#e82127);*/
+    background-size: 100% 100%;
+    background-position: center;
+}
