@@ -23,7 +23,7 @@ class FrontCover extends Component {
         return (
             <div className='cover_container' style={{ height: VER_HEIGHT, width: VER_WIDTH, display: 'flex', flexDirection: 'column' }}>
                 <div style={{ width: VER_WIDTH, height: VER_IMAGE_HEIGHT }}>
-                    <SecurtyImage borderRadius={5} style={{ width: VER_WIDTH, height: VER_IMAGE_HEIGHT }} source='http://192.168.0.146:50010/storage/ad/f2/4c/12f24cea8b938a74554829bc260f71580e80f54360.ceb' />
+                    <SecurtyImage borderRadius={5} style={{ width: VER_WIDTH, height: VER_IMAGE_HEIGHT }} source={this.props.source} />
                 </div>
                 <div className='text_div' style={{ color: 'rgb(34,34,34)', fontSize: 15, marginTop: 5, fontWeight: 'bold' }}>{this.props.title}</div>
                 <div className='text_div' style={{ color: 'rgb(168,168,168)', fontSize: 12 }}>{this.props.intro}</div>
