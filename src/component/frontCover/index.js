@@ -95,6 +95,9 @@ class Comic3Item extends Component {
             case 2:
                 hotImage = require('../../image/main/third_fire.png');
                 break;
+            default:
+                hotImage = require('../../image/main/third_fire.png');
+                break;
         }
 
         return (

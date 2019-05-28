@@ -4,6 +4,7 @@ import Api from '../../../socket/index';
 import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../../global/sizes';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 import { Menu } from '../../../component/tabSelect/WeekSelect';
+import { Comic3Item } from '../../../component/frontCover/index';
 
 
 export default class UpdatePage extends Component {
@@ -64,7 +65,7 @@ export default class UpdatePage extends Component {
                     >
                         {
                             this.state.data.map((item, index) => {
-                                
+                                return <Comic3Item index={index} key={item.title} item={item} />;
                             })
                         }
                         <div style={{ height: 80, width: CLIENT_WIDTH - 24 }} />{/**底部垫高，防止正文部分被bottom遮挡 */}
