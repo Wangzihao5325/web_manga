@@ -6,6 +6,7 @@ import { pop_unshow } from '../store/actions/popAction';
 import { ToastsContainer, ToastsStore } from 'react-toasts';
 
 import Index from '../screen/home/index';
+import CGDetail from '../screen/detailScreen/cgDetail';
 
 import Collect from '../screen/collect/index';
 
@@ -47,6 +48,7 @@ class AppRouter extends Component {
                         <Route path="/forget_password/" component={ForgetPassword} />
                         <Route path="/invite_list/" component={InviteList} />
                         <Route path="/coin_list/" component={CoinList} />
+                        <Route path="/cg_detail/" component={CGDetail} />
                     </Switch>
                     {this.props.popShow &&
                         <div

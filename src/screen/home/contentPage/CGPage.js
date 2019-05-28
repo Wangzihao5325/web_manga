@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../../global/sizes';
 import InfiniteScroll from 'react-infinite-scroller';
 import SecurtyImage from '../../../component/securtyImage/Image';
@@ -15,7 +16,7 @@ class Item extends Component {
         const ItemImageHeight = (this.props.item.height / this.props.item.width) * ItemWidth;
         const ItemHeight = ItemImageHeight + 31;
         return (
-            <div style={{ width: ItemWidth, height: ItemHeight, display: 'flex', flexDirection: 'column', marginTop: 12, borderRadius: 4 }}>
+            <div onClick={this.itemClick} style={{ width: ItemWidth, height: ItemHeight, display: 'flex', flexDirection: 'column', marginTop: 12, borderRadius: 4 }}>
                 <div style={{ height: ItemImageHeight, width: ItemWidth }}>
                     <SecurtyImage borderRadius={4} style={{ height: ItemImageHeight, width: ItemWidth }} source={this.props.item.cover_url} />
                 </div>
@@ -27,9 +28,15 @@ class Item extends Component {
             </div>
         );
     }
+
+    itemClick = () => {
+        if (this.props.itemClick) {
+            this.props.itemClick(this.props.item.id);
+        }
+    }
 }
 
-export default class CGPage extends Component {
+class CGPage extends Component {
 
 
     state = {
@@ -47,9 +54,9 @@ export default class CGPage extends Component {
             let data2Result = [];
             originData.forEach((item, index) => {
                 if (index % 2 === 0) {
-                    data1Result.push(<Item key={item.title} item={item} />);
+                    data1Result.push(<Item itemClick={this._goToDetail} key={item.title} item={item} />);
                 } else {
-                    data2Result.push(<Item key={item.title} item={item} />);
+                    data2Result.push(<Item itemClick={this._goToDetail} key={item.title} item={item} />);
                 }
             });
             this.setState({
@@ -113,4 +120,12 @@ export default class CGPage extends Component {
             });
         });
     }
+
+    _goToDetail = (id) => {
+        console.log(id);
+        this.props.history.push('/cg_detail/');
+    }
 }
+
+const CGPageWithRouter = withRouter(CGPage);
+export default CGPageWithRouter;
