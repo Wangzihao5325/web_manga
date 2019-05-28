@@ -24,7 +24,7 @@ export default class SecurtyImage extends Component {
         let borderRadius = this.props.borderRadius ? this.props.borderRadius : 0;
         return (
             <div style={this.props.style}>
-                <img className='image-container' style={{ height: height, width: width, borderRadius: borderRadius }} src={this.state.source} alt='' />
+                <img className='image-container' style={{ height: height, width: width, borderRadius: borderRadius  }} src={this.state.source} alt='' />
             </div>
         );
     }
