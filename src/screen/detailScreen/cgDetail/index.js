@@ -23,8 +23,7 @@ class CGDetail extends PureComponent {
         data: [],
         nowPage: -1,
         totalPage: -1,
-        title: '',
-        initialLoad: true
+        title: ''
     }
 
     componentDidMount() {
@@ -45,15 +44,14 @@ class CGDetail extends PureComponent {
         return (
             <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }} >
                 <HeaderPro title={this.state.title} back={this.goBack} />
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div style={{ height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <InfiniteScroll
                         pageStart={0}
                         hasMore={true}
                         useWindow={false}
                         getScrollParent={() => this.scrollParentRef}
-                        threshold={10}
+                        threshold={100}
                         loadMore={this._loadMore}
-                        initialLoad={this.state.initialLoad}
                     >
                         {
                             this.state.data.map((item, index) => {
@@ -75,19 +73,15 @@ class CGDetail extends PureComponent {
         if (this.state.nowPage >= this.state.totalPage) {
             return;
         }
-        console.log('12333333');
         const cgId = parseInt(this.props.match.params.id);
         const newPage = this.state.nowPage + 1;
         Api.mangaImage('cg', cgId, 0, newPage, 10, (e) => {
-            console.log(newPage)
-            console.log(e);
             let regData = [...this.state.data];
             let newData = regData.concat(e.data);
             this.setState({
                 data: newData,
                 nowPage: e.current_page,
                 totalPage: e.last_page,
-                initialLoad: false
             });
         });
     }
