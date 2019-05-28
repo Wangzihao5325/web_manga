@@ -14,6 +14,7 @@ export default class UpdatePage extends Component {
         weekData: [],
         data: [],
         nowPage: -1,
+        totalPage: -1,
     };
 
     componentDidMount() {
@@ -23,7 +24,8 @@ export default class UpdatePage extends Component {
             let nowPage = e.lists.current_page;
             this.setState({
                 data,
-                nowPage
+                nowPage,
+                totalPage: e.lists.last_page
             });
         });
 
@@ -82,13 +84,29 @@ export default class UpdatePage extends Component {
             let nowPage = e.lists.current_page;
             this.setState({
                 data,
-                nowPage
+                nowPage,
+                totalPage: e.lists.last_page
             });
         });
 
     }
 
     _loadMore = () => {
-
+        /*
+        if (this.state.nowPage >= this.state.totalPage) {
+            return;
+        }
+        const keyIndex = this.state.weekData.indexOf(this.state.selected);
+        const timestamp = (new Date().getTime() / 1000).toFixed(0) - (24 * 3600 * (6 - keyIndex));
+        let newPage = this.state.nowPage + 1;
+        Api.specialList('recommend', timestamp, newPage, 10, (e) => {
+            let dataArr = [...this.state.data];
+            this.setState({
+                data: dataArr.concat(e.lists.data),
+                nowPage: e.lists.current_page,
+                totalPage: e.lists.last_page,
+            });
+        });
+        */
     }
 }
