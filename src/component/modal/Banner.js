@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../global/sizes';
 import SecurtyImage from '../../component/securtyImage/Image';
 
@@ -11,14 +12,18 @@ const HEIGHT = WIDTH / 2;
 class BannerItem extends Component {
     render() {
         return (
-            <div style={{ height: HEIGHT, width: WIDTH }}>
+            <div onClick={this.bannerPress} style={{ height: HEIGHT, width: WIDTH }}>
                 <SecurtyImage borderRadius={5} style={{ height: HEIGHT, width: WIDTH }} source={this.props.item.cover_oss_filename} />
             </div>
         );
     }
+
+    bannerPress = () => {
+        this.props.navi.push('/manga_detail/123/234');
+    }
 }
 
-export default class Banner extends Component {
+class Banner extends Component {
 
     static defaultProps = {
         data: []
@@ -36,7 +41,7 @@ export default class Banner extends Component {
                 >
                     {
                         this.props.data.map((item, index) => {
-                            return <BannerItem key={index} item={item} />;
+                            return <BannerItem key={index} item={item} navi={this.props.history} />;
                         })
                     }
                 </Carousel>
@@ -44,3 +49,6 @@ export default class Banner extends Component {
         );
     }
 }
+
+const BannerWithRouter = withRouter(Banner);
+export default BannerWithRouter;

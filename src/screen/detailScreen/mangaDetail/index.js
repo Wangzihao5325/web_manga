@@ -16,6 +16,7 @@ class MangaDetail extends PureComponent {
         return (
             <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }} >
                 <HeaderPro title='manga detail' back={this.goBack} />
+                
             </div>
         );
     }
