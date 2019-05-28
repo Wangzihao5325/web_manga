@@ -59,7 +59,7 @@ class InviteList extends PureComponent {
                     </div>
                 </div>
 
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }} ref={(ref) => this.scrollParentRef = ref}>
+                <div style={{ flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column' }} ref={(ref) => this.scrollParentRef = ref}>
                     <div>
                         <InfiniteScroll
                             pageStart={0}

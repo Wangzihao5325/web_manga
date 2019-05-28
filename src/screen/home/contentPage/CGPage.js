@@ -71,7 +71,7 @@ class CGPage extends Component {
 
     render() {
         return (
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+            <div style={{ flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
                 <InfiniteScroll
                     pageStart={0}
                     hasMore={true}

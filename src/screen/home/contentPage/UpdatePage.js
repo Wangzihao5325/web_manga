@@ -56,7 +56,7 @@ export default class UpdatePage extends Component {
                         itemStyle={{ outline: 'none' }}
                     />
                 </div>
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div style={{ flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <InfiniteScroll
                         pageStart={0}
                         hasMore={true}
@@ -92,7 +92,7 @@ export default class UpdatePage extends Component {
     }
 
     _loadMore = () => {
-        /*
+
         if (this.state.nowPage >= this.state.totalPage) {
             return;
         }
@@ -107,6 +107,6 @@ export default class UpdatePage extends Component {
                 totalPage: e.lists.last_page,
             });
         });
-        */
+
     }
 }

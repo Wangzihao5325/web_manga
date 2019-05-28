@@ -52,7 +52,7 @@ class CoinList extends PureComponent {
             <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
                 <HeaderPro title='C币明细' back={this.goBack} />
                 <TabSelect data={TAB_DATA} callback={this.tabChange} />
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }} ref={(ref) => this.scrollParentRef = ref}>
+                <div style={{ flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column' }} ref={(ref) => this.scrollParentRef = ref}>
                     <div>
                         <InfiniteScroll
                             pageStart={0}
