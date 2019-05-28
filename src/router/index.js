@@ -7,6 +7,7 @@ import { ToastsContainer, ToastsStore } from 'react-toasts';
 
 import Index from '../screen/home/index';
 import CGDetail from '../screen/detailScreen/cgDetail';
+import MangaDetail from '../screen/detailScreen/mangaDetail';
 
 import Collect from '../screen/collect/index';
 
