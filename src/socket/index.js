@@ -435,6 +435,32 @@ class api {
         this.securtyFetch(url, paramObj, onSuccess, onError);
     }
 
+    specialList(global_type, page, limit, onSuccess, onError) {
+        const url = '/api/special-lists';
+        const timestamp = (new Date().getTime() / 1000).toFixed(0);
+
+        if (!IsSecurty) {
+            let formData = new FormData();
+            formData.append('time', timestamp);
+            formData.append('global_type', global_type);
+            formData.append('page', page);
+            formData.append('limit', limit);
+            this.normalFetch(url, formData, onSuccess, onError);
+            return;
+        }
+
+        let paramObj = {
+            global_type,
+            limit,
+            page,
+            platform: PlatformStr,
+            time: timestamp,
+            timestamp
+        }
+
+        this.securtyFetch(url, paramObj, onSuccess, onError);
+    }
+
 }
 
 export default new api();

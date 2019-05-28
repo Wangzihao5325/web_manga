@@ -17,7 +17,6 @@ export default class Model extends Component {
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <InfiniteScroll
                     pageStart={0}
-                    loadMore={this.loadFunc}
                     hasMore={true}
                     useWindow={false}
                     getScrollParent={() => this.scrollParentRef}
