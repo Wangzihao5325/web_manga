@@ -46,7 +46,7 @@ class MangaPage extends PureComponent {
     }
 
     _loadMore = (page) => {
-        if (page >= this.state.data) {
+        if (page >= this.state.totalPage) {
             return;
         }
         let newPage = this.state.nowPage + 1;
