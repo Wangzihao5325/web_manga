@@ -17,13 +17,17 @@ class SearchBtn extends PureComponent {
 class MangaPage extends PureComponent {
 
     state = {
-        data: []
+        data: [],
+        nowPage: -1,
+        totalPage: -1,
     }
 
     componentDidMount() {
         Api.viewModule(this.props.type, 'index', 1, 10, (e) => {
             this.setState({
-                data: e.data
+                data: e.data,
+                nowPage: e.current_page,
+                totalPage: e.last_page,
             });
         });
     }
@@ -36,9 +40,24 @@ class MangaPage extends PureComponent {
                     <div><img style={{ height: 20, width: 20 }} src={require('../../../image/main/leaderBoard.png')} alt='' /></div>
                     <div><img style={{ height: 20, width: 20 }} src={require('../../../image/main/main_types.png')} alt='' /></div>
                 </div>
-                <Model data={this.state.data} />
+                <Model loadMore={this._loadMore} data={this.state.data} />
             </div>
         );
+    }
+
+    _loadMore = (page) => {
+        if (page >= this.state.data) {
+            return;
+        }
+        let newPage = this.state.nowPage + 1;
+        Api.viewModule(this.props.type, 'index', newPage, 10, (e) => {
+            let dataArr = [...this.state.data];
+            this.setState({
+                data: dataArr.concat(e.data),
+                nowPage: e.current_page,
+                totalPage: e.last_page,
+            });
+        });
     }
 }
 

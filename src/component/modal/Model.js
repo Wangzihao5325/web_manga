@@ -38,7 +38,9 @@ export default class Model extends Component {
         );
     }
 
-    _loadMore = () => {
-
+    _loadMore = (page) => {
+        if (this.props.loadMore) {
+            this.props.loadMore(page);
+        }
     }
 }

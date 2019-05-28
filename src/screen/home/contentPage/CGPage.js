@@ -33,6 +33,8 @@ export default class CGPage extends Component {
 
 
     state = {
+        nowPage: -1,
+        totalPage: -1,
         data1: [],
         data2: []
     }
@@ -45,14 +47,16 @@ export default class CGPage extends Component {
             let data2Result = [];
             originData.forEach((item, index) => {
                 if (index % 2 === 0) {
-                    data1Result.push(<Item item={item} />);
+                    data1Result.push(<Item key={item.title} item={item} />);
                 } else {
-                    data2Result.push(<Item item={item} />);
+                    data2Result.push(<Item key={item.title} item={item} />);
                 }
             });
             this.setState({
                 data1: data1Result,
-                data2: data2Result
+                data2: data2Result,
+                nowPage: e.lists.current_page,
+                totalPage: e.lists.last_page,
             });
         });
     }
@@ -82,5 +86,31 @@ export default class CGPage extends Component {
                 </InfiniteScroll>
             </div>
         );
+    }
+
+    _loadMore = (page) => {
+        if (this.state.nowPage >= this.state.totalPage) {
+            return;
+        }
+        let newPage = this.state.nowPage + 1;
+
+        Api.specialList(this.props.type, null, newPage, 10, (e) => {
+            let originData = e.lists.data;
+            let data1Result = [...this.state.data1];
+            let data2Result = [...this.state.data2];
+            originData.forEach((item, index) => {
+                if (index % 2 === 0) {
+                    data1Result.push(<Item key={item.title} item={item} />);
+                } else {
+                    data2Result.push(<Item key={item.title} item={item} />);
+                }
+            });
+            this.setState({
+                data1: data1Result,
+                data2: data2Result,
+                nowPage: e.lists.current_page,
+                totalPage: e.lists.last_page,
+            });
+        });
     }
 }
