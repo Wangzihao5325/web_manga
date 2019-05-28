@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { CLIENT_WIDTH } from '../../global/sizes';
+import './index.css';
 
 class Header extends Component {
     render() {
@@ -20,7 +21,9 @@ class HeaderPro extends Component {
                 <div onClick={this.goBack} style={{ height: 38, width: 70, marginLeft: 15, display: 'flex', alignItems: 'center' }}>
                     <img style={{ height: 16, width: 8 }} src={require('../../image/usual/usual_left_arrow_2.png')} alt='' />
                 </div>
-                <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: 18, color: 'rgb(34,34,34)' }}>{this.props.title}</div>
+                <div className='text_div' style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <div className='text_div' style={{ fontSize: 18, color: 'rgb(34,34,34)' }}>{this.props.title}</div>
+                </div>
                 <div style={{ height: 38, width: 70, marginRight: 15, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                     {this.props.rightBtnText && <div style={{ color: this.props.rightBtnTextColor ? this.props.rightBtnTextColor : 'rgb(255,42,49)', fontSize: 16 }} onClick={this.rigthBtnClick}>{this.props.rightBtnText}</div>}
                 </div>

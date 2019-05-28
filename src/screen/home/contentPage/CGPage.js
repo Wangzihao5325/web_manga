@@ -31,7 +31,7 @@ class Item extends Component {
 
     itemClick = () => {
         if (this.props.itemClick) {
-            this.props.itemClick(this.props.item.id);
+            this.props.itemClick(this.props.item.id, this.props.item.title);
         }
     }
 }
@@ -121,8 +121,8 @@ class CGPage extends Component {
         });
     }
 
-    _goToDetail = (id) => {
-        this.props.history.push(`/cg_detail/${id}`);
+    _goToDetail = (id, title) => {
+        this.props.history.push(`/cg_detail/${id}/${title}`);
     }
 }
 

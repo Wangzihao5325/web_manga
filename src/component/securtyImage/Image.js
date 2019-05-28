@@ -5,9 +5,16 @@ import './index.css';
 const KEY = 'wPK8CxWaOwPuVzgs';
 
 export default class SecurtyImage extends Component {
+
+    static defaultProps = {
+        isFlexType: false
+    }
+
     state = {
         trueSource: null,
-        lastSource: null
+        lastSource: null,
+
+        flexStyle: {}
     }
 
     componentDidMount() {
@@ -24,9 +31,20 @@ export default class SecurtyImage extends Component {
         let borderRadius = this.props.borderRadius ? this.props.borderRadius : 0;
         return (
             <div style={this.props.style}>
-                <img className='image-container' style={{ height: height, width: width, borderRadius: borderRadius  }} src={this.state.source} alt='' />
+                {!this.props.isFlexType && <img className='image-container' style={{ height: height, width: width, borderRadius: borderRadius }} src={this.state.source} alt='' />}
+                {this.props.isFlexType && <img ref={ref => { this.imageRef = ref }} onLoad={this._imageOnload} className='image-container' style={this.state.flexStyle} src={this.state.source} alt='' />}
             </div>
         );
+    }
+
+    _imageOnload = () => {
+        const { clientWidth, clientHeight } = this.imageRef;
+        if (this.props.regWidth) {
+            const regHeight = (clientHeight / clientWidth) * this.props.regWidth;
+            this.setState({
+                flexStyle: { height: regHeight, width: this.props.regWidth, borderRadius: this.props.borderRadius ? this.props.borderRadius : 0 }
+            });
+        }
     }
 
     _getTrueSource = () => {
