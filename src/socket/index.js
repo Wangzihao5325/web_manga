@@ -441,7 +441,9 @@ class api {
 
         if (!IsSecurty) {
             let formData = new FormData();
-            formData.append('time', time);
+            if (time) {
+                formData.append('time', time);
+            }
             formData.append('timestamp', timestamp);
             formData.append('global_type', global_type);
             formData.append('page', page);
@@ -455,8 +457,17 @@ class api {
             limit,
             page,
             platform: PlatformStr,
-            time: time,
             timestamp
+        }
+        if (time) {
+            paramObj = {
+                global_type,
+                limit,
+                page,
+                platform: PlatformStr,
+                time: time,
+                timestamp
+            }
         }
 
         this.securtyFetch(url, paramObj, onSuccess, onError);

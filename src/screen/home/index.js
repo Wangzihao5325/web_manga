@@ -7,6 +7,7 @@ import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../global/sizes';
 
 import MangaPage from './contentPage/MangaPage';
 import UpdatePage from './contentPage/UpdatePage';
+import CGPage from './contentPage/CGPage';
 
 const reg = { keyMap: {} };
 
@@ -24,7 +25,6 @@ class Home extends Component {
 
     componentDidMount() {
         Api.comicGlobal((e) => {
-
             let keyArr = e.map((item) => {
                 reg.keyMap[item.name] = item.key;
                 return item.key;
@@ -59,9 +59,11 @@ class Home extends Component {
                     </div>
                 </div>
                 {reg.keyMap[this.state.selected] === 'recommend' && <UpdatePage />}
-                {reg.keyMap[this.state.selected] === 'hanman' && <MangaPage />}
-                {reg.keyMap[this.state.selected] === 'hman' && <MangaPage />}
-                {reg.keyMap[this.state.selected] === 'anime' && <MangaPage />}
+                {reg.keyMap[this.state.selected] === 'hanman' && <MangaPage type='hanman' />}
+                {reg.keyMap[this.state.selected] === 'hman' && <MangaPage type='hman' />}
+                {reg.keyMap[this.state.selected] === 'anime' && <MangaPage type='anime' />}
+                {reg.keyMap[this.state.selected] === 'cg' && <CGPage type='cg' />}
+                {reg.keyMap[this.state.selected] === 'cosplay' && <CGPage type='cosplay' />}
             </div>
         );
     }
