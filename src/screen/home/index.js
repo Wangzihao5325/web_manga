@@ -4,7 +4,11 @@ import ScrollMenu from 'react-horizontal-scrolling-menu';
 import { Menu } from '../../component/tabSelect/ScrollTabSelect';
 import Api from '../../socket/index';
 import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../global/sizes';
+
 import MangaPage from './contentPage/MangaPage';
+import UpdatePage from './contentPage/UpdatePage';
+
+const reg = { keyMap: {} };
 
 class Home extends Component {
 
@@ -15,14 +19,23 @@ class Home extends Component {
 
     onSelect = key => {
         this.setState({ selected: key });
+
     }
 
     componentDidMount() {
         Api.comicGlobal((e) => {
+
+            let keyArr = e.map((item) => {
+                reg.keyMap[item.name] = item.key;
+                return item.key;
+            });
+
             this.setState({
                 data: e,
-                selected: e[1].name
+                selected: e[1].name,
+                keys: keyArr
             });
+
         });
     }
 
@@ -45,8 +58,10 @@ class Home extends Component {
                         <img style={{ height: 16, width: 16 }} src={require('../../image/main/main_more.png')} alt='' />
                     </div>
                 </div>
-
-                <MangaPage />
+                {reg.keyMap[this.state.selected] === 'recommend' && <UpdatePage />}
+                {reg.keyMap[this.state.selected] === 'hanman' && <MangaPage />}
+                {reg.keyMap[this.state.selected] === 'hman' && <MangaPage />}
+                {reg.keyMap[this.state.selected] === 'anime' && <MangaPage />}
             </div>
         );
     }
