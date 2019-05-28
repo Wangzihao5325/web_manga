@@ -17,9 +17,8 @@ export default class UpdatePage extends Component {
     };
 
     componentDidMount() {
-
-        Api.specialList('recommend', 1, 10, (e) => {
-            console.log(e);
+        const timestamp = (new Date().getTime() / 1000).toFixed(0);
+        Api.specialList('recommend', timestamp, 1, 10, (e) => {
             let data = e.lists.data;
             let nowPage = e.lists.current_page;
             this.setState({
@@ -51,7 +50,7 @@ export default class UpdatePage extends Component {
                     <ScrollMenu
                         data={menu}
                         selected={selected}
-                        onSelect={this.onSelect}
+                        onSelect={this._onSelect}
                         itemStyle={{ outline: 'none' }}
                     />
                 </div>
@@ -73,6 +72,20 @@ export default class UpdatePage extends Component {
                 </div>
             </div>
         );
+    }
+
+    _onSelect = (key) => {
+        const keyIndex = this.state.weekData.indexOf(key);
+        const timestamp = (new Date().getTime() / 1000).toFixed(0) - (24 * 3600 * (6 - keyIndex));
+        Api.specialList('recommend', timestamp, 1, 10, (e) => {
+            let data = e.lists.data;
+            let nowPage = e.lists.current_page;
+            this.setState({
+                data,
+                nowPage
+            });
+        });
+
     }
 
     _loadMore = () => {
