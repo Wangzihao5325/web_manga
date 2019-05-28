@@ -48,7 +48,7 @@ class AppRouter extends Component {
                         <Route path="/forget_password/" component={ForgetPassword} />
                         <Route path="/invite_list/" component={InviteList} />
                         <Route path="/coin_list/" component={CoinList} />
-                        <Route path="/cg_detail/" component={CGDetail} />
+                        <Route path="/cg_detail/:id" component={CGDetail} />
                     </Switch>
                     {this.props.popShow &&
                         <div

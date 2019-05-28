@@ -122,8 +122,7 @@ class CGPage extends Component {
     }
 
     _goToDetail = (id) => {
-        console.log(id);
-        this.props.history.push('/cg_detail/');
+        this.props.history.push(`/cg_detail/${id}`);
     }
 }
 

@@ -473,6 +473,35 @@ class api {
         this.securtyFetch(url, paramObj, onSuccess, onError);
     }
 
+    mangaImage(global_type, comic_id, comic_resource_id, page, limit, onSuccess, onError) {
+        const url = '/api/comic-image';
+        const timestamp = (new Date().getTime() / 1000).toFixed(0);
+
+        if (!IsSecurty) {
+            let formData = new FormData();
+            formData.append('comic_id', comic_id);
+            formData.append('comic_resource_id', comic_resource_id);
+            formData.append('global_type', global_type);
+            formData.append('limit', limit);
+            formData.append('page', page);
+            formData.append('timestamp', timestamp);
+            this.normalFetch(url, formData, onSuccess, onError);
+            return;
+        }
+
+        let paramObj = {
+            comic_id,
+            comic_resource_id,
+            global_type,
+            limit,
+            page,
+            platform: PlatformStr,
+            timestamp
+        }
+
+        this.securtyFetch(url, paramObj, onSuccess, onError);
+    }
+
 }
 
 export default new api();

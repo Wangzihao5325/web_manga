@@ -28,6 +28,7 @@ class Home extends Component {
     componentDidMount() {
         store.dispatch(tab_navi_show());
         Api.comicGlobal((e) => {
+            console.log(e);
             let keyArr = e.map((item) => {
                 reg.keyMap[item.name] = item.key;
                 return item.key;
