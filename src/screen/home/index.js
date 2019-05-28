@@ -20,13 +20,14 @@ class Home extends Component {
     componentDidMount() {
         Api.comicGlobal((e) => {
             this.setState({
-                data: e
+                data: e,
+                selected: e[1].name
             });
         });
     }
 
     render() {
-        const { selected } = this.state;
+        const { selected, data } = this.state;
         // Create menu from items
         const menu = Menu(this.state.data, selected);
         return (
