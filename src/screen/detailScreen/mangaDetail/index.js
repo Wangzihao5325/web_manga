@@ -119,7 +119,8 @@ class MangaDetail extends PureComponent {
         order: true,
         nowPage: -1,
         totalPage: -1,
-        data: []
+        data: [],
+        guessLikeData: []
     }
 
     componentDidMount() {
@@ -132,13 +133,17 @@ class MangaDetail extends PureComponent {
                 mangaInfoObj: e
             });
         });
-
+        //漫画列表查询
         Api.comicResource(global_type, mangaId, 'asc', 1, 5, (e) => {
             this.setState({
                 nowPage: e.current_page,
                 totalPage: e.last_page,
                 data: e.data
             });
+        });
+        //猜你喜欢查询
+        Api.guessLike(mangaId, (e) => {
+            console.log(e);
         });
     }
 
@@ -186,6 +191,10 @@ class MangaDetail extends PureComponent {
                     <div><img style={{ height: 14, width: 14 }} src={require('../../../image/detail/more_chapter.png')} alt='' /></div>
                     <div style={{ fontSize: 15, color: 'rgb(255,42,49)', marginLeft: 2 }}>展开目录</div>
                 </div>
+
+                {
+
+                }
 
             </div>
         );
