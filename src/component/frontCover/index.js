@@ -24,7 +24,7 @@ class FrontCover extends Component {
 
     render() {
         return (
-            <div className='cover_container' style={{ height: VER_HEIGHT, width: VER_WIDTH, display: 'flex', flexDirection: 'column' }}>
+            <div onClick={this.coverClick} className='cover_container' style={{ height: VER_HEIGHT, width: VER_WIDTH, display: 'flex', flexDirection: 'column' }}>
                 <div style={{ width: VER_WIDTH, height: VER_IMAGE_HEIGHT }}>
                     <SecurtyImage borderRadius={5} style={{ width: VER_WIDTH, height: VER_IMAGE_HEIGHT }} source={this.props.source} />
                 </div>
@@ -32,6 +32,12 @@ class FrontCover extends Component {
                 <div className='text_div' style={{ color: 'rgb(168,168,168)', fontSize: 12 }}>{this.props.intro}</div>
             </div>
         );
+    }
+
+    coverClick = () => {
+        if (this.props.coverClick) {
+            this.props.coverClick();
+        }
     }
 }
 
@@ -66,7 +72,7 @@ class BannerCover extends Component {
 
     render() {
         return (
-            <div className='cover_container' style={{ height: BANNER_TOTAL_HEIGHT, width: BANNER_WIDTH, display: 'flex', flexDirection: 'column' }}>
+            <div onClick={this.coverClick} className='cover_container' style={{ height: BANNER_TOTAL_HEIGHT, width: BANNER_WIDTH, display: 'flex', flexDirection: 'column' }}>
                 <div style={{ width: BANNER_WIDTH, height: BANNER_IMAGE_HEIGHT }}>
                     <SecurtyImage borderRadius={5} style={{ width: BANNER_WIDTH, height: BANNER_IMAGE_HEIGHT }} source={this.props.source} />
                 </div>
@@ -74,6 +80,12 @@ class BannerCover extends Component {
                 <div className='text_div' style={{ color: 'rgb(168,168,168)', fontSize: 12 }}>{this.props.intro}</div>
             </div>
         );
+    }
+
+    coverClick = () => {
+        if (this.props.coverClick) {
+            this.props.coverClick();
+        }
     }
 }
 
@@ -101,7 +113,7 @@ class Comic3Item extends Component {
         }
 
         return (
-            <div style={{ marginTop: 10, width: COMIC3_ITEM_WIDTH, height: COMIC3_ITEM_HEIGHT, display: 'flex', flexDirection: 'row', backgroundColor: 'rgb(249,249,249)', borderRadius: 4 }}>
+            <div onClick={this.coverClick} style={{ marginTop: 10, width: COMIC3_ITEM_WIDTH, height: COMIC3_ITEM_HEIGHT, display: 'flex', flexDirection: 'row', backgroundColor: 'rgb(249,249,249)', borderRadius: 4 }}>
                 <div className='bg-image-container' style={{ position: 'relative', top: 6, left: 30, height: 28, width: 25, backgroundImage: `url(${indexTabImage})`, display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'white', marginTop: 5, fontSize: 12, fontWeight: 'bold' }}>
                     {this.props.index + 1}
                 </div>
@@ -129,6 +141,12 @@ class Comic3Item extends Component {
         );
     }
 
+    coverClick = () => {
+        if (this.props.coverClick) {
+            this.props.coverClick();
+        }
+    }
+
     _typeGen = () => {
 
     }
@@ -147,7 +165,7 @@ class Comic4Item extends Component {
 
     render() {
         return (
-            <div className='cover_container' style={{ height: COMIC4_TOTAL_HEIGHT, width: COMIC4_ITEM_WIDTH + 4, display: 'flex', flexDirection: 'column', justifyContent: 'start', alignItems: 'center', position: 'relative' }}>
+            <div onClick={this.coverClick} className='cover_container' style={{ height: COMIC4_TOTAL_HEIGHT, width: COMIC4_ITEM_WIDTH + 4, display: 'flex', flexDirection: 'column', justifyContent: 'start', alignItems: 'center', position: 'relative' }}>
                 <div className='bg-image-container' style={{ position: 'absolute', top: 0, left: 0, height: 28, width: 25, backgroundImage: `url(${indexTabImage})`, display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'white', fontSize: 12, fontWeight: 'bold' }}>
                     {this.props.index + 1}
                 </div>
@@ -158,6 +176,12 @@ class Comic4Item extends Component {
                 <div className='text_div' style={{ height: 30, width: COMIC4_ITEM_WIDTH, color: 'rgb(168,168,168)', fontSize: 12 }}>{this.props.item.intro}</div>
             </div>
         );
+    }
+
+    coverClick = () => {
+        if (this.props.coverClick) {
+            this.props.coverClick();
+        }
     }
 }
 

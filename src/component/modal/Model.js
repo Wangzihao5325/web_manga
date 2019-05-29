@@ -12,7 +12,7 @@ export default class Model extends Component {
     }
 
     render() {
-
+        console.log(this.props.data);
         return (
             <div style={{ flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <InfiniteScroll

@@ -38,6 +38,9 @@ class MangaInfoHeader extends PureComponent {
     render() {
         return (
             <div style={{ height: 330, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'column', position: 'relative' }}>
+                <div onClick={this.backBtnClick} style={{ zIndex: 20, height: 38, width: 38, position: 'absolute', top: 0, left: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <img style={{ height: 16, width: 8 }} src={require('../../../image/usual/usual_left_arrow_2.png')} alt='' />
+                </div>
                 <div style={{ zIndex: 10, position: 'absolute', top: 81, left: 20, height: 178, width: CLIENT_WIDTH - 40, display: 'flex', flexDirection: 'row' }}>
                     <div style={{ height: 178, width: 121, display: 'flex', flexDirection: 'column' }}>
                         <SecurtyImage borderRadius={4} style={{ height: 178, width: 121 }} source={this.props.item.cover_url} />
@@ -68,6 +71,12 @@ class MangaInfoHeader extends PureComponent {
             </div>
         );
     }
+
+    backBtnClick = () => {
+        if (this.props.goback) {
+            this.props.goback();
+        }
+    }
 }
 
 class MangaDetail extends PureComponent {
@@ -92,7 +101,7 @@ class MangaDetail extends PureComponent {
         return (
             <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }} >
                 {/* <HeaderPro title=' ' back={this.goBack} /> */}
-                {this.state.mangaInfoObj && <MangaInfoHeader item={this.state.mangaInfoObj} />}
+                {this.state.mangaInfoObj && <MangaInfoHeader goback={this.goBack} item={this.state.mangaInfoObj} />}
 
             </div>
         );

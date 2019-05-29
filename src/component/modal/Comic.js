@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../global/sizes';
 import { FrontCoverHo, FrontCover, HO_HEIGHT, VER_HEIGHT, BannerCover, BANNER_WIDTH, BANNER_TOTAL_HEIGHT, COMIC3_ITEM_HEIGHT, Comic3Item, Comic4Item, COMIC4_TOTAL_HEIGHT, COMIC4_ITEM_WIDTH } from '../../component/frontCover/index';
@@ -123,7 +125,16 @@ class SudokuVe extends Component {
                 break;
             }
             const item = data[i];
-            result.push(<FrontCover key={i} title={item.title} intro={item.intro} source={item.cover_url} />);
+            result.push(
+                <FrontCover
+                    key={i}
+                    title={item.title}
+                    intro={item.intro}
+                    source={item.cover_url}
+                    coverClick={() => { this.props.navi.push(`/manga_detail/${item.id}/${this.props.globalType}`) }}
+
+                />
+            );
         }
         return result;
     }
@@ -163,7 +174,7 @@ class Comic2 extends Component {
                     {this.props.title}
                 </div>
                 <div style={{ height: BANNER_TOTAL_HEIGHT, width: BANNER_WIDTH, display: 'flex', flexDirection: 'column' }}>
-                    <BannerCover title={bannerData.title} intro={bannerData.intro} source={bannerData.cover_url} />
+                    <BannerCover coverClick={() => { this.props.navi.push(`/manga_detail/${bannerData.id}/${this.props.globalType}`) }} title={bannerData.title} intro={bannerData.intro} source={bannerData.cover_url} />
                 </div>
                 <div style={{ marginTop: 10, height: VER_HEIGHT, width: Comic2_WIDTH, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
                     {
@@ -191,7 +202,16 @@ class Comic2 extends Component {
                 break;
             }
             const item = data[i];
-            result.push(<FrontCover key={i} title={item.title} intro={item.intro} source={item.cover_url} />);
+            result.push(
+                <FrontCover
+                    key={i}
+                    title={item.title}
+                    intro={item.intro}
+                    source={item.cover_url}
+                    coverClick={() => { this.props.navi.push(`/manga_detail/${item.id}/${this.props.globalType}`) }}
+
+                />
+            );
         }
         return result;
     }
@@ -243,7 +263,7 @@ class Comic3 extends Component {
             if (index > 2) {
                 return false;
             }
-            result.push(<Comic3Item index={index} key={index} item={item} />);
+            result.push(<Comic3Item index={index} key={index} item={item} coverClick={() => { this.props.navi.push(`/manga_detail/${item.id}/${this.props.globalType}`) }} />);
             return true;
         });
         return result;
@@ -286,7 +306,7 @@ class Comic4 extends Component {
             if (index >= this.props.limit) {
                 return false;
             }
-            result.push(<Comic4Item index={index} key={index} item={item} />);
+            result.push(<Comic4Item index={index} key={index} item={item} coverClick={() => { this.props.navi.push(`/manga_detail/${item.id}/${this.props.globalType}`) }} />);
             return true;
         });
         return result;
@@ -297,24 +317,32 @@ class Comic4 extends Component {
     }
 }
 
-export default class Comic extends Component {
+class Comic extends Component {
+
+    static contextTypes = {
+        GLOBAL_TYPE: PropTypes.string
+    }
 
     render() {
+        const { GLOBAL_TYPE } = this.context;
         switch (this.props.styleText) {
             /*
             case 's_sudoku_2':
                 return <SudokuHo title={this.props.title} data={this.props.data} limit={this.props.limit} />;
                 */
             case 'comic_1':
-                return <SudokuVe title={this.props.title} data={this.props.data} limit={this.props.limit} />;
+                return <SudokuVe navi={this.props.history} globalType={GLOBAL_TYPE} title={this.props.title} data={this.props.data} limit={this.props.limit} />;
             case 'comic_2':
-                return <Comic2 title={this.props.title} data={this.props.data} />;
+                return <Comic2 navi={this.props.history} globalType={GLOBAL_TYPE} title={this.props.title} data={this.props.data} />;
             case 'comic_3':
-                return <Comic3 title={this.props.title} data={this.props.data} limit={this.props.limit} />;
+                return <Comic3 navi={this.props.history} globalType={GLOBAL_TYPE} title={this.props.title} data={this.props.data} limit={this.props.limit} />;
             case 'comic_4':
-                return <Comic4 title={this.props.title} data={this.props.data} limit={this.props.limit} />;
+                return <Comic4 navi={this.props.history} globalType={GLOBAL_TYPE} title={this.props.title} data={this.props.data} limit={this.props.limit} />;
             default:
                 return null;
         }
     }
 }
+
+const ComicWithRouter = withRouter(Comic);
+export default ComicWithRouter;
