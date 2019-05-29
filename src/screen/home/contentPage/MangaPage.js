@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../../global/sizes';
 import Api from '../../../socket/index';
 import Model from '../../../component/modal/Model';
@@ -20,6 +21,16 @@ class MangaPage extends PureComponent {
         data: [],
         nowPage: -1,
         totalPage: -1,
+    }
+
+    static childContextTypes = {
+        GLOBAL_TYPE: PropTypes.string,
+    }
+
+    getChildContext() {
+        return {
+            GLOBAL_TYPE: this.props.type
+        }
     }
 
     componentDidMount() {

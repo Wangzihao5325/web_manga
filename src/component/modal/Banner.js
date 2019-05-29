@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../global/sizes';
 import SecurtyImage from '../../component/securtyImage/Image';
 
@@ -9,7 +10,12 @@ import { Carousel } from 'react-responsive-carousel';
 const WIDTH = CLIENT_WIDTH - 24;
 const HEIGHT = WIDTH / 2;
 
-class BannerItem extends Component {
+class BannerItem extends PureComponent {
+
+    static contextTypes = {
+        GLOBAL_TYPE: PropTypes.string
+    }
+
     render() {
         return (
             <div onClick={this.bannerPress} style={{ height: HEIGHT, width: WIDTH }}>
@@ -19,11 +25,12 @@ class BannerItem extends Component {
     }
 
     bannerPress = () => {
-        this.props.navi.push('/manga_detail/123/234');
+        const { GLOBAL_TYPE } = this.context;
+        this.props.navi.push(`/manga_detail/${this.props.item.id}/${GLOBAL_TYPE}`);
     }
 }
 
-class Banner extends Component {
+class Banner extends PureComponent {
 
     static defaultProps = {
         data: []

@@ -502,6 +502,29 @@ class api {
         this.securtyFetch(url, paramObj, onSuccess, onError);
     }
 
+    comicInfo(global_type, comic_id, onSuccess, onError) {
+        const url = '/api/comic-info';
+        const timestamp = (new Date().getTime() / 1000).toFixed(0);
+
+        if (!IsSecurty) {
+            let formData = new FormData();
+            formData.append('timestamp', timestamp);
+            formData.append('global_type', global_type);
+            formData.append('comic_id', comic_id);
+            this.normalFetch(url, formData, onSuccess, onError);
+            return;
+        }
+
+        let paramObj = {
+            comic_id,
+            global_type,
+            platform: PlatformStr,
+            timestamp
+        }
+
+        this.securtyFetch(url, paramObj, onSuccess, onError);
+    }
+
 }
 
 export default new api();

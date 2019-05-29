@@ -50,7 +50,7 @@ class AppRouter extends Component {
                         <Route path="/invite_list/" component={InviteList} />
                         <Route path="/coin_list/" component={CoinList} />
                         <Route path="/cg_detail/:id/:title" component={CGDetail} />
-                        <Route path="/manga_detail/:id/:title" component={MangaDetail} />
+                        <Route path="/manga_detail/:id/:type" component={MangaDetail} />
                     </Switch>
                     {this.props.popShow &&
                         <div
