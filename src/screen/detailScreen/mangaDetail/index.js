@@ -88,7 +88,7 @@ class ChapterCoverItem extends PureComponent {
         let dateStr = this.props.item.online_at;
         let coins = Math.abs(this.props.item.coins);
         return (
-            <div style={{ height: 75, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row' }}>
+            <div onClick={this.itemClick} style={{ height: 75, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row' }}>
                 <div style={{ height: 65, width: 108, marginLeft: 20, position: 'relative' }}>
                     {
                         this.props.item.is_pay === 1 &&
@@ -112,6 +112,12 @@ class ChapterCoverItem extends PureComponent {
                 }
             </div>
         );
+    }
+
+    itemClick = () => {
+        if (this.props.itemClick) {
+            this.props.itemClick(this.props.item.is_pay, this.props.item.id, this.props.item.resource_id);
+        }
     }
 }
 
@@ -176,7 +182,6 @@ class MangaDetail extends PureComponent {
         });
         //猜你喜欢查询
         Api.guessLike(mangaId, (e) => {
-            console.log(e);
             this.setState({
                 guessLikeData: e.data
             })
@@ -220,7 +225,7 @@ class MangaDetail extends PureComponent {
                 }
                 {
                     this.state.data.map((item, index) => {
-                        return <ChapterCoverItem key={index} item={item} />
+                        return <ChapterCoverItem key={index} item={item} itemClick={this.goToMangaRead} />
                     })
                 }
                 <div onClick={this.moreChapter} style={{ height: 20, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
@@ -232,13 +237,21 @@ class MangaDetail extends PureComponent {
                 <div style={{ height: 80, width: CLIENT_WIDTH }} />
                 <div style={{ backgroundColor: 'white', height: 80, width: CLIENT_WIDTH, position: 'fixed', left: 0, bottom: 0, display: 'flex', flexDirection: 'row' }}>
                     <div><img style={{ height: 80, width: 80 }} src={require('../../../image/detail/like.png')} alt='' /></div>
-                    <div style={{ fontSize:16,color:'white',marginTop: 10, borderTopLeftRadius: 4, borderTopRightRadius: 25, borderBottomLeftRadius: 25, borderBottomRightRadius: 25, backgroundColor: 'rgb(255,42,49)', height: 50, width: 268, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <div style={{ fontSize: 16, color: 'white', marginTop: 10, borderTopLeftRadius: 4, borderTopRightRadius: 25, borderBottomLeftRadius: 25, borderBottomRightRadius: 25, backgroundColor: 'rgb(255,42,49)', height: 50, width: 268, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                         立即阅读
                     </div>
                 </div>
 
             </div >
         );
+    }
+
+    goToMangaRead = (isPay, id, sourceId) => {
+        if (isPay) {
+
+        } else {
+            this.props.history.push(`/manga_read/${id}/${sourceId}/${this.props.match.params.type}`);
+        }
     }
 
     moreChapter = () => {

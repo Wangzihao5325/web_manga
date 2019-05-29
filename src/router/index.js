@@ -8,6 +8,7 @@ import { ToastsContainer, ToastsStore } from 'react-toasts';
 import Index from '../screen/home/index';
 import CGDetail from '../screen/detailScreen/cgDetail';
 import MangaDetail from '../screen/detailScreen/mangaDetail';
+import MangaRead from '../screen/detailScreen/mangaDetail/mangaRead';
 
 import Collect from '../screen/collect/index';
 
@@ -51,6 +52,7 @@ class AppRouter extends Component {
                         <Route path="/coin_list/" component={CoinList} />
                         <Route path="/cg_detail/:id/:title" component={CGDetail} />
                         <Route path="/manga_detail/:id/:type" component={MangaDetail} />
+                        <Route path="/manga_read/:id/:resource/:type" component={MangaRead} />
                     </Switch>
                     {this.props.popShow &&
                         <div
