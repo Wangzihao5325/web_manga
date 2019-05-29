@@ -5,3 +5,10 @@
         -ms-filter: blur(10px);    
             filter: blur(10px);    
 }
+
+.text_div{
+    white-space: nowrap;
+    text-overflow:ellipsis;
+    text-overflow: ellipsis;
+    overflow:hidden;
+}

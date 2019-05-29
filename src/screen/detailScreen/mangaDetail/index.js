@@ -9,6 +9,7 @@ import SecurtyImage from '../../../component/securtyImage/Image';
 import './index.css';
 import 'antd/dist/antd.css';
 import { Rate } from 'antd';
+import InfiniteScroll from 'react-infinite-scroller';
 
 class MangaInfoHeader extends PureComponent {
 
@@ -79,11 +80,46 @@ class MangaInfoHeader extends PureComponent {
     }
 }
 
+class ChapterCoverItem extends PureComponent {
+    render() {
+        let dateStr = this.props.item.online_at.split(' ')[0];
+        let coins = Math.abs(this.props.item.coins);
+        return (
+            <div style={{ height: 75, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row' }}>
+                <div style={{ height: 65, width: 108, marginLeft: 20, position: 'relative' }}>
+                    {
+                        this.props.item.is_pay === 1 &&
+                        <div style={{ color: 'rgb(255,42,49)', fontWeight: 'bold', position: 'absolute', top: 0, left: 0, height: 65, width: 108, borderRadius: 4, backgroundColor: 'rgba(0,0,0,0.7)', zIndex: 10, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                            C币购买
+                        </div>
+                    }
+                    <SecurtyImage borderRadius={4} style={{ height: 65, width: 108 }} source={this.props.item.cover_url} />
+                </div>
+                <div style={{ height: 65, width: 120, marginLeft: 13, display: 'flex', flexDirection: 'column' }}>
+                    <div className='text_div' style={{ marginTop: 6, fontSize: 14, color: 'rgb(34,34,34)' }}>{`第${this.props.item.index}话-${this.props.item.title}`}</div>
+                    <div className='text_div' style={{ marginTop: 9, fontSize: 12, color: 'rgb(168,168,168)' }}>{`${dateStr}`}</div>
+                </div>
+                <div style={{ flex: 1 }} />
+                {
+                    this.props.item.is_pay === 1 &&
+                    <div style={{ alignSelf: 'center', width: 50, height: 20, marginRight: 20, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
+                        <div style={{ height: 20, width: 20, borderRadius: 10, backgroundColor: 'rgb(255,42,49)', fontSize: 18, color: 'white', fontWeight: 'bold', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>C</div>
+                        <div style={{ color: 'rgb(255,42,49)', fontSize: 18 }}>{`${coins}`}</div>
+                    </div>
+                }
+            </div>
+        );
+    }
+}
+
 class MangaDetail extends PureComponent {
 
     state = {
         mangaInfoObj: null,
-        order: true
+        order: true,
+        nowPage: -1,
+        totalPage: -1,
+        data: []
     }
 
     componentDidMount() {
@@ -92,14 +128,17 @@ class MangaDetail extends PureComponent {
         const global_type = this.props.match.params.type;
         //查询漫画详情
         Api.comicInfo(global_type, mangaId, (e) => {
-            console.log(e);
             this.setState({
                 mangaInfoObj: e
             });
         });
 
         Api.comicResource(global_type, mangaId, 'asc', 1, 5, (e) => {
-            console.log(e);
+            this.setState({
+                nowPage: e.current_page,
+                totalPage: e.last_page,
+                data: e.data
+            });
         });
     }
 
@@ -118,35 +157,68 @@ class MangaDetail extends PureComponent {
         return (
             <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }} >
                 {/* <HeaderPro title=' ' back={this.goBack} /> */}
+
                 {this.state.mangaInfoObj && <MangaInfoHeader goback={this.goBack} item={this.state.mangaInfoObj} />}
-                <div style={{ height: 20, width: CLIENT_WIDTH - 40, alignSelf: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex', flexDirection: 'row' }}>
-                        <div style={{ fontSize: 13, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>{`${text}`}</div>
-                        <div style={{ fontSize: 13, color: 'rgb(255,42,49)', fontWeight: 'bold' }}>{`(更新至${totalNum}话)`}</div>
-                    </div>
-                    <div style={{ height: 20, width: 80, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                        <div onClick={this.normalOrder} style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: this.state.order ? 'rgb(255,42,49)' : 'rgb(34,34,34)' }}>
-                            正序
+                {
+                    this.state.mangaInfoObj &&
+                    <div style={{ marginBottom: 20, height: 20, width: CLIENT_WIDTH - 40, alignSelf: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                            <div style={{ fontSize: 13, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>{`${text}`}</div>
+                            <div style={{ fontSize: 13, color: 'rgb(255,42,49)', fontWeight: 'bold' }}>{`(更新至${totalNum}话)`}</div>
                         </div>
-                        <div style={{ height: 16, width: 1, backgroundColor: 'rgb(168,168,168)' }} />
-                        <div onClick={this.unnormalOrder} style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: this.state.order ? 'rgb(34,34,34)' : 'rgb(255,42,49)' }}>
-                            倒序
+                        <div style={{ height: 20, width: 80, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                            <div onClick={this.normalOrder} style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: this.state.order ? 'rgb(255,42,49)' : 'rgb(34,34,34)' }}>
+                                正序
+                        </div>
+                            <div style={{ height: 16, width: 1, backgroundColor: 'rgb(168,168,168)' }} />
+                            <div onClick={this.unnormalOrder} style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: this.state.order ? 'rgb(34,34,34)' : 'rgb(255,42,49)' }}>
+                                倒序
+                        </div>
                         </div>
                     </div>
+                }
+                {
+                    this.state.data.map((item, index) => {
+                        return <ChapterCoverItem key={index} item={item} />
+                    })
+                }
+                <div onClick={this.moreChapter} style={{ height: 20, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                    <div><img style={{ height: 14, width: 14 }} src={require('../../../image/detail/more_chapter.png')} alt='' /></div>
+                    <div style={{ fontSize: 15, color: 'rgb(255,42,49)', marginLeft: 2 }}>展开目录</div>
                 </div>
+
             </div>
         );
+    }
+
+    moreChapter = () => {
+
     }
 
     normalOrder = () => {
         this.setState({
             order: true
         });
+        Api.comicResource(this.props.match.params.type, this.props.match.params.id, 'asc', 1, 5, (e) => {
+            this.setState({
+                nowPage: e.current_page,
+                totalPage: e.last_page,
+                data: e.data
+            });
+        });
+
     }
 
     unnormalOrder = () => {
         this.setState({
             order: false
+        });
+        Api.comicResource(this.props.match.params.type, this.props.match.params.id, 'desc', 1, 5, (e) => {
+            this.setState({
+                nowPage: e.current_page,
+                totalPage: e.last_page,
+                data: e.data
+            });
         });
     }
 
