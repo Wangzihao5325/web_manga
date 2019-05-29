@@ -97,6 +97,10 @@ class MangaDetail extends PureComponent {
                 mangaInfoObj: e
             });
         });
+
+        Api.comicResource(global_type, mangaId, 'asc', 1, 5, (e) => {
+            console.log(e);
+        });
     }
 
     render() {
