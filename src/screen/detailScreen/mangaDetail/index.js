@@ -82,7 +82,8 @@ class MangaInfoHeader extends PureComponent {
 class MangaDetail extends PureComponent {
 
     state = {
-        mangaInfoObj: null
+        mangaInfoObj: null,
+        order: true
     }
 
     componentDidMount() {
@@ -91,6 +92,7 @@ class MangaDetail extends PureComponent {
         const global_type = this.props.match.params.type;
         //查询漫画详情
         Api.comicInfo(global_type, mangaId, (e) => {
+            console.log(e);
             this.setState({
                 mangaInfoObj: e
             });
@@ -98,13 +100,50 @@ class MangaDetail extends PureComponent {
     }
 
     render() {
+        let isEnd = false;
+        let text = '连载中';
+        let totalNum = 0;
+        if (this.state.mangaInfoObj) {
+            isEnd = this.state.mangaInfoObj.dump_status === 1 ? true : false;
+            totalNum = this.state.mangaInfoObj.resource_total
+        }
+        if (isEnd) {
+            text = '已完结';
+        }
+
         return (
             <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }} >
                 {/* <HeaderPro title=' ' back={this.goBack} /> */}
                 {this.state.mangaInfoObj && <MangaInfoHeader goback={this.goBack} item={this.state.mangaInfoObj} />}
-
+                <div style={{ height: 20, width: CLIENT_WIDTH - 40, alignSelf: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                        <div style={{ fontSize: 13, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>{`${text}`}</div>
+                        <div style={{ fontSize: 13, color: 'rgb(255,42,49)', fontWeight: 'bold' }}>{`(更新至${totalNum}话)`}</div>
+                    </div>
+                    <div style={{ height: 20, width: 80, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <div onClick={this.normalOrder} style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: this.state.order ? 'rgb(255,42,49)' : 'rgb(34,34,34)' }}>
+                            正序
+                        </div>
+                        <div style={{ height: 16, width: 1, backgroundColor: 'rgb(168,168,168)' }} />
+                        <div onClick={this.unnormalOrder} style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: this.state.order ? 'rgb(34,34,34)' : 'rgb(255,42,49)' }}>
+                            倒序
+                        </div>
+                    </div>
+                </div>
             </div>
         );
+    }
+
+    normalOrder = () => {
+        this.setState({
+            order: true
+        });
+    }
+
+    unnormalOrder = () => {
+        this.setState({
+            order: false
+        });
     }
 
     goBack = () => {
