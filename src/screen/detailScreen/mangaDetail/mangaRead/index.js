@@ -91,7 +91,7 @@ class ChapterItem extends PureComponent {
     render() {
         let coins = Math.abs(this.props.item.coins);
         return (
-            <div style={{ width: 281, height: 55, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+            <div id={`chapter_list_${this.props.index}`} style={{ width: 281, height: 55, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', height: 54, width: 250, borderBottomColor: 'rgb(50,50,50)', borderBottomWidth: 1, borderBottomStyle: 'solid' }}>
                     <div style={{ fontSize: 13, color: 'white' }}>{`${this.props.item.index}-${this.props.item.title}`}</div>
                     {
@@ -113,8 +113,6 @@ class MangaRead extends PureComponent {
         chapterListData: [],
         nowPage: -1,
         totalPage: -1,
-        chapterNowPage: -1,
-        chapterTotalPage: -1,
         isControllerShow: true,
         isDrawerShow: false,
         title: '',
@@ -122,6 +120,8 @@ class MangaRead extends PureComponent {
         isEnd: 0,
         isEndText: '',
         order: true,
+        nowChapterDataIndex: 0,        //当前章节在章节列表中的位置
+        nowChapterIndex: 0             //当前章节的话数
     }
 
     componentDidMount() {
@@ -160,13 +160,27 @@ class MangaRead extends PureComponent {
                 chapterTotalPage: e.last_page,
                 chapterListData: e.data
             });
+            e.data.every((item, index) => {
+                if (item.resource_id === source) {
+                    let nowChapterDataIndex = index;
+                    let nowChapterIndex = item.index;
+                    let chapterTitle = item.title;
+                    this.setState({
+                        nowChapterDataIndex,
+                        nowChapterIndex,
+                        title: chapterTitle
+                    });
+                    return false;
+                }
+                return true;
+            });
         });
     }
 
     render() {
         return (
             <div onClick={this.controllerStateChange} style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }} >
-                {this.state.isControllerShow && <Header title={`第${this.props.match.params.resource}话`} back={this.goBack} rightBtnText='分享' rigthBtnClick={this.share} />}
+                {this.state.isControllerShow && <Header title={`第${this.state.nowChapterIndex}话`} back={this.goBack} rightBtnText='分享' rigthBtnClick={this.share} />}
                 <div style={{ height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <InfiniteScroll
                         pageStart={0}
@@ -208,12 +222,13 @@ class MangaRead extends PureComponent {
                         </div>
                         </div>
                     </div>
-                    <div style={{ height: 80, width: 281 }} />
-                    {
-                        this.state.chapterListData.map((item, index) => {
-                            return <ChapterItem key={index} item={item} index={index} />;
-                        })
-                    }
+                    <div style={{ marginTop: 80 }} >
+                        {
+                            this.state.chapterListData.map((item, index) => {
+                                return <ChapterItem key={index} item={item} index={item.index} />;
+                            })
+                        }
+                    </div>
                 </Drawer>
                 {this.state.isControllerShow && <Bottom drawShow={this.drawOnShow} />}
             </div>
@@ -247,6 +262,11 @@ class MangaRead extends PureComponent {
     drawOnShow = () => {
         this.setState({
             isDrawerShow: true
+        }, () => {
+            let anchorElement = document.getElementById(`chapter_list_${this.state.nowChapterIndex}`);
+            if (anchorElement) {        // 如果对应id的锚点存在，就跳转到锚点
+                anchorElement.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            }
         });
     }
 
