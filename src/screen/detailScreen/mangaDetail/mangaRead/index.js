@@ -7,6 +7,8 @@ import { HeaderPro } from '../../../../component/header/index';
 import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../../../global/sizes';
 import Api from '../../../../socket/index';
 import SecurtyImage from '../../../../component/securtyImage/Image';
+import 'antd/dist/antd.css';
+import { Drawer } from 'antd';
 
 const dis_time = 5000;
 
@@ -25,7 +27,7 @@ class Header extends PureComponent {
         return (
             <div style={{ backgroundColor: 'rgb(34,34,34)', position: 'fixed', top: 0, left: 0, height: 38, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                 <div onClick={this.goBack} style={{ height: 38, width: 70, marginLeft: 15, display: 'flex', alignItems: 'center' }}>
-                    <img style={{ height: 16, width: 8 }} src={require('../../../../image/usual/usual_left_arrow_2.png')} alt='' />
+                    <img style={{ height: 16, width: 8 }} src={require('../../../../image/detail/back_white.png')} alt='' />
                 </div>
                 <div className='text_div' style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <div className='text_div' style={{ fontSize: 18, color: 'white' }}>{this.props.title}</div>
@@ -55,22 +57,33 @@ class Bottom extends PureComponent {
         return (
             <div style={{ height: 64, width: CLIENT_WIDTH, display: 'flex', backgroundColor: 'rgb(34,34,34)', position: 'fixed', bottom: 0, left: 0 }}>
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <div style={{ height: 27, width: 27, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 23, width: 27 }} src={require('../../../../image/detail/manga_read_left_arrow.png')} alt='' /></div>
                     <div style={{ color: 'white' }}>上一话</div>
                 </div>
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <div style={{ height: 27, width: 27, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 27, width: 27 }} src={require('../../../../image/detail/heart.png')} alt='' /></div>
                     <div style={{ color: 'white' }}>收藏</div>
                 </div>
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <div style={{ height: 27, width: 27, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 27, width: 27 }} src={require('../../../../image/detail/star.png')} alt='' /></div>
                     <div style={{ color: 'white' }}>评分</div>
                 </div>
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                <div onClick={this.draweShow} style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <div style={{ height: 27, width: 27, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 20, width: 24 }} src={require('../../../../image/detail/list.png')} alt='' /></div>
                     <div style={{ color: 'white' }}>目录</div>
                 </div>
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <div style={{ height: 27, width: 27, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 23, width: 27 }} src={require('../../../../image/detail/manga_read_right_arrow.png')} alt='' /></div>
                     <div style={{ color: 'white' }}>下一话</div>
                 </div>
             </div>
         );
+    }
+
+    draweShow = () => {
+        if (this.props.drawShow) {
+            this.props.drawShow();
+        }
     }
 }
 
@@ -80,7 +93,8 @@ class MangaRead extends PureComponent {
         nowPage: -1,
         totalPage: -1,
         title: '',
-        isControllerShow: true
+        isControllerShow: true,
+        isDrawerShow: false
     }
 
     componentDidMount() {
@@ -113,7 +127,7 @@ class MangaRead extends PureComponent {
                         hasMore={true}
                         useWindow={false}
                         getScrollParent={() => this.scrollParentRef}
-                        threshold={100}
+                        threshold={250}
                         loadMore={this._loadMore}
                     >
                         {
@@ -124,9 +138,32 @@ class MangaRead extends PureComponent {
                         {/* <div style={{ height: 80, width: CLIENT_WIDTH - 24 }} />*/}{/**底部垫高，防止正文部分被bottom遮挡 */}
                     </InfiniteScroll>
                 </div>
-                {this.state.isControllerShow && <Bottom />}
+                <Drawer
+                    title="Basic Drawer"
+                    placement="right"
+                    closable={false}
+                    onClose={this.draweOnClose}
+                    visible={this.state.isDrawerShow}
+                >
+                    <p>Some contents...</p>
+                    <p>Some contents...</p>
+                    <p>Some contents...</p>
+                </Drawer>
+                {this.state.isControllerShow && <Bottom drawShow={this.drawOnShow} />}
             </div>
         );
+    }
+
+    drawOnShow = () => {
+        this.setState({
+            isDrawerShow: true
+        });
+    }
+
+    draweOnClose = () => {
+        this.setState({
+            isDrawerShow: false
+        });
     }
 
     controllerStateChange = () => {
