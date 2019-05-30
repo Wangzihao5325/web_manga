@@ -192,11 +192,11 @@ class MangaRead extends PureComponent {
                     visible={this.state.isDrawerShow}
                     width={281}
                 >
-                    <div style={{ height: 42, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: 'white' }}>
+                    <div style={{ position: 'fixed', top: 0, right: 0, height: 42, width: 281, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: 'white', backgroundColor: 'rgb(34,34,34)' }}>
                         {this.state.title}
                     </div>
 
-                    <div style={{ paddingLeft: 24, paddingRight: 24, backgroundColor: 'rgb(19,19,19)', height: 38, width: 281, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ position: 'fixed', top: 42, right: 0, paddingLeft: 24, paddingRight: 24, backgroundColor: 'rgb(19,19,19)', height: 38, width: 281, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <div style={{ fontSize: 13, color: 'rgb(168,168,168)' }}>{`共话${this.state.totalChapter} ${this.state.isEndText}`}</div>
                         <div style={{ height: 20, width: 80, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                             <div onClick={this.normalOrder} style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: this.state.order ? 'rgb(255,42,49)' : 'rgb(168,168,168)' }}>
@@ -208,9 +208,10 @@ class MangaRead extends PureComponent {
                         </div>
                         </div>
                     </div>
+                    <div style={{ height: 80, width: 281 }} />
                     {
                         this.state.chapterListData.map((item, index) => {
-                            return <ChapterItem key={index} item={item} />;
+                            return <ChapterItem key={index} item={item} index={index} />;
                         })
                     }
                 </Drawer>
