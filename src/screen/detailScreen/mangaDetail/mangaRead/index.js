@@ -87,14 +87,41 @@ class Bottom extends PureComponent {
     }
 }
 
+class ChapterItem extends PureComponent {
+    render() {
+        let coins = Math.abs(this.props.item.coins);
+        return (
+            <div style={{ width: 281, height: 55, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', height: 54, width: 250, borderBottomColor: 'rgb(50,50,50)', borderBottomWidth: 1, borderBottomStyle: 'solid' }}>
+                    <div style={{ fontSize: 13, color: 'white' }}>{`${this.props.item.index}-${this.props.item.title}`}</div>
+                    {
+                        this.props.item.is_pay === 1 &&
+                        <div style={{ alignSelf: 'center', width: 50, height: 20, marginRight: 20, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
+                            <div style={{ height: 20, width: 20, borderRadius: 10, backgroundColor: 'rgb(255,42,49)', fontWeight: 'bold', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}><dic style={{ fontSize: 14, color: 'white' }}>C</dic></div>
+                            <div style={{ color: 'rgb(255,42,49)', fontSize: 18 }}>{`${coins}`}</div>
+                        </div>
+                    }
+                </div>
+            </div>
+        );
+    }
+}
+
 class MangaRead extends PureComponent {
     state = {
         data: [],
+        chapterListData: [],
         nowPage: -1,
         totalPage: -1,
-        title: '',
+        chapterNowPage: -1,
+        chapterTotalPage: -1,
         isControllerShow: true,
-        isDrawerShow: false
+        isDrawerShow: false,
+        title: '',
+        totalChapter: 0,
+        isEnd: 0,
+        isEndText: '',
+        order: true,
     }
 
     componentDidMount() {
@@ -113,6 +140,25 @@ class MangaRead extends PureComponent {
                         isControllerShow: false
                     });
                 }, dis_time)
+            });
+        });
+        Api.comicInfo(type, id, (e) => {
+            let endText = '连载中';
+            if (e.dump_status) {
+                endText = '已完结';
+            }
+            this.setState({
+                title: e.title,
+                totalChapter: e.resource_total,
+                isEnd: e.dump_status,
+                isEndText: endText
+            });
+        });
+        Api.comicResource(type, id, 'asc', 1, 1000, (e) => {
+            this.setState({
+                chapterNowPage: e.current_page,
+                chapterTotalPage: e.last_page,
+                chapterListData: e.data
             });
         });
     }
@@ -139,19 +185,62 @@ class MangaRead extends PureComponent {
                     </InfiniteScroll>
                 </div>
                 <Drawer
-                    title="Basic Drawer"
+                    bodyStyle={{ backgroundColor: 'rgb(34,34,34)', padding: 0 }}
                     placement="right"
                     closable={false}
                     onClose={this.draweOnClose}
                     visible={this.state.isDrawerShow}
+                    width={281}
                 >
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
+                    <div style={{ height: 42, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: 'white' }}>
+                        {this.state.title}
+                    </div>
+
+                    <div style={{ paddingLeft: 24, paddingRight: 24, backgroundColor: 'rgb(19,19,19)', height: 38, width: 281, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div style={{ fontSize: 13, color: 'rgb(168,168,168)' }}>{`共话${this.state.totalChapter} ${this.state.isEndText}`}</div>
+                        <div style={{ height: 20, width: 80, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                            <div onClick={this.normalOrder} style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: this.state.order ? 'rgb(255,42,49)' : 'rgb(168,168,168)' }}>
+                                正序
+                        </div>
+                            <div style={{ height: 16, width: 1, backgroundColor: 'rgb(168,168,168)' }} />
+                            <div onClick={this.unnormalOrder} style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: this.state.order ? 'rgb(168,168,168)' : 'rgb(255,42,49)' }}>
+                                倒序
+                        </div>
+                        </div>
+                    </div>
+                    {
+                        this.state.chapterListData.map((item, index) => {
+                            return <ChapterItem key={index} item={item} />;
+                        })
+                    }
                 </Drawer>
                 {this.state.isControllerShow && <Bottom drawShow={this.drawOnShow} />}
             </div>
         );
+    }
+
+    _loadMore = () => {
+
+    }
+
+    normalOrder = () => {
+        this.setState((preState) => {
+            let newData = preState.chapterListData.reverse();
+            return {
+                order: true,
+                chapterListData: newData
+            }
+        });
+    }
+
+    unnormalOrder = () => {
+        this.setState((preState) => {
+            let newData = preState.chapterListData.reverse();
+            return {
+                order: false,
+                chapterListData: newData
+            }
+        });
     }
 
     drawOnShow = () => {
