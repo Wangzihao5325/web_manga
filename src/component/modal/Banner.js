@@ -45,6 +45,7 @@ class Banner extends PureComponent {
                     showThumbs={false}
                     autoPlay={true}
                     interval={2000}
+                    showIndicators={false}
                 >
                     {
                         this.props.data.map((item, index) => {

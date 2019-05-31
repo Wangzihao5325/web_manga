@@ -16,6 +16,9 @@ class Search extends PureComponent {
         return (
             <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }} >
                 <HeaderPro title='搜索' back={this.goBack} />
+                <div style={{ height: 40, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                    
+                </div>
             </div>
         );
     }
