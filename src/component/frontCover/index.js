@@ -95,6 +95,31 @@ const COMIC3_ITEM_IMAGE_HEIGHT = COMIC3_ITEM_HEIGHT - 30;
 const COMIC3_ITEM_IMAGE_WIDTH = COMIC3_ITEM_IMAGE_HEIGHT / 1.5;
 
 class Comic3Item extends Component {
+
+
+    state = {
+        tabs: []
+    }
+
+    componentDidMount() {
+        let tabDataArr = [];
+        if (this.props.item.is_new) {
+            tabDataArr.push({ title: '新作', color: 'rgb(255,163,163)' });
+        }
+        if (this.props.item.is_recommend) {
+            tabDataArr.push({ title: '推荐', color: 'rgb(158,244,255)' });
+        }
+        if (this.props.item.is_pay) {
+            tabDataArr.push({ title: '免费', color: 'rgb(255,196,174)' });
+        }
+        if (this.props.item.dump_status) {
+            tabDataArr.push({ title: '完结', color: 'rgb(218,174,255)' });
+        }
+        this.setState({
+            tabs: tabDataArr
+        });
+    }
+
     render() {
         let hotImage = require('../../image/main/first_fire.png');
         switch (this.props.index) {
@@ -111,7 +136,7 @@ class Comic3Item extends Component {
                 hotImage = require('../../image/main/third_fire.png');
                 break;
         }
-
+        let rateScroll = parseInt(((this.props.item.score.toFixed(0)) / 2).toFixed(0));
         return (
             <div onClick={this.coverClick} style={{ marginTop: 10, width: COMIC3_ITEM_WIDTH, height: COMIC3_ITEM_HEIGHT, display: 'flex', flexDirection: 'row', backgroundColor: 'rgb(249,249,249)', borderRadius: 4 }}>
                 <div className='bg-image-container' style={{ position: 'relative', top: 6, left: 30, height: 28, width: 25, backgroundImage: `url(${indexTabImage})`, display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'white', marginTop: 5, fontSize: 12, fontWeight: 'bold' }}>
@@ -122,19 +147,21 @@ class Comic3Item extends Component {
                 </div>
                 <div style={{ marginRight: 18, marginLeft: 21, flex: 1, height: COMIC3_ITEM_IMAGE_HEIGHT, display: 'flex', flexDirection: 'column', alignSelf: 'center' }}>
                     <div className='text_div' style={{ fontSize: 15, color: 'rgb(34,34,34)', fontWeight: 'bold', marginTop: 3 }}>{this.props.item.title}</div>
-                    <div style={{ height: 20, display: 'flex', flexDirection: 'row', backgroundColor: 'yellow' }}>
-
+                    <div style={{ height: 20, marginTop: 13, display: 'flex', flexDirection: 'row' }}>
+                        {this.state.tabs.map((item, index) => {
+                            return <div key={index} style={{ borderRadius: 3, marginRight: 4, height: 18, width: 35, backgroundColor: item.color, color: 'white', fontSize: 11, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>{item.title}</div>
+                        })}
                     </div>
                     <div style={{ marginTop: 5, height: 30, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                        <Rate disabled defaultValue={2} />
-                        <div style={{ fontSize: 18, color: 'rgb(168,168,168)', fontWeight: 'bold' }}>10</div>
+                        <Rate disabled defaultValue={rateScroll} />
+                        <div style={{ fontSize: 18, color: 'rgb(168,168,168)', fontWeight: 'bold' }}>{`${this.props.item.score}`}</div>
                     </div>
                     <div style={{ marginTop: 5, height: 20, display: 'flex', flexDirection: 'row', fontSize: 13, color: 'rgb(168,168,168)' }}>
-                        更新至108话
+                        {`更新至${this.props.item.resource_total}话`}
                     </div>
                     <div style={{ marginTop: 5, height: 20, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <div><img style={{ height: 17, width: 17 }} src={hotImage} alt='' /></div>
-                        <div style={{ fontSize: 16, color: 'rgb(255,42,49)', marginLeft: 6 }}>1234</div>
+                        <div style={{ fontSize: 16, color: 'rgb(255,42,49)', marginLeft: 6, fontWeight: 'bold' }}>{this.props.item.hot}</div>
                     </div>
                 </div>
             </div>
@@ -166,7 +193,7 @@ class Comic4Item extends Component {
     render() {
         return (
             <div onClick={this.coverClick} className='cover_container' style={{ height: COMIC4_TOTAL_HEIGHT, width: COMIC4_ITEM_WIDTH + 4, display: 'flex', flexDirection: 'column', justifyContent: 'start', alignItems: 'center', position: 'relative' }}>
-                <div className='bg-image-container' style={{ position: 'absolute', top: 0, left: 0, height: 28, width: 25, backgroundImage: `url(${indexTabImage})`, display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'white', fontSize: 12, fontWeight: 'bold' }}>
+                <div className='bg-image-container' style={{ position: 'absolute', top: 0, left: 5, height: 28, width: 25, backgroundImage: `url(${indexTabImage})`, display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'white', fontSize: 12, fontWeight: 'bold' }}>
                     {this.props.index + 1}
                 </div>
                 <div style={{ width: COMIC4_ITEM_WIDTH, height: COMIC4_IMAGE_HEIGHT, display: 'flex', flexDirection: 'column', marginTop: 4 }}>
