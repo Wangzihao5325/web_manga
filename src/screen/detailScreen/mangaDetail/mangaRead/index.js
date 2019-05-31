@@ -391,16 +391,17 @@ class MangaRead extends PureComponent {
     }
 
     controllerStateChange = () => {
+        if (this.state.isDrawerShow) {
+            return;
+        }
         if (this.timer) {
             clearTimeout(this.timer);
             this.timer = null;
         }
         if (this.state.isControllerShow) {
-            this.timer = setTimeout(() => {
-                this.setState({
-                    isControllerShow: false
-                });
-            }, dis_time);
+            this.setState({
+                isControllerShow: false
+            });
         } else {
             this.setState({
                 isControllerShow: true
