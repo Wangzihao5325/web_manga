@@ -141,9 +141,9 @@ class Comic3Item extends Component {
         }
         let rateScroll = parseInt(((this.props.item.score.toFixed(0)) / 2).toFixed(0));
         return (
-            <div onClick={this.coverClick} style={{ marginTop: 10, width: COMIC3_ITEM_WIDTH, height: COMIC3_ITEM_HEIGHT, display: 'flex', flexDirection: 'row', backgroundColor: 'rgb(249,249,249)', borderRadius: 4 }}>
+            <div onClick={this.coverClick} style={{ position: 'relative', marginTop: 10, width: COMIC3_ITEM_WIDTH, height: COMIC3_ITEM_HEIGHT, display: 'flex', flexDirection: 'row', backgroundColor: 'rgb(249,249,249)', borderRadius: 4 }}>
                 {!this.props.isHiddenIndexTab &&
-                    <div className='bg-image-container' style={{ position: 'relative', top: 6, left: 30, height: 28, width: 25, backgroundImage: `url(${indexTabImage})`, display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'white', marginTop: 5, fontSize: 12, fontWeight: 'bold' }}>
+                    <div className='bg-image-container' style={{ position: 'absolute', top: 6, left: 8, height: 28, width: 25, backgroundImage: `url(${indexTabImage})`, display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'white', marginTop: 5, fontSize: 12, fontWeight: 'bold' }}>
                         {this.props.index + 1}
                     </div>
                 }

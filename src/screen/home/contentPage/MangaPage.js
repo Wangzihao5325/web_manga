@@ -54,12 +54,20 @@ class MangaPage extends PureComponent {
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <div style={{ marginTop: 10, marginBottom: 15, justifyContent: 'space-between', height: 34, width: CLIENT_WIDTH - 24, alignSelf: 'center', alignItems: 'center', display: 'flex', flexDirection: 'row' }}>
                     <SearchBtn search={this.goToSearch} />
-                    <div><img style={{ height: 20, width: 20 }} src={require('../../../image/main/leaderBoard.png')} alt='' /></div>
-                    <div><img style={{ height: 20, width: 20 }} src={require('../../../image/main/main_types.png')} alt='' /></div>
+                    <div onClick={this.goToLeaderboard}><img style={{ height: 20, width: 20 }} src={require('../../../image/main/leaderBoard.png')} alt='' /></div>
+                    <div onClick={this.goToType}><img style={{ height: 20, width: 20 }} src={require('../../../image/main/main_types.png')} alt='' /></div>
                 </div>
                 <Model loadMore={this._loadMore} data={this.state.data} />
             </div>
         );
+    }
+
+    goToLeaderboard = () => {
+        this.props.navi.push('/leaderBoard/');
+    }
+
+    goToType = () => {
+
     }
 
     goToSearch = () => {
