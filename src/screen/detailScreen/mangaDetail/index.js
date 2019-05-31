@@ -148,7 +148,7 @@ class GuessLike extends PureComponent {
 
     itemsGen = (data) => {
         let result = data.map((item, index) => {
-            return <FrontCover key={index} title={item.title} intro={item.intro} source={item.cover_url} coverClick={() => { this.props.navi.push(`/manga_detail/${item.id}/${this.props.globalType}`) }} />;
+            return <FrontCover key={index} title={item.title} intro={item.intro} source={item.cover_url} coverClick={() => { this.props.navi.replace(`/manga_detail/${item.id}/${this.props.globalType}`) }} />;
         });
         return result;
     }
@@ -189,6 +189,35 @@ class MangaDetail extends PureComponent {
                 guessLikeData: e.data
             })
         });
+    }
+
+    componentDidUpdate(preProps) {
+        const mangaId = preProps.match.params.id;
+        const newMangaId = this.props.match.params.id;
+        if (mangaId !== newMangaId) {
+            const global_type = this.props.match.params.type;
+            //查询漫画详情
+            Api.comicInfo(global_type, newMangaId, (e) => {
+                this.setState({
+                    mangaInfoObj: e
+                });
+            });
+            //漫画列表查询
+            let orderKey = this.state.order ? 'asc' : 'desc';
+            Api.comicResource(global_type, newMangaId, orderKey, 1, 5, (e) => {
+                this.setState({
+                    nowPage: e.current_page,
+                    totalPage: e.last_page,
+                    data: e.data
+                });
+            });
+            //猜你喜欢查询
+            Api.guessLike(newMangaId, (e) => {
+                this.setState({
+                    guessLikeData: e.data
+                })
+            });
+        }
     }
 
     render() {
