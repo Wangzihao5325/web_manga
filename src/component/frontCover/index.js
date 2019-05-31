@@ -96,6 +96,9 @@ const COMIC3_ITEM_IMAGE_WIDTH = COMIC3_ITEM_IMAGE_HEIGHT / 1.5;
 
 class Comic3Item extends Component {
 
+    static defaultProps = {
+        isHiddenIndexTab: false
+    }
 
     state = {
         tabs: []
@@ -139,9 +142,11 @@ class Comic3Item extends Component {
         let rateScroll = parseInt(((this.props.item.score.toFixed(0)) / 2).toFixed(0));
         return (
             <div onClick={this.coverClick} style={{ marginTop: 10, width: COMIC3_ITEM_WIDTH, height: COMIC3_ITEM_HEIGHT, display: 'flex', flexDirection: 'row', backgroundColor: 'rgb(249,249,249)', borderRadius: 4 }}>
-                <div className='bg-image-container' style={{ position: 'relative', top: 6, left: 30, height: 28, width: 25, backgroundImage: `url(${indexTabImage})`, display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'white', marginTop: 5, fontSize: 12, fontWeight: 'bold' }}>
-                    {this.props.index + 1}
-                </div>
+                {!this.props.isHiddenIndexTab &&
+                    <div className='bg-image-container' style={{ position: 'relative', top: 6, left: 30, height: 28, width: 25, backgroundImage: `url(${indexTabImage})`, display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'white', marginTop: 5, fontSize: 12, fontWeight: 'bold' }}>
+                        {this.props.index + 1}
+                    </div>
+                }
                 <div style={{ marginTop: 15, marginBottom: 15, alignSelf: 'center', display: 'flex' }}>
                     <SecurtyImage borderRadius={5} style={{ width: COMIC3_ITEM_IMAGE_WIDTH, height: COMIC3_ITEM_IMAGE_HEIGHT }} source={this.props.item.cover_url} />
                 </div>
