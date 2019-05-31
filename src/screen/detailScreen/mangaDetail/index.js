@@ -39,6 +39,9 @@ class MangaInfoHeader extends PureComponent {
     }
 
     render() {
+        let hotNum = this.props.item.hot ? this.props.item.hot : 0;
+        let score = this.props.item.score ? this.props.item.score : 0;
+        let rateScore = parseInt((score.toFixed(0) / 2).toFixed(0));
         return (
             <div style={{ height: 330, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'column', position: 'relative' }}>
                 <div onClick={this.backBtnClick} style={{ zIndex: 20, height: 38, width: 38, position: 'absolute', top: 0, left: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
@@ -52,11 +55,11 @@ class MangaInfoHeader extends PureComponent {
                         <div style={{ fontSize: 21, color: 'white', marginLeft: 20, marginTop: 10, fontWeight: 'bold' }}>{this.props.item.title}</div>
                         <div style={{ marginTop: 20, marginLeft: 20, height: 20, width: 100, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                             <div style={{ height: 20, width: 20 }}><img style={{ height: 20, width: 20 }} src={require('../../../image/main/first_fire.png')} alt='' /></div>
-                            <div style={{ color: 'rgb(255,42,49)', fontSize: 16, marginLeft: 5, fontWeight: 'bold' }}>1234</div>
+                            <div style={{ color: 'rgb(255,42,49)', fontSize: 16, marginLeft: 5, fontWeight: 'bold' }}>{hotNum}</div>
                         </div>
                         <div style={{ marginTop: 22, marginLeft: 20, display: 'flex', flexDirection: 'row' }}>
-                            <Rate disabled defaultValue={2} />
-                            <div style={{ color: 'rgb(168,168,168)', fontSize: 19, fontWeight: 'bold', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>10</div>
+                            <Rate disabled defaultValue={rateScore} />
+                            <div style={{ color: 'rgb(168,168,168)', fontSize: 19, fontWeight: 'bold', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>{score}</div>
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 20, marginTop: 13 }}>
                             {this.state.tabs.map((item, index) => {
@@ -228,12 +231,17 @@ class MangaDetail extends PureComponent {
                         return <ChapterCoverItem key={index} item={item} itemClick={this.goToMangaRead} />
                     })
                 }
-                <div onClick={this.moreChapter} style={{ height: 20, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                    <div><img style={{ height: 14, width: 14 }} src={require('../../../image/detail/more_chapter.png')} alt='' /></div>
-                    <div style={{ fontSize: 15, color: 'rgb(255,42,49)', marginLeft: 2 }}>展开目录</div>
-                </div>
-
-                <GuessLike navi={this.props.history} data={this.state.guessLikeData} globalType={this.props.match.params.type} />
+                {
+                    this.state.data.length > 0 &&
+                    <div onClick={this.moreChapter} style={{ height: 20, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                        <div><img style={{ height: 14, width: 14 }} src={require('../../../image/detail/more_chapter.png')} alt='' /></div>
+                        <div style={{ fontSize: 15, color: 'rgb(255,42,49)', marginLeft: 2 }}>展开目录</div>
+                    </div>
+                }
+                {
+                    this.state.guessLikeData.length > 0 &&
+                    <GuessLike navi={this.props.history} data={this.state.guessLikeData} globalType={this.props.match.params.type} />
+                }
                 <div style={{ height: 80, width: CLIENT_WIDTH }} />
                 <div style={{ backgroundColor: 'white', height: 80, width: CLIENT_WIDTH, position: 'fixed', left: 0, bottom: 0, display: 'flex', flexDirection: 'row' }}>
                     <div><img style={{ height: 80, width: 80 }} src={require('../../../image/detail/like.png')} alt='' /></div>
