@@ -277,13 +277,22 @@ class MangaDetail extends PureComponent {
                 <div style={{ height: 80, width: CLIENT_WIDTH }} />
                 <div style={{ backgroundColor: 'white', height: 80, width: CLIENT_WIDTH, position: 'fixed', left: 0, bottom: 0, display: 'flex', flexDirection: 'row' }}>
                     <div><img style={{ height: 80, width: 80 }} src={require('../../../image/detail/like.png')} alt='' /></div>
-                    <div style={{ fontSize: 16, color: 'white', marginTop: 10, borderTopLeftRadius: 4, borderTopRightRadius: 25, borderBottomLeftRadius: 25, borderBottomRightRadius: 25, backgroundColor: 'rgb(255,42,49)', height: 50, width: 268, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <div onClick={this.readNow} style={{ fontSize: 16, color: 'white', marginTop: 10, borderTopLeftRadius: 4, borderTopRightRadius: 25, borderBottomLeftRadius: 25, borderBottomRightRadius: 25, backgroundColor: 'rgb(255,42,49)', height: 50, width: 268, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                         立即阅读
                     </div>
                 </div>
 
             </div >
         );
+    }
+
+    readNow = () => {
+        let item = this.state.data[0];
+        if (item.is_pay) {
+
+        } else {
+            this.props.history.push(`/manga_read/${item.id}/${item.resource_id}/${this.props.match.params.type}`);
+        }
     }
 
     goToMangaRead = (isPay, id, sourceId) => {
