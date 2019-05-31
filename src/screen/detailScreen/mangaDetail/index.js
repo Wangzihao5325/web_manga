@@ -12,6 +12,8 @@ import { Rate } from 'antd';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 import InfiniteScroll from 'react-infinite-scroller';
 import { FrontCover, VER_WIDTH, VER_HEIGHT } from '../../../component/frontCover/index';
+import { ToastsStore } from 'react-toasts';
+
 
 class MangaInfoHeader extends PureComponent {
 
@@ -158,6 +160,7 @@ class MangaDetail extends PureComponent {
 
     state = {
         mangaInfoObj: null,
+        isMoreChapterState: false,
         order: true,
         nowPage: -1,
         totalPage: -1,
@@ -264,7 +267,7 @@ class MangaDetail extends PureComponent {
                     this.state.data.length > 0 &&
                     <div onClick={this.moreChapter} style={{ height: 20, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                         <div><img style={{ height: 14, width: 14 }} src={require('../../../image/detail/more_chapter.png')} alt='' /></div>
-                        <div style={{ fontSize: 15, color: 'rgb(255,42,49)', marginLeft: 2 }}>展开目录</div>
+                        <div style={{ fontSize: 15, color: 'rgb(255,42,49)', marginLeft: 2 }}>{this.state.isMoreChapterState ? '收起目录' : '展开目录'}</div>
                     </div>
                 }
                 {
@@ -292,14 +295,45 @@ class MangaDetail extends PureComponent {
     }
 
     moreChapter = () => {
-
+        if (!this.state.isMoreChapterState) {
+            let chapterTotal = this.state.mangaInfoObj.resource_total ? this.state.mangaInfoObj.resource_total : 0;
+            if (chapterTotal <= 5) {
+                ToastsStore.warning('没有更多章节啦！');
+                return;
+            }
+        }
+        this.setState((preState) => {
+            return {
+                isMoreChapterState: !preState.isMoreChapterState
+            }
+        }, () => {
+            if (this.state.isMoreChapterState) {
+                const global_type = this.props.match.params.type;
+                const mangaId = this.props.match.params.id;
+                let orderKey = this.state.order ? 'asc' : 'desc';
+                Api.comicResource(global_type, mangaId, orderKey, 1, 100, (e) => {
+                    this.setState({
+                        nowPage: e.current_page,
+                        totalPage: e.last_page,
+                        data: e.data
+                    });
+                });
+            } else {
+                let newData = [...this.state.data];
+                newData.length = 5;
+                this.setState({
+                    data: newData
+                });
+            }
+        });
     }
 
     normalOrder = () => {
         this.setState({
             order: true
         });
-        Api.comicResource(this.props.match.params.type, this.props.match.params.id, 'asc', 1, 5, (e) => {
+        let getCount = this.state.isMoreChapterState ? 100 : 5;
+        Api.comicResource(this.props.match.params.type, this.props.match.params.id, 'asc', 1, getCount, (e) => {
             this.setState({
                 nowPage: e.current_page,
                 totalPage: e.last_page,
@@ -313,7 +347,8 @@ class MangaDetail extends PureComponent {
         this.setState({
             order: false
         });
-        Api.comicResource(this.props.match.params.type, this.props.match.params.id, 'desc', 1, 5, (e) => {
+        let getCount = this.state.isMoreChapterState ? 100 : 5;
+        Api.comicResource(this.props.match.params.type, this.props.match.params.id, 'desc', 1, getCount, (e) => {
             this.setState({
                 nowPage: e.current_page,
                 totalPage: e.last_page,
