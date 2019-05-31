@@ -24,6 +24,7 @@ import PayInfo from '../screen/mine/pay/payInfo/index';
 import ForgetPassword from '../screen/mine/forgetPassword/index';
 import InviteList from '../screen/mine/inviteList/index';
 import CoinList from '../screen/mine/coinList/index';
+import Search from '../screen/search/index';
 
 
 import ModelContainer from '../screen/modelContainer/index';
@@ -53,6 +54,7 @@ class AppRouter extends Component {
                         <Route path="/cg_detail/:id/:title" component={CGDetail} />
                         <Route path="/manga_detail/:id/:type" component={MangaDetail} />
                         <Route path="/manga_read/:id/:resource/:type" component={MangaRead} />
+                        <Route path="/search/" component={Search} />
                     </Switch>
                     {this.props.popShow &&
                         <div
