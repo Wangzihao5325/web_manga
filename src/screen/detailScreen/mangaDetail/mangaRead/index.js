@@ -15,7 +15,7 @@ const dis_time = 5000;
 class ImageItem extends PureComponent {
     render() {
         return (
-            <div style={{ display: 'flex' }}>
+            <div id={`manga_image_${this.props.index}`} style={{ display: 'flex' }}>
                 <SecurtyImage source={this.props.source} style={{ display: 'flex', flexDirection: 'column' }} isFlexType={true} regWidth={CLIENT_WIDTH - 24} style={{}} />
             </div>
         );
@@ -91,7 +91,7 @@ class ChapterItem extends PureComponent {
     render() {
         let coins = Math.abs(this.props.item.coins);
         return (
-            <div id={`chapter_list_${this.props.index}`} style={{ width: 281, height: 55, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+            <div onClick={this.itemOnClick} id={`chapter_list_${this.props.index}`} style={{ width: 281, height: 55, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', height: 54, width: 250, borderBottomColor: 'rgb(50,50,50)', borderBottomWidth: 1, borderBottomStyle: 'solid' }}>
                     <div style={{ fontSize: 13, color: 'white' }}>{`${this.props.item.index}-${this.props.item.title}`}</div>
                     {
@@ -104,6 +104,11 @@ class ChapterItem extends PureComponent {
                 </div>
             </div>
         );
+    }
+    itemOnClick = () => {
+        if (this.props.itemClick) {
+            this.props.itemClick(this.props.item);
+        }
     }
 }
 
@@ -156,8 +161,6 @@ class MangaRead extends PureComponent {
         });
         Api.comicResource(type, id, 'asc', 1, 1000, (e) => {
             this.setState({
-                chapterNowPage: e.current_page,
-                chapterTotalPage: e.last_page,
                 chapterListData: e.data
             });
             e.data.every((item, index) => {
@@ -177,6 +180,50 @@ class MangaRead extends PureComponent {
         });
     }
 
+    componentDidUpdate(preProps) {
+        const id = parseInt(preProps.match.params.id);
+        const source = parseInt(preProps.match.params.resource);
+        const newId = parseInt(this.props.match.params.id);
+        const newSource = parseInt(this.props.match.params.resource);
+        if (id !== newId || source !== newSource) {
+            const type = this.props.match.params.type;
+            Api.mangaImage(type, newId, newSource, 1, 10, (e) => {
+                this.setState({
+                    data: e.data,
+                    nowPage: e.current_page,
+                    totalPage: e.last_page,
+                });
+            });
+            Api.comicInfo(type, id, (e) => {
+                let endText = '连载中';
+                if (e.dump_status) {
+                    endText = '已完结';
+                }
+                this.setState({
+                    title: e.title,
+                    totalChapter: e.resource_total,
+                    isEnd: e.dump_status,
+                    isEndText: endText
+                });
+            });
+
+            this.state.chapterListData.every((item, index) => {
+                if (item.resource_id === newSource) {
+                    let nowChapterDataIndex = index;
+                    let nowChapterIndex = item.index;
+                    let chapterTitle = item.title;
+                    this.setState({
+                        nowChapterDataIndex,
+                        nowChapterIndex,
+                        title: chapterTitle
+                    });
+                    return false;
+                }
+                return true;
+            });
+        }
+    }
+
     render() {
         return (
             <div onClick={this.controllerStateChange} style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }} >
@@ -192,7 +239,7 @@ class MangaRead extends PureComponent {
                     >
                         {
                             this.state.data.map((item, index) => {
-                                return <ImageItem source={item.image_url} key={index} />
+                                return <ImageItem source={item.image_url} key={index} index={index} />
                             })
                         }
                         {/* <div style={{ height: 80, width: CLIENT_WIDTH - 24 }} />*/}{/**底部垫高，防止正文部分被bottom遮挡 */}
@@ -225,7 +272,7 @@ class MangaRead extends PureComponent {
                     <div style={{ marginTop: 80 }} >
                         {
                             this.state.chapterListData.map((item, index) => {
-                                return <ChapterItem key={index} item={item} index={item.index} />;
+                                return <ChapterItem itemClick={this.changeChapter} key={index} item={item} index={item.index} />;
                             })
                         }
                     </div>
@@ -233,6 +280,17 @@ class MangaRead extends PureComponent {
                 {this.state.isControllerShow && <Bottom drawShow={this.drawOnShow} />}
             </div>
         );
+    }
+
+    changeChapter = (item) => {
+        this.props.history.replace(`/manga_read/${item.id}/${item.resource_id}/${this.props.match.params.type}`);
+        this.draweOnClose();
+        let anchorElement = document.getElementById('manga_image_0');
+        console.log('1111');
+        if (anchorElement) {        // 如果对应id的锚点存在，就跳转到锚点
+            console.log('2222');
+            anchorElement.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        }
     }
 
     _loadMore = () => {
