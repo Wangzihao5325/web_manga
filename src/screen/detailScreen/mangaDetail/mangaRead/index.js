@@ -302,16 +302,20 @@ class MangaRead extends PureComponent {
             return;
         }
 
-        const newSourceId = this.state.chapterListData[this.state.nowChapterDataIndex + 1].resource_id;
-        const id = parseInt(this.props.match.params.id);
+        const isPay = this.state.chapterListData[this.state.nowChapterDataIndex + 1].is_pay;
+        if (isPay) {
+            ToastsStore.warning('请进行购买');
+        } else {
+            const newSourceId = this.state.chapterListData[this.state.nowChapterDataIndex + 1].resource_id;
+            const id = parseInt(this.props.match.params.id);
 
-        this.props.history.replace(`/manga_read/${id}/${newSourceId}/${this.props.match.params.type}`);
-        this.draweOnClose();
-        let anchorElement = document.getElementById('manga_image_0');
-        if (anchorElement) {        // 如果对应id的锚点存在，就跳转到锚点
-            anchorElement.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            this.props.history.replace(`/manga_read/${id}/${newSourceId}/${this.props.match.params.type}`);
+            this.draweOnClose();
+            let anchorElement = document.getElementById('manga_image_0');
+            if (anchorElement) {        // 如果对应id的锚点存在，就跳转到锚点
+                anchorElement.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            }
         }
-
     }
 
     goToPre = () => {
@@ -320,23 +324,32 @@ class MangaRead extends PureComponent {
             return;
         }
 
-        const newSourceId = this.state.chapterListData[this.state.nowChapterDataIndex - 1].resource_id;
-        const id = parseInt(this.props.match.params.id);
+        const isPay = this.state.chapterListData[this.state.nowChapterDataIndex - 1].is_pay;
+        if (isPay) {
+            ToastsStore.warning('请进行购买');
+        } else {
+            const newSourceId = this.state.chapterListData[this.state.nowChapterDataIndex - 1].resource_id;
+            const id = parseInt(this.props.match.params.id);
 
-        this.props.history.replace(`/manga_read/${id}/${newSourceId}/${this.props.match.params.type}`);
-        this.draweOnClose();
-        let anchorElement = document.getElementById('manga_image_0');
-        if (anchorElement) {        // 如果对应id的锚点存在，就跳转到锚点
-            anchorElement.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            this.props.history.replace(`/manga_read/${id}/${newSourceId}/${this.props.match.params.type}`);
+            this.draweOnClose();
+            let anchorElement = document.getElementById('manga_image_0');
+            if (anchorElement) {        // 如果对应id的锚点存在，就跳转到锚点
+                anchorElement.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            }
         }
     }
 
     changeChapter = (item) => {
-        this.props.history.replace(`/manga_read/${item.id}/${item.resource_id}/${this.props.match.params.type}`);
-        this.draweOnClose();
-        let anchorElement = document.getElementById('manga_image_0');
-        if (anchorElement) {        // 如果对应id的锚点存在，就跳转到锚点
-            anchorElement.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        if (item.is_pay) {
+            ToastsStore.warning('请进行购买');
+        } else {
+            this.props.history.replace(`/manga_read/${item.id}/${item.resource_id}/${this.props.match.params.type}`);
+            this.draweOnClose();
+            let anchorElement = document.getElementById('manga_image_0');
+            if (anchorElement) {        // 如果对应id的锚点存在，就跳转到锚点
+                anchorElement.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            }
         }
     }
 
