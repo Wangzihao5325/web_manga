@@ -9,6 +9,8 @@ import Api from '../../../../socket/index';
 import SecurtyImage from '../../../../component/securtyImage/Image';
 import 'antd/dist/antd.css';
 import { Drawer } from 'antd';
+import { ToastsStore } from 'react-toasts';
+
 
 const dis_time = 5000;
 
@@ -56,7 +58,7 @@ class Bottom extends PureComponent {
     render() {
         return (
             <div style={{ height: 64, width: CLIENT_WIDTH, display: 'flex', backgroundColor: 'rgb(34,34,34)', position: 'fixed', bottom: 0, left: 0 }}>
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                <div onClick={this.preChapter} style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                     <div style={{ height: 27, width: 27, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 23, width: 27 }} src={require('../../../../image/detail/manga_read_left_arrow.png')} alt='' /></div>
                     <div style={{ color: 'white' }}>上一话</div>
                 </div>
@@ -72,12 +74,24 @@ class Bottom extends PureComponent {
                     <div style={{ height: 27, width: 27, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 20, width: 24 }} src={require('../../../../image/detail/list.png')} alt='' /></div>
                     <div style={{ color: 'white' }}>目录</div>
                 </div>
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                <div onClick={this.nextChapter} style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                     <div style={{ height: 27, width: 27, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 23, width: 27 }} src={require('../../../../image/detail/manga_read_right_arrow.png')} alt='' /></div>
                     <div style={{ color: 'white' }}>下一话</div>
                 </div>
             </div>
         );
+    }
+
+    preChapter = () => {
+        if (this.props.preChapter) {
+            this.props.preChapter();
+        }
+    }
+
+    nextChapter = () => {
+        if (this.props.nextChapter) {
+            this.props.nextChapter();
+        }
     }
 
     draweShow = () => {
@@ -277,24 +291,53 @@ class MangaRead extends PureComponent {
                         }
                     </div>
                 </Drawer>
-                {this.state.isControllerShow && <Bottom drawShow={this.drawOnShow} />}
+                {this.state.isControllerShow && <Bottom drawShow={this.drawOnShow} preChapter={this.goToPre} nextChapter={this.goToNext} />}
             </div>
         );
+    }
+
+    goToNext = () => {
+        if (this.state.nowChapterDataIndex === this.state.chapterListData.length - 1) {
+            ToastsStore.warning('已经是最后一话啦！');
+            return;
+        }
+
+        const newSourceId = this.state.chapterListData[this.state.nowChapterDataIndex + 1].resource_id;
+        const id = parseInt(this.props.match.params.id);
+
+        this.props.history.replace(`/manga_read/${id}/${newSourceId}/${this.props.match.params.type}`);
+        this.draweOnClose();
+        let anchorElement = document.getElementById('manga_image_0');
+        if (anchorElement) {        // 如果对应id的锚点存在，就跳转到锚点
+            anchorElement.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        }
+
+    }
+
+    goToPre = () => {
+        if (this.state.nowChapterDataIndex === 0) {
+            ToastsStore.warning('已经是最初话啦！');
+            return;
+        }
+
+        const newSourceId = this.state.chapterListData[this.state.nowChapterDataIndex - 1].resource_id;
+        const id = parseInt(this.props.match.params.id);
+
+        this.props.history.replace(`/manga_read/${id}/${newSourceId}/${this.props.match.params.type}`);
+        this.draweOnClose();
+        let anchorElement = document.getElementById('manga_image_0');
+        if (anchorElement) {        // 如果对应id的锚点存在，就跳转到锚点
+            anchorElement.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        }
     }
 
     changeChapter = (item) => {
         this.props.history.replace(`/manga_read/${item.id}/${item.resource_id}/${this.props.match.params.type}`);
         this.draweOnClose();
         let anchorElement = document.getElementById('manga_image_0');
-        console.log('1111');
         if (anchorElement) {        // 如果对应id的锚点存在，就跳转到锚点
-            console.log('2222');
             anchorElement.scrollIntoView({ block: 'center', behavior: 'smooth' });
         }
-    }
-
-    _loadMore = () => {
-
     }
 
     normalOrder = () => {
