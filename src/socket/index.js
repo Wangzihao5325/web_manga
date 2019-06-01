@@ -594,6 +594,25 @@ class api {
         this.securtyFetch(url, paramObj, onSuccess, onError);
     }
 
+    mangaListByType(global_type, type_id, comic_title, is_pay, state, sort, page, limit, onSuccess, onError) {
+        const url = '/api/comic-lists';
+        const timestamp = (new Date().getTime() / 1000).toFixed(0);
+
+        if (!IsSecurty) {
+            let formData = new FormData();
+            formData.append('timestamp', timestamp);
+            this.normalFetch(url, formData, onSuccess, onError);
+            return;
+        }
+
+        let paramObj = {
+            platform: PlatformStr,
+            timestamp
+        }
+
+        this.securtyFetch(url, paramObj, onSuccess, onError);
+    }
+
 }
 
 export default new api();

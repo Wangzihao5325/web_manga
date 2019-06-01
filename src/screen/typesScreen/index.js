@@ -35,6 +35,7 @@ class TypeScreen extends PureComponent {
                 stateSelect: e.state.length > 0 ? e.state[0].name : -1,
                 typeSelect: e.type.length > 0 ? e.type[0].name : -1,
             });
+
         });
     }
 
@@ -51,6 +52,22 @@ class TypeScreen extends PureComponent {
         return (
             <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }} >
                 <HeaderPro title='分类' back={this.goBack} />
+                <div style={{ height: 29, width: typeWidth, marginTop: 10 }}>
+                    <ScrollMenu
+                        data={typeMenu}
+                        selected={typeSelect}
+                        onSelect={this._typeSelect}
+                        itemStyle={{ outline: 'none' }}
+                    />
+                </div>
+                <div style={{ height: 29, width: stateWidth, marginTop: 10 }}>
+                    <ScrollMenu
+                        data={stateMenu}
+                        selected={stateSelect}
+                        onSelect={this._stateSelect}
+                        itemStyle={{ outline: 'none' }}
+                    />
+                </div>
                 <div style={{ height: 29, width: payWidth, marginTop: 10 }}>
                     <ScrollMenu
                         data={payMenu}
@@ -64,22 +81,6 @@ class TypeScreen extends PureComponent {
                         data={sortMenu}
                         selected={sortSelect}
                         onSelect={this._sortSelect}
-                        itemStyle={{ outline: 'none' }}
-                    />
-                </div>
-                <div style={{ height: 29, width: stateWidth, marginTop: 10 }}>
-                    <ScrollMenu
-                        data={stateMenu}
-                        selected={stateSelect}
-                        onSelect={this._stateSelect}
-                        itemStyle={{ outline: 'none' }}
-                    />
-                </div>
-                <div style={{ height: 29, width: typeWidth, marginTop: 10 }}>
-                    <ScrollMenu
-                        data={typeMenu}
-                        selected={typeSelect}
-                        onSelect={this._typeSelect}
                         itemStyle={{ outline: 'none' }}
                     />
                 </div>
