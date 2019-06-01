@@ -25,7 +25,13 @@ class TypeScreen extends PureComponent {
         innerTypeData: [],
         nowPage: -1,
         totalPage: -1,
-        mangaData: []
+        mangaData: [],
+
+        payKey: '',
+        sortKey: '',
+        stateKey: '',
+        typeKey: '',
+        innerTypeKey: ''
     }
 
     componentDidMount() {
@@ -71,13 +77,23 @@ class TypeScreen extends PureComponent {
                 return item.title === this.state.innerTypeSelect
             })[0].id;
 
+            this.setState({
+                payKey,
+                sortKey,
+                stateKey,
+                typeKey,
+                innerTypeKey
+            });
+
             Api.mangaListByType(typeKey, innerTypeKey, payKey, stateKey, sortKey, 1, 12, (e) => {
+                let dataReg = e.data.map((item, index) => {
+                    return <FrontCover key={index} title={item.title} intro={item.intro ? item.intro : ' '} source={item.cover_url} coverClick={() => { this.props.history.push(`/manga_detail/${item.id}/${item.global_type}`) }} />
+                })
                 this.setState({
                     nowPage: e.current_page,
                     totalPage: e.last_page,
-                    mangaData: e.data
+                    mangaData: dataReg
                 });
-                console.log(e);
             });
         }
     }
@@ -137,7 +153,7 @@ class TypeScreen extends PureComponent {
                         itemStyle={{ outline: 'none' }}
                     />
                 </div>
-                <div style={{ height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div style={{ flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
                     <InfiniteScroll
                         pageStart={0}
                         hasMore={true}
@@ -146,11 +162,9 @@ class TypeScreen extends PureComponent {
                         threshold={250}
                         loadMore={this._loadMore}
                     >
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around' }}>
+                        <div style={{ flex: 1, height: '100vh', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around' }}>
                             {
-                                this.state.mangaData.map((item, index) => {
-                                    return <FrontCover key={index} title={item.title} intro={item.intro ? item.intro : ' '} source={item.cover_url} coverClick={() => { this.props.history.push(`/manga_detail/${item.id}/${item.global_type}`) }} />
-                                })
+                                this.state.mangaData
                             }
                         </div>
                         {/* <div style={{ height: 80, width: CLIENT_WIDTH - 24 }} />*/}{/**底部垫高，防止正文部分被bottom遮挡 */}
@@ -158,6 +172,24 @@ class TypeScreen extends PureComponent {
                 </div>
             </div>
         );
+    }
+
+    _loadMore = () => {
+        const { payKey, sortKey, stateKey, typeKey, innerTypeKey, nowPage, totalPage, mangaData } = this.state;
+        if (nowPage >= totalPage) {
+            return;
+        }
+        Api.mangaListByType(typeKey, innerTypeKey, payKey, stateKey, sortKey, nowPage + 1, 12, (e) => {
+            let newPart = e.data.map((item, index) => {
+                return <FrontCover key={index} title={item.title} intro={item.intro ? item.intro : ' '} source={item.cover_url} coverClick={() => { this.props.history.push(`/manga_detail/${item.id}/${item.global_type}`) }} />
+            })
+            let dataReg = [...mangaData].concat(newPart);
+            this.setState({
+                nowPage: e.current_page,
+                totalPage: e.last_page,
+                mangaData: dataReg
+            });
+        });
     }
 
     _innerTypeSelect = (key) => {
