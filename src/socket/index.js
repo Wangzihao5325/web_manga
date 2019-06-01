@@ -627,6 +627,31 @@ class api {
         this.securtyFetch(url, paramObj, onSuccess, onError);
     }
 
+    mangaHistory(global_type, page, limit, onSuccess, onError) {
+        const url = '/api/comic-history';
+        const timestamp = (new Date().getTime() / 1000).toFixed(0);
+
+        if (!IsSecurty) {
+            let formData = new FormData();
+            formData.append('timestamp', timestamp);
+            formData.append('global_type', global_type);
+            formData.append('page', page);
+            formData.append('limit', limit);
+            this.normalFetch(url, formData, onSuccess, onError);
+            return;
+        }
+
+        let paramObj = {
+            global_type,
+            limit,
+            page,
+            platform: PlatformStr,
+            timestamp
+        }
+
+        this.securtyFetch(url, paramObj, onSuccess, onError);
+    }
+
 }
 
 export default new api();

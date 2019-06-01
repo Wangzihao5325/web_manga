@@ -44,7 +44,6 @@ class Home extends Component {
 
     render() {
         const { selected, data } = this.state;
-        console.log(data);
         // Create menu from items
         const menu = Menu(this.state.data, selected);
         return (
