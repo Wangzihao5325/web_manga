@@ -37,4 +37,9 @@ export const Menu = (list, selected) =>
         return <MenuItem text={item.name} key={item.name} selected={selected} />;
     });
 
+export const InnerMenu = (list, selected) =>
+    list.map(item => {
+        return <MenuItem text={item.title} key={item.title} selected={selected} />;
+    });
+
 export const WIDTH = ITEM_WIDTH;
