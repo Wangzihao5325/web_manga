@@ -74,6 +74,8 @@ class LeaderBoard extends PureComponent {
         );
     }
 
+
+
     _loadMore = () => {
 
     }

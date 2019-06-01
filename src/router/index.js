@@ -11,6 +11,7 @@ import MangaDetail from '../screen/detailScreen/mangaDetail';
 import MangaRead from '../screen/detailScreen/mangaDetail/mangaRead';
 import Search from '../screen/search/index';
 import LeaderBoard from '../screen/leaderBoard/index';
+import TypeScreen from '../screen/typesScreen/index';
 
 import Collect from '../screen/collect/index';
 
@@ -57,6 +58,7 @@ class AppRouter extends Component {
                         <Route path="/manga_read/:id/:resource/:type" component={MangaRead} />
                         <Route path="/search/" component={Search} />
                         <Route path="/leaderBoard/" component={LeaderBoard} />
+                        <Route path="/type/" component={TypeScreen} />
                     </Switch>
                     {this.props.popShow &&
                         <div

@@ -67,7 +67,7 @@ class MangaPage extends PureComponent {
     }
 
     goToType = () => {
-
+        this.props.navi.push('/type/');
     }
 
     goToSearch = () => {
