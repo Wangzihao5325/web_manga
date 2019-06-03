@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import { CLIENT_WIDTH } from '../../global/sizes';
+import './index.css';
 
 import Banner from './Banner';
 import Comic from './Comic';
@@ -13,7 +14,7 @@ export default class Model extends Component {
 
     render() {
         return (
-            <div style={{ flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div className='scrolllist' style={{ flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <InfiniteScroll
                     pageStart={0}
                     hasMore={true}
