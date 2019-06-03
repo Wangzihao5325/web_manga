@@ -82,15 +82,17 @@ export default class History extends PureComponent {
         const innerMenu = InnerMenu(mangaTypeData, innerSelected);
         return (
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <div style={{ height: 29, width: 190, marginTop: 10, marginLeft: 1 }}>
-                    <ScrollMenu
-                        dragging={false}
-                        data={innerMenu}
-                        selected={innerSelected}
-                        onSelect={this.onInnerSelect}
-                        itemStyle={{ outline: 'none' }}
-                    />
-                </div>
+                {!this.props.isEditMode &&
+                    <div style={{ height: 29, width: 190, marginTop: 10, marginLeft: 1 }}>
+                        <ScrollMenu
+                            dragging={false}
+                            data={innerMenu}
+                            selected={innerSelected}
+                            onSelect={this.onInnerSelect}
+                            itemStyle={{ outline: 'none' }}
+                        />
+                    </div>
+                }
                 <div style={{ marginTop: 20, flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
                     <InfiniteScroll
                         pageStart={0}
