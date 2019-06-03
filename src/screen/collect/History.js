@@ -214,6 +214,16 @@ export default class History extends PureComponent {
     onInnerSelect = (key) => {
         this.setState({
             innerSelected: key
+        }, () => {
+            let typeKey = typeUtil(this.state.innerSelected);
+            Api.mangaHistory(typeKey, 1, 15, (e) => {
+                this.setState({
+                    historyData: e.data,
+                    nowPage: e.current_page,
+                    totalPage: e.last_page,
+                    historySelectArr: []
+                });
+            });
         });
     }
 }

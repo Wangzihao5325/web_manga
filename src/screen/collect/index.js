@@ -7,6 +7,7 @@ import { Menu } from '../../component/tabSelect/ScrollTabSelect';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 
 import History from './History';
+import CollectList from './Collect';
 
 const tabData = [{ name: '历史' }, { name: '收藏' }];
 
@@ -54,6 +55,9 @@ class Collect extends PureComponent {
 
                 {this.state.selected === '历史' &&
                     <History navi={this.props.history} isEditMode={this.state.isEditMode} />
+                }
+                {this.state.selected === '收藏' &&
+                    <CollectList navi={this.props.history} isEditMode={this.state.isEditMode} />
                 }
             </div>
         );
