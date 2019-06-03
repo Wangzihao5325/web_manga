@@ -1,0 +1,4 @@
+.box:after {
+    content: "";
+    flex: auto;
+ }

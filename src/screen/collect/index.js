@@ -9,6 +9,8 @@ import { Menu as InnerMenu } from '../../component/tabSelect/CollectSelect';
 import Api from '../../socket/index';
 import SecurtyImage from '../../component/securtyImage/Image';
 import InfiniteScroll from 'react-infinite-scroller';
+import { FrontCover } from '../../component/frontCover/index';
+import './index.css';
 
 
 const tabData = [{ name: '历史' }, { name: '收藏' }];
@@ -45,7 +47,10 @@ class Collect extends PureComponent {
         innerSelected: '韩漫',
         historyData: [],
         nowPage: -1,
-        totalPage: -1
+        totalPage: -1,
+        collectData: [],
+        collectNowPage: -1,
+        collectTotalPage: -1,
     }
 
     componentDidMount() {
@@ -88,24 +93,47 @@ class Collect extends PureComponent {
                         itemStyle={{ outline: 'none' }}
                     />
                 </div>
+                {this.state.selected === '历史' &&
+                    <div style={{ marginTop: 20, flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
+                        <InfiniteScroll
+                            pageStart={0}
+                            hasMore={true}
+                            useWindow={false}
+                            getScrollParent={() => this.scrollParentRef}
+                            threshold={250}
+                            loadMore={this._loadMore}
+                        >
+                            {
+                                this.state.historyData.map((item, index) => {
+                                    return <Item goOn={() => { this.props.history.push(`/manga_detail/${item.id}/${item.global_type}`) }} key={index} source={item.cover_url} title={item.title} total={item.resource_total} />
+                                })
+                            }
+                            <div style={{ height: 80, width: CLIENT_WIDTH - 24 }} />{/**底部垫高，防止正文部分被bottom遮挡 */}
+                        </InfiniteScroll>
+                    </div>
+                }
 
-                <div style={{ marginTop: 20, flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
-                    <InfiniteScroll
-                        pageStart={0}
-                        hasMore={true}
-                        useWindow={false}
-                        getScrollParent={() => this.scrollParentRef}
-                        threshold={250}
-                        loadMore={this._loadMore}
-                    >
-                        {
-                            this.state.historyData.map((item, index) => {
-                                return <Item goOn={() => { this.props.history.push(`/manga_detail/${item.id}/${item.global_type}`) }} key={index} source={item.cover_url} title={item.title} total={item.resource_total} />
-                            })
-                        }
-                        {/* <div style={{ height: 80, width: CLIENT_WIDTH - 24 }} />*/}{/**底部垫高，防止正文部分被bottom遮挡 */}
-                    </InfiniteScroll>
-                </div>
+                {this.state.selected === '收藏' &&
+                    <div style={{ marginTop: 20, flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <InfiniteScroll
+                            pageStart={0}
+                            hasMore={true}
+                            useWindow={false}
+                            getScrollParent={() => this.scrollParentRef}
+                            threshold={250}
+                            loadMore={this._loadMore}
+                        >
+                            <div className='box' style={{ width: CLIENT_WIDTH - 24, height: '100vh', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignContent: 'flex-start' }}>
+                                {//to do historyData修改
+                                    this.state.historyData.map((item, index) => {
+                                        return <FrontCover key={index} title={item.title} intro={item.intro ? item.intro : ' '} source={item.cover_url} coverClick={() => { this.props.history.push(`/manga_detail/${item.id}/${item.global_type}`) }} />;
+                                    })
+                                }
+                            </div>
+                            <div style={{ height: 80, width: CLIENT_WIDTH - 24 }} />{/**底部垫高，防止正文部分被bottom遮挡 */}
+                        </InfiniteScroll>
+                    </div>
+                }
             </div>
         );
     }
@@ -126,15 +154,29 @@ class Collect extends PureComponent {
                 typeKey = 'anime';
                 break;
         }
-        Api.mangaHistory(typeKey, this.state.nowPage + 1, 15, (e) => {
-            let oldData = [...this.state.historyData];
-            let newData = oldData.concat(e.data);
-            this.setState({
-                historyData: newData,
-                nowPage: e.current_page,
-                totalPage: e.last_page
+        if (this.state.selected === '历史') {
+            Api.mangaHistory(typeKey, this.state.nowPage + 1, 15, (e) => {
+                let oldData = [...this.state.historyData];
+                let newData = oldData.concat(e.data);
+                this.setState({
+                    historyData: newData,
+                    nowPage: e.current_page,
+                    totalPage: e.last_page
+                });
             });
-        });
+        }
+        if (this.state.selected === '收藏') {
+            Api.mangaCollect(typeKey, this.state.collectNowPage + 1, 15, (e) => {
+                let oldData = [...this.state.collectData];
+                let newData = oldData.concat(e.data);
+                this.setState({
+                    collectData: newData,
+                    collectNowPage: e.current_page,
+                    collectTotalPage: e.last_page
+                });
+            });
+        }
+
     }
 
     onInnerSelect = (key) => {
@@ -153,19 +195,63 @@ class Collect extends PureComponent {
                     typeKey = 'anime';
                     break;
             }
-            Api.mangaHistory(typeKey, 1, 15, (e) => {
-                this.setState({
-                    historyData: e.data,
-                    nowPage: e.current_page,
-                    totalPage: e.last_page
+            if (this.state.selected === '历史') {
+                Api.mangaHistory(typeKey, 1, 15, (e) => {
+                    this.setState({
+                        historyData: e.data,
+                        nowPage: e.current_page,
+                        totalPage: e.last_page
+                    });
                 });
-            });
+            }
+            if (this.state.selected === '收藏') {
+                Api.mangaCollect(typeKey, 1, 15, (e) => {
+                    this.setState({
+                        collectData: e.data,
+                        collectNowPage: e.current_page,
+                        collectTotalPage: e.last_page
+                    });
+                });
+            }
+
         });
     }
 
     onSelect = (key) => {
         this.setState({
             selected: key
+        }, () => {
+            let typeKey = 'hanman';
+            switch (this.state.innerSelected) {
+                case '韩漫':
+                    typeKey = 'hanman';
+                    break;
+                case 'H漫画':
+                    typeKey = 'hman';
+                    break;
+                case '动漫':
+                    typeKey = 'anime';
+                    break;
+            }
+            if (this.state.selected === '历史') {
+                Api.mangaHistory(typeKey, 1, 15, (e) => {
+                    this.setState({
+                        historyData: e.data,
+                        nowPage: e.current_page,
+                        totalPage: e.last_page
+                    });
+                });
+            }
+            if (this.state.selected === '收藏') {
+                Api.mangaCollect(typeKey, 1, 15, (e) => {
+                    this.setState({
+                        collectData: e.data,
+                        collectNowPage: e.current_page,
+                        collectTotalPage: e.last_page
+                    });
+                });
+            }
+
         });
     }
 }
