@@ -8,6 +8,8 @@ import Api from '../../../socket/index';
 import { tab_navi_unshow } from '../../../store/actions/tabBottomNaviAction';
 import { HeaderPro } from '../../../component/header/index';
 import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../../global/sizes';
+import { ToastsStore } from 'react-toasts';
+import ClipboardJS from 'clipboard';
 
 const BG_WIDTH = CLIENT_WIDTH > 360 ? 360 : CLIENT_WIDTH - 15;
 
@@ -109,13 +111,26 @@ class Share extends PureComponent {
                     </div>
 
                     <div style={{ height: 60, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
-                        <div style={{ height: 30, width: 120, backgroundColor: 'rgb(255,42,49)', borderRadius: 15, color: 'white', justifyContent: 'center', alignItems: 'center', display: 'flex' }}>保存二维码</div>
-                        <div style={{ height: 30, width: 120, backgroundColor: 'rgb(255,42,49)', borderRadius: 15, color: 'white', justifyContent: 'center', alignItems: 'center', display: 'flex' }}>复制邀请链接</div>
+                        <div onClick={this.saveQrCode} style={{ height: 30, width: 120, backgroundColor: 'rgb(255,42,49)', borderRadius: 15, color: 'white', justifyContent: 'center', alignItems: 'center', display: 'flex' }}>保存二维码</div>
+                        <div className='invite_link_btn' onClick={this.copyInviteLink} style={{ height: 30, width: 120, backgroundColor: 'rgb(255,42,49)', borderRadius: 15, color: 'white', justifyContent: 'center', alignItems: 'center', display: 'flex' }}>复制邀请链接</div>
                     </div>
 
                 </div>
             </div>
         );
+    }
+
+    saveQrCode = () => {
+        ToastsStore.warning('请截屏保存二维码,完成任务请通过客户端版本！');
+    }
+
+    copyInviteLink = () => {
+        new ClipboardJS('.invite_link_btn', {
+            text: function (trigger) {
+                return 'this is a invite link';
+            }
+        });
+        ToastsStore.success('复制邀请链接成功，快去分享吧！');
     }
 
     showInviteCode = () => {
