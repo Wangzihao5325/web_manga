@@ -8,6 +8,8 @@ import { tab_navi_unshow } from '../../../store/actions/tabBottomNaviAction';
 import { HeaderPro } from '../../../component/header/index';
 import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../../global/sizes';
 
+const BG_WIDTH = CLIENT_WIDTH > 360 ? 360 : CLIENT_WIDTH - 15;
+
 class Progress extends PureComponent {
     render() {
         return (
@@ -65,8 +67,8 @@ class Share extends PureComponent {
         return (
             <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }}>
                 <HeaderPro title='推广分享' back={this.goBack} />
-                <div style={{ height: CLIENT_HEIGHT - 40, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: 'rgb(231,100,54)' }}>
-                    <div><img style={{ height: 175, width: 360 }} src={require('../../../image/mine/invite_bg.png')} alt='' /></div>
+                <div style={{ flex: 1, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: 'rgb(231,100,54)' }}>
+                    <div><img style={{ height: 175, width: BG_WIDTH }} src={require('../../../image/mine/invite_bg.png')} alt='' /></div>
                     <div style={{ height: 292, width: CLIENT_WIDTH - 28, backgroundColor: 'white', borderRadius: 10 }}>
                         <div style={{ height: 150, width: CLIENT_WIDTH - 28, marginTop: 24, display: 'flex', flexDirection: 'row' }}>
                             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -90,7 +92,7 @@ class Share extends PureComponent {
 
                     </div>
                 </div>
-                <div style={{ borderTopStyle: 'solid', borderTopColor: 'rgba(136,136,136,0.14)', borderTopWidth: 1, height: 110, width: CLIENT_WIDTH, position: 'absolute', left: 0, bottom: 0, backgroundColor: 'white' }}>
+                <div style={{ borderTopStyle: 'solid', borderTopColor: 'rgba(136,136,136,0.14)', borderTopWidth: 1, height: 110, width: CLIENT_WIDTH, position: 'fixed', left: 0, bottom: 0, backgroundColor: 'white' }}>
                     <div style={{ marginTop: 10, width: CLIENT_WIDTH, height: 40, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <div style={{ marginLeft: 15 }}>
                             <QRCode value='www.baidu.com' size={40} />
