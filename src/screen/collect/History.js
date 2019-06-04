@@ -148,7 +148,8 @@ export default class History extends PureComponent {
                     this.setState({
                         historyData: e.data,
                         nowPage: e.current_page,
-                        totalPage: e.last_page
+                        totalPage: e.last_page,
+                        historySelectArr:[]
                     });
                 });
             }

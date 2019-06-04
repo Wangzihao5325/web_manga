@@ -155,12 +155,34 @@ export default class Collect extends PureComponent {
     }
 
     delete = () => {
-
+        let typeKey = typeUtil(this.state.innerSelected);
+        Api.deleteCollect(typeKey, this.state.collectSelectArr, (e, code, message) => {
+            if (message === 'success') {
+                Api.mangaCollect(typeKey, 1, 15, (e) => {
+                    this.setState({
+                        collectData: e.data,
+                        nowPage: e.current_page,
+                        totalPage: e.last_page,
+                        collectSelectArr: []
+                    });
+                });
+            }
+        });
     }
 
     onInnerSelect = (key) => {
         this.setState({
             innerSelected: key
+        }, () => {
+            let typeKey = typeUtil(this.state.innerSelected);
+            Api.mangaCollect(typeKey, 1, 15, (e) => {
+                this.setState({
+                    collectData: e.data,
+                    nowPage: e.current_page,
+                    totalPage: e.last_page,
+                    collectSelectArr: []
+                });
+            });
         });
     }
 }
