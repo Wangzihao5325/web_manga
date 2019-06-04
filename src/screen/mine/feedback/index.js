@@ -9,6 +9,8 @@ import _ from 'lodash';
 import 'antd/dist/antd.css';
 import { Upload, Icon, Modal } from 'antd';
 import './index.css';
+import { ToastsStore } from 'react-toasts';
+
 
 const textReg = { content: '', mail: '' };
 
@@ -106,11 +108,21 @@ class Feedback extends PureComponent {
                 </div>
 
                 <input onChange={this.textOnChange} style={{ outline: 'none', fontSize: 15, alignSelf: 'center', borderRadius: 5, borderColor: 'rgb(245,245,245)', borderStyle: 'solid', borderWidth: 1, marginTop: 18, height: 50, width: CLIENT_WIDTH - 30, backgroundColor: 'rgb(245,245,245)' }} placeholder='邮箱/Telegram/Potato,方便我们联系(选填)' />
+
+                <div onClick={this.submit} style={{ marginBottom: 20, justifyContent: 'center', alignItems: 'center', marginTop: 18, alignSelf: 'center', color: 'white', fontSize: 18, height: 46, width: CLIENT_WIDTH - 36, display: 'flex', flexDirection: 'row', borderRadius: 23, backgroundColor: 'rgb(255,42,49)' }}>
+                    提交
+                </div>
+
                 <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
                     <img alt="example" style={{ width: '100%' }} src={previewImage} />
                 </Modal>
             </div>
         );
+    }
+
+    submit = () => {
+        ToastsStore.success('反馈意见提交成功！');
+        this.props.history.goBack();
     }
 
     mailOnchange = ({ target }) => {
