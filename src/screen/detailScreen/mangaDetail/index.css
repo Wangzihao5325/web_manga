@@ -12,3 +12,24 @@
     text-overflow: ellipsis;
     overflow:hidden;
 }
+
+.Modal {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 0px;
+    height: 275px;
+    background-color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  .Overlay {
+    z-index: 200;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.7);
+  }

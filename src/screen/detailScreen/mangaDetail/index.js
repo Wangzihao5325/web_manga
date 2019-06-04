@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import store from '../../../store/index';
+import { pop_show } from '../../../store/actions/popAction';
 import { tab_navi_unshow } from '../../../store/actions/tabBottomNaviAction';
 import { HeaderPro } from '../../../component/header/index';
 import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../../global/sizes';
@@ -13,6 +14,7 @@ import ScrollMenu from 'react-horizontal-scrolling-menu';
 import InfiniteScroll from 'react-infinite-scroller';
 import { FrontCover, VER_WIDTH, VER_HEIGHT } from '../../../component/frontCover/index';
 import { ToastsStore } from 'react-toasts';
+import Modal from 'react-modal';
 
 
 class MangaInfoHeader extends PureComponent {
@@ -121,7 +123,7 @@ class ChapterCoverItem extends PureComponent {
 
     itemClick = () => {
         if (this.props.itemClick) {
-            this.props.itemClick(this.props.item.is_pay, this.props.item.id, this.props.item.resource_id);
+            this.props.itemClick(this.props.item.is_pay, this.props.item.id, this.props.item.resource_id, this.props.item.title, this.props.item.index, Math.abs(this.props.item.coins));
         }
     }
 }
@@ -165,7 +167,16 @@ class MangaDetail extends PureComponent {
         nowPage: -1,
         totalPage: -1,
         data: [],
-        guessLikeData: []
+        guessLikeData: [],
+
+        showModal: false,
+        modalTitle: '',
+        modalChapterIndex: 0,
+        modalChapterCoins: 0,
+        modalMyCoins: '0',
+        modalAllChapterCoins: 0,
+
+        buyType: 'all'
     }
 
     componentDidMount() {
@@ -275,15 +286,92 @@ class MangaDetail extends PureComponent {
                     <GuessLike navi={this.props.history} data={this.state.guessLikeData} globalType={this.props.match.params.type} />
                 }
                 <div style={{ height: 80, width: CLIENT_WIDTH }} />
-                <div style={{ backgroundColor: 'white', height: 80, width: CLIENT_WIDTH, position: 'fixed', left: 0, bottom: 0, display: 'flex', flexDirection: 'row' }}>
+                <div style={{ backgroundColor: 'white', height: 80, width: CLIENT_WIDTH, position: 'fixed', left: 0, bottom: 0, display: 'flex', flexDirection: 'row', zIndex: 100 }}>
                     <div onClick={this.addCollect}><img style={{ height: 80, width: 80 }} src={require('../../../image/detail/like.png')} alt='' /></div>
                     <div onClick={this.readNow} style={{ fontSize: 16, color: 'white', marginTop: 10, borderTopLeftRadius: 4, borderTopRightRadius: 25, borderBottomLeftRadius: 25, borderBottomRightRadius: 25, backgroundColor: 'rgb(255,42,49)', height: 50, width: 268, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                         立即阅读
                     </div>
                 </div>
 
+                <Modal
+                    className="Modal"
+                    overlayClassName="Overlay"
+                    shouldCloseOnOverlayClick={true}
+                    onRequestClose={this.closeModal}
+                    isOpen={this.state.showModal}>
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ marginTop: 20, color: 'rgb(0,0,0)', fontSize: 14, alignSelf: 'center' }}>{`${this.state.modalTitle}${this.state.modalChapterIndex}话`}</div>
+
+                        <div onClick={this.buyOne} style={{ alignSelf: 'center', marginTop: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 44, width: CLIENT_WIDTH - 80, borderRadius: 22, borderStyle: 'solid', borderWidth: 1, borderColor: this.state.buyType === 'one' ? 'rgb(255,42,49)' : 'rgb(168,168,168)', color: this.state.buyType === 'one' ? 'rgb(255,42,49)' : 'rgb(168,168,168)' }}>
+                            {`${this.state.modalChapterCoins} C币购买此话`}
+                        </div>
+
+                        <div onClick={this.buyAll} style={{ alignSelf: 'center', marginTop: 13, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 44, width: CLIENT_WIDTH - 80, borderRadius: 22, borderStyle: 'solid', borderWidth: 1, borderColor: this.state.buyType === 'all' ? 'rgb(255,42,49)' : 'rgb(168,168,168)', color: this.state.buyType === 'all' ? 'rgb(255,42,49)' : 'rgb(168,168,168)' }}>
+                            {`${this.state.modalAllChapterCoins} C币购买全部`}
+                        </div>
+
+                        <div style={{ alignSelf: 'center', width: CLIENT_WIDTH - 80, height: 40, alignItems: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                <div style={{ height: 14, width: 14, borderRadius: 7, backgroundColor: 'rgb(255,42,49)', fontSize: 12, color: 'white', fontWeight: 'bold', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>C</div>
+                                <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginLeft: 5 }}>{`币余额:${this.state.modalMyCoins}`}</div>
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                <div style={{ height: 40, width: 14, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 14, width: 14 }} src={require('../../../image/collect/select_all.png')} alt='' /></div>
+                                <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginLeft: 5 }}>下章自动购买</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </Modal>
+
             </div >
         );
+    }
+
+    buyOne = () => {
+        if(this.state.buyType === 'none'){
+            //ToastsStore.
+        }
+    }
+
+    buyAll = () => {
+
+    }
+
+    openModal = (id, sourceId, title, index) => {
+        let globalType = this.state.mangaInfoObj.global_type;
+        this.setState({
+            showModal: true,
+            modalTitle: title,
+            modalChapterIndex: index,
+
+        }, () => {
+            Api.resourceCoins(globalType, id, sourceId, (e) => {
+                let oneCoins = Math.abs(e.one_coins);
+                let allCoins = Math.abs(e.all_coins);
+                let myCoins = parseInt(e.coins);
+                let selectType = 'all';
+                if (myCoins < oneCoins) {
+                    selectType = 'none';
+                } else if (myCoins >= oneCoins && myCoins < allCoins) {
+                    selectType = 'one';
+                } else {
+                    selectType = 'all';
+                }
+                this.setState({
+                    modalChapterCoins: oneCoins,
+                    modalMyCoins: myCoins,
+                    modalAllChapterCoins: allCoins,
+                    buyType: selectType
+                });
+            });
+        });
+    }
+
+    closeModal = () => {
+        this.setState({
+            showModal: false
+        });
     }
 
     addCollect = () => {
@@ -300,15 +388,15 @@ class MangaDetail extends PureComponent {
     readNow = () => {
         let item = this.state.data[0];
         if (item.is_pay) {
-
         } else {
             this.props.history.push(`/manga_read/${item.id}/${item.resource_id}/${this.props.match.params.type}`);
         }
     }
 
-    goToMangaRead = (isPay, id, sourceId) => {
+    goToMangaRead = (isPay, id, sourceId, title, index, coins) => {
         if (isPay) {
-
+            this.openModal(id, sourceId, title, index);
+            // store.dispatch(pop_show('InviteCode'));
         } else {
             this.props.history.push(`/manga_read/${id}/${sourceId}/${this.props.match.params.type}`);
         }
