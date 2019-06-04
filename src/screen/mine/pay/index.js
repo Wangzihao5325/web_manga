@@ -8,6 +8,8 @@ import { CLIENT_WIDTH } from '../../../global/sizes';
 import bg_image from '../../../image/mine/pay_banner_bg.png';
 import './index.js';
 import Api from '../../../socket/index';
+import { ToastsStore } from 'react-toasts';
+
 
 const Item_Width = (CLIENT_WIDTH - 60) / 2;
 
@@ -33,7 +35,10 @@ class Pay extends PureComponent {
     state = {
         rechargeList: [],
         selectId: -1,
-        selectPrice: '0.00'
+        selectPrice: '0.00',
+        aliPay: 0,
+        weChat: 0,
+        selectPay: 'none'
     }
 
     componentDidMount() {
@@ -41,6 +46,25 @@ class Pay extends PureComponent {
         Api.rechargeList((e) => {
             this.setState({
                 rechargeList: e
+            });
+        });
+        Api.payList((e) => {
+            let ali = 0;
+            let wechat = 0;
+            e.every((item) => {
+                switch (item.key) {
+                    case 'alipay':
+                        ali = item.status
+                        break;
+                    case 'wechatpay':
+                        wechat = item.status
+                        break;
+                }
+                return true;
+            });
+            this.setState({
+                aliPay: ali,
+                weChat: wechat
             });
         });
     }
@@ -69,29 +93,59 @@ class Pay extends PureComponent {
 
                 <div style={{ marginLeft: 22, marginTop: 10, fontSize: 20, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>选择支付方式</div>
 
-                <div style={{ marginTop: 24, height: 22, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                <div onClick={this.selectAli} style={{ marginTop: 24, height: 22, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                     <img style={{ height: 22, width: 22, marginLeft: 21 }} src={require('../../../image/mine/aliPay.png')} alt='' />
                     <div style={{ marginLeft: 10, color: 'rgb(34,34,34)', fontSize: 16, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>支付宝支付</div>
                     <div style={{ flex: 1 }} />
-                    <div style={{ marginRight: 27 }}><img style={{ height: 19, width: 19 }} src={require('../../../image/mine/pay_unselect.png')} alt='' /></div>
+                    <div style={{ marginRight: 27 }}><img style={{ height: 19, width: 19 }} src={this.state.selectPay === 'ali' ? require('../../../image/mine/pay_select.png') : require('../../../image/mine/pay_unselect.png')} alt='' /></div>
                 </div>
 
-                <div style={{ marginTop: 22, height: 22, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                <div onClick={this.selectWechat} style={{ marginTop: 22, height: 22, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                     <img style={{ height: 22, width: 22, marginLeft: 21 }} src={require('../../../image/mine/weChat.png')} alt='' />
                     <div style={{ marginLeft: 10, color: 'rgb(34,34,34)', fontSize: 16, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>微信支付</div>
                     <div style={{ flex: 1 }} />
-                    <div style={{ marginRight: 27 }}><img style={{ height: 19, width: 19 }} src={require('../../../image/mine/pay_select.png')} alt='' /></div>
+                    <div style={{ marginRight: 27 }}><img style={{ height: 19, width: 19 }} src={this.state.selectPay === 'wechat' ? require('../../../image/mine/pay_select.png') : require('../../../image/mine/pay_unselect.png')} alt='' /></div>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderTopStyle: 'solid', borderTopWidth: 1, borderTopColor: 'rgba(154,154,154,0.11)', height: 72, width: CLIENT_WIDTH, position: 'absolute', bottom: 0, left: 0 }}>
                     <div style={{ marginLeft: 40, fontSize: 18, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>{`共计 ¥${this.state.selectPrice}`}</div>
-                    <div style={{ color: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginRight: 20, height: 44, width: 178, borderRadius: 22, backgroundColor: 'rgb(255,42,29)' }}>
+                    <div onClick={this.payNow} style={{ color: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginRight: 20, height: 44, width: 178, borderRadius: 22, backgroundColor: 'rgb(255,42,29)' }}>
                         立即充值
                     </div>
                 </div>
 
             </div>
         );
+    }
+
+    payNow = () => {
+        if (this.state.selectId === -1) {
+            ToastsStore.warning('请选择充值金额');
+        }
+        if (this.state.selectPay === 'none') {
+            ToastsStore.warning('请选择支付通道');
+        }
+        //add order
+    }
+
+    selectAli = () => {
+        if (this.state.aliPay) {
+            this.setState({
+                selectPay: 'ali'
+            });
+        } else {
+            ToastsStore.warning('该支付通道暂时关闭，请切换支付通道');
+        }
+    }
+
+    selectWechat = () => {
+        if (this.state.weChat) {
+            this.setState({
+                selectPay: 'wechat'
+            });
+        } else {
+            ToastsStore.warning('该支付通道暂时关闭，请切换支付通道');
+        }
     }
 
     itemCallback = (id, price) => {
