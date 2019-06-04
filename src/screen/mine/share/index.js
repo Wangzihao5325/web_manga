@@ -30,9 +30,9 @@ class Progress extends PureComponent {
                     <div style={{ marginRight: 70, height: 8, width: 8, borderRadius: 4, backgroundColor: 'rgb(254,82,84)' }} />
                 </div>
                 <div style={{ height: 40, width: CLIENT_WIDTH - 28, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div style={{ marginLeft: 40, width: 60, height: 30, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', fontSize: 12, color: 'rgb(34,34,34)' }}>保存邀请码复制超链接</div>
-                    <div style={{ width: 60, height: 30, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', fontSize: 12, color: 'rgb(34,34,34)' }}>发送给好友</div>
-                    <div style={{ marginRight: 40, width: 60, height: 30, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', fontSize: 12, color: 'rgb(34,34,34)' }}>下载并注册</div>
+                    <div style={{ marginLeft: 40, width: 70, height: 30, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', fontSize: 12, color: 'rgb(34,34,34)' }}>保存邀请码复制超链接</div>
+                    <div style={{ width: 70, height: 30, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', fontSize: 12, color: 'rgb(34,34,34)' }}>发送给好友</div>
+                    <div style={{ marginRight: 40, width: 70, height: 30, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', fontSize: 12, color: 'rgb(34,34,34)' }}>下载并注册</div>
                 </div>
             </div>
         );
