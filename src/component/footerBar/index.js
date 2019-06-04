@@ -74,8 +74,9 @@ class Footer extends Component {
                     height: 69,
                     width: '100%',
                     backgroundColor: 'white',
-                    borderTopColor: 'red',
+                    borderTopColor: 'rgb(245,245,245)',
                     borderTopWidth: 1,
+                    borderTopStyle:'solid',
                     display: 'flex',
                     flexDirection: 'row',
                     zIndex: 20

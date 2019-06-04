@@ -9,6 +9,7 @@ import { tab_navi_show } from '../../store/actions/tabBottomNaviAction';
 import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../global/sizes';
 import Api from '../../socket/index';
 //import { pop_show } from '../../store/actions/popAction';
+import { ToastsStore } from 'react-toasts';
 import './index.css';
 
 import bg_image from '../../image/mine/mine_header_bg.png';
@@ -175,7 +176,7 @@ class Mine extends Component {
     }
 
     goToCustom = () => {
-
+        ToastsStore.warning('功能正加紧开发中！');
     }
 
     goToSetInviteCode = () => {
