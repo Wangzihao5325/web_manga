@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
 import Api from '../../socket/index';
 import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../global/sizes';
 import bg_image from '../../image/task/task_bg.jpg';
 import header_bg_image from '../../image/task/task_header_bg.png';
 import page_bg from '../../image/task/page_bg.png';
 import done_open from '../../image/task/done_open.png';
+import { ToastsStore } from 'react-toasts';
+import store from '../../store/index';
+import { tab_navi_show } from '../../store/actions/tabBottomNaviAction';
 import './index.css';
 
 class StateBtn extends Component {
@@ -139,7 +144,7 @@ class MoneyItemWillShow extends Component {
     }
 }
 
-export default class Task extends Component {
+class Task extends Component {
 
     state = {
         newData: [],
@@ -148,6 +153,7 @@ export default class Task extends Component {
     };
 
     componentDidMount() {
+        store.dispatch(tab_navi_show());
         Api.signList((e) => {
             let block = e.block;
             let coins = e.coins;
@@ -208,8 +214,8 @@ export default class Task extends Component {
             <div className='image-bg-container' style={{ height: 1420, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'column', backgroundImage: `url(${bg_image})` }}>
                 <div className='image-bg-container' style={{ height: 204, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'column', backgroundImage: `url(${header_bg_image})` }}>
                     <div style={{ marginTop: 50, marginLeft: 36, color: 'rgb(232,232,232)' }}>已拥有C币</div>
-                    <div style={{ fontSize: 38, marginTop: 7, color: 'white', marginLeft: 35, fontWeight: 'bold' }}>2648</div>
-                    <div style={{ marginLeft: 35, marginTop: 22, height: 32, width: 94, display: 'flex', flexDirection: 'row', backgroundColor: 'rgb(212,81,52)', color: 'rgb(255,210,142)', justifyContent: 'center', alignItems: 'center', borderRadius: 4 }}>立即充值</div>
+                    <div style={{ fontSize: 38, marginTop: 7, color: 'white', marginLeft: 35, fontWeight: 'bold' }}>{this.props.coins}</div>
+                    <div onClick={this.goToPay} style={{ marginLeft: 35, marginTop: 22, height: 32, width: 94, display: 'flex', flexDirection: 'row', backgroundColor: 'rgb(212,81,52)', color: 'rgb(255,210,142)', justifyContent: 'center', alignItems: 'center', borderRadius: 4 }}>立即充值</div>
                 </div>
                 <div style={{ alignSelf: 'center' }}>
                     <img style={{ height: 33, width: 351, marginLeft: 1 }} src={require('../../image/task/task_page_top.png')} alt='' />
@@ -237,4 +243,23 @@ export default class Task extends Component {
             </div>
         );
     }
+
+    goToPay = () => {
+        if (this.props.login) {
+            this.props.history.push('/pay/');
+        } else {
+            ToastsStore.error('请先登陆！');
+        }
+    }
+
 }
+
+function mapState2Props(store) {
+    return {
+        coins: store.user.coins,
+        login: store.user.isLogin,
+    }
+}
+
+const TaskWithRouter = withRouter(connect(mapState2Props)(Task));
+export default TaskWithRouter;
