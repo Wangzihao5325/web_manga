@@ -130,6 +130,7 @@ class Share extends PureComponent {
 function mapState2Props(store) {
     return {
         invite_code: store.user.invite_code,
+        offical_url: store.appInfo.offical_url,
     }
 }
 

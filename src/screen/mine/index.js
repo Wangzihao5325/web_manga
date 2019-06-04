@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import store from '../../store/index';
+import { add_app_info_url } from '../../store/actions/appInfoAction';
 import { pop_show } from '../../store/actions/popAction';
 import { get_user_info } from '../../store/actions/userAction';
 import { tab_navi_show } from '../../store/actions/tabBottomNaviAction';
@@ -118,7 +119,7 @@ class Mine extends Component {
             });
         }
         Api.appVersion((e) => {
-            console.log(e);
+            store.dispatch(add_app_info_url(e.official_url, e.share_url, e.potato_invite_link));
         });
     }
 

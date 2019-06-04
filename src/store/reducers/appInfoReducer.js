@@ -2,7 +2,8 @@ import * as Types from '../actionTypes';
 
 const initialState = {
     offical_url: '',
-    share_url: ''
+    share_url: '',
+    potato_url: '',
 }
 
 const reducer = (state = initialState, action) => {
@@ -12,6 +13,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 offical_url: action.offical,
                 share_url: action.share,
+                potato_url: action.potato
             };
         default: return state;
     }
