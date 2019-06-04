@@ -27,6 +27,7 @@ import PayInfo from '../screen/mine/pay/payInfo/index';
 import ForgetPassword from '../screen/mine/forgetPassword/index';
 import InviteList from '../screen/mine/inviteList/index';
 import CoinList from '../screen/mine/coinList/index';
+import Feedback from '../screen/mine/feedback/index';
 
 
 import ModelContainer from '../screen/modelContainer/index';
@@ -59,11 +60,12 @@ class AppRouter extends Component {
                         <Route path="/search/" component={Search} />
                         <Route path="/leaderBoard/" component={LeaderBoard} />
                         <Route path="/type/" component={TypeScreen} />
+                        <Route path="/feedback/" component={Feedback} />
                     </Switch>
                     {this.props.popShow &&
                         <div
                             style={{
-                                zIndex:200,
+                                zIndex: 200,
                                 position: 'fixed',
                                 top: 0,
                                 left: 0,

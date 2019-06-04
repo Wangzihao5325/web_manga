@@ -171,7 +171,7 @@ class Mine extends Component {
     }
 
     goToFeedback = () => {
-
+        this.props.history.push('/feedback/');
     }
 
     goToCustom = () => {
