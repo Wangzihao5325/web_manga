@@ -6,14 +6,14 @@ import { Menu as InnerMenu } from '../../component/tabSelect/CollectSelect';
 import { typeUtil } from '../../global/utils';
 import { FrontCoverWithSelect } from '../../component/frontCover/index';
 import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../global/sizes';
-
-
+import _ from 'lodash';
 
 const mangaTypeData = [{ name: '韩漫' }, { name: 'H漫画' }, { name: '动漫' }];
 
 export default class Collect extends PureComponent {
 
     state = {
+        isSelectAll: false,
         innerSelected: '韩漫',
         collectData: [],
         collectSelectArr: [],
@@ -62,7 +62,19 @@ export default class Collect extends PureComponent {
                         <div className='box' style={{ width: CLIENT_WIDTH - 24, height: '100vh', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignContent: 'flex-start' }}>
                             {//to do historyData修改
                                 this.state.collectData.map((item, index) => {
-                                    return <FrontCoverWithSelect key={index} title={item.title} intro={item.intro ? item.intro : ' '} source={item.cover_path} coverClick={() => { this.props.navi.push(`/manga_detail/${item.id}/${item.global_type}`) }} />;
+                                    return (
+                                        <FrontCoverWithSelect
+                                            index={index}
+                                            id={item.id}
+                                            editMode={this.props.isEditMode}
+                                            isSelect={item.isSelect}
+                                            key={index}
+                                            title={item.title}
+                                            intro={item.intro ? item.intro : ' '}
+                                            source={item.cover_path}
+                                            coverClick={() => { this.props.navi.push(`/manga_detail/${item.id}/${item.global_type}`) }}
+                                            selectCallback={this._collectSelectCallback}
+                                        />);
                                 })
                             }
                         </div>
@@ -99,8 +111,47 @@ export default class Collect extends PureComponent {
         );
     }
 
-    _collectSelectAll = () => {
+    _collectSelectCallback = (index, id, isSelect) => {
+        let dataReg = [...this.state.collectData];
+        dataReg[index].isSelect = !isSelect;
+        let selectArrReg = [...this.state.collectSelectArr];
+        if (isSelect) {
+            _.pull(selectArrReg, id);
+        } else {
+            selectArrReg.push(id);
+        }
+        this.setState({
+            historyData: dataReg,
+            historySelectArr: selectArrReg
+        });
+    }
 
+    _collectSelectAll = () => {
+        if (this.state.isSelectAll) {//已经全选 清除
+            let dataReg = this.state.collectData.map((item) => {
+                let reg = _.assign({}, item);
+                reg.isSelect = false;
+                return reg;
+            });
+            this.setState({
+                collectData: dataReg,
+                isSelectAll: false,
+                collectSelectArr: []
+            });
+        } else {
+            let selectArr = [];
+            let dataReg = this.state.collectData.map((item) => {
+                selectArr.push(item.id);
+                let reg = _.assign({}, item);
+                reg.isSelect = true;
+                return reg;
+            });
+            this.setState({
+                collectData: dataReg,
+                isSelectAll: true,
+                collectSelectArr: selectArr
+            });
+        }
     }
 
     delete = () => {

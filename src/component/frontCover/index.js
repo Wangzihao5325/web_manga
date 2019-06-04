@@ -50,8 +50,13 @@ class FrontCoverWithSelect extends Component {
 
     render() {
         return (
-            <div onClick={this.coverClick} className='cover_container' style={{ height: VER_HEIGHT, width: VER_WIDTH, display: 'flex', flexDirection: 'column' }}>
+            <div onClick={this.coverClick} className='cover_container' style={{ height: VER_HEIGHT, width: VER_WIDTH, display: 'flex', flexDirection: 'column', position: 'relative' }}>
                 <div style={{ width: VER_WIDTH, height: VER_IMAGE_HEIGHT }}>
+                    {this.props.editMode &&
+                        <div style={{ height: VER_IMAGE_HEIGHT, width: VER_WIDTH, position: 'absolute', top: 0, left: 0, backgroundColor: 'rgba(99,99,99,0.2)' }}>
+                            <div style={{ position: 'absolute', top: 10, right: 10, height: 19, width: 19 }}><img style={{ height: 19, width: 19 }} src={this.props.isSelect ? require('../../image/collect/collect_select.png') : require('../../image/collect/collect_unselect.png')} alt='' /></div>
+                        </div>
+                    }
                     <SecurtyImage borderRadius={5} style={{ width: VER_WIDTH, height: VER_IMAGE_HEIGHT }} source={this.props.source} />
                 </div>
                 <div className='text_div' style={{ color: 'rgb(34,34,34)', fontSize: 15, marginTop: 5, fontWeight: 'bold' }}>{this.props.title}</div>
@@ -61,8 +66,15 @@ class FrontCoverWithSelect extends Component {
     }
 
     coverClick = () => {
-        if (this.props.coverClick) {
-            this.props.coverClick();
+
+        if (this.props.editMode) {
+            if (this.props.selectCallback) {
+                this.props.selectCallback(this.props.index, this.props.id, this.props.isSelect)
+            }
+        } else {
+            if (this.props.coverClick) {
+                this.props.coverClick();
+            }
         }
     }
 }
