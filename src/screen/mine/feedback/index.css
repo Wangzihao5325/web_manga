@@ -1,0 +1,20 @@
+.text_div{
+    white-space: nowrap;
+    text-overflow:ellipsis;
+    text-overflow: ellipsis;
+    overflow:hidden;
+}
+
+.box:after {
+    content: "";
+    flex: auto;
+ }
+
+ .input{
+    outline:none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+input,textarea{
+    -webkit-appearance: none;
+  }
