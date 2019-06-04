@@ -7,28 +7,42 @@ import { HeaderPro } from '../../../component/header/index';
 import { CLIENT_WIDTH } from '../../../global/sizes';
 import bg_image from '../../../image/mine/pay_banner_bg.png';
 import './index.js';
+import Api from '../../../socket/index';
+
+const Item_Width = (CLIENT_WIDTH - 60) / 2;
 
 class SelectItem extends PureComponent {
     render() {
         return (
-            <div onClick={this.btnClick} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: 86, width: 161, borderRadius: 10, borderStyle: 'solid', borderWidth: 1, borderColor: 'rgb(168,168,168)' }}>
-                <div style={{ color: 'rgb(0,0,0)', fontSize: 21, fontWeight: 'bold' }}>{`20元`}</div>
-                <div style={{ color: 'rgb(168,168,168)', fontSize: 15 }}>{`2500 C币`}</div>
+            <div onClick={this.btnClick} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: 86, width: Item_Width, borderRadius: 10, borderStyle: 'solid', borderWidth: 1, borderColor: this.props.selectId === this.props.id ? 'rgb(255,42,49)' : 'rgb(168,168,168)' }}>
+                <div style={{ color: this.props.selectId === this.props.id ? 'rgb(255,42,49)' : 'rgb(0,0,0)', fontSize: 21, fontWeight: 'bold' }}>{`${this.props.price}元`}</div>
+                <div style={{ color: this.props.selectId === this.props.id ? 'rgb(255,42,49)' : 'rgb(168,168,168)', fontSize: 15 }}>{`${this.props.coins} C币`}</div>
             </div>
         );
     }
 
     btnClick = () => {
         if (this.props.callback) {
-            this.props.callback();
+            this.props.callback(this.props.id, this.props.price);
         }
     }
 }
 
 class Pay extends PureComponent {
 
+    state = {
+        rechargeList: [],
+        selectId: -1,
+        selectPrice: '0.00'
+    }
+
     componentDidMount() {
         store.dispatch(tab_navi_unshow());
+        Api.rechargeList((e) => {
+            this.setState({
+                rechargeList: e
+            });
+        });
     }
 
     render() {
@@ -41,17 +55,16 @@ class Pay extends PureComponent {
                         <div style={{ marginLeft: 35, color: 'white', fontSize: 36, fontWeight: 'bold' }}>{this.props.coins}</div>
                     </div>
                     <div style={{ flex: 1, display: 'flex', flexDirection: 'row-reverse', alignItems: 'center' }}>
-                        <div style={{ marginRight: 20, borderRadius: 16, height: 33, width: 75, backgroundColor: 'rgb(255,202,0)', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                        <div onClick={this.goToCCoinList} style={{ marginRight: 20, borderRadius: 16, height: 33, width: 75, backgroundColor: 'rgb(255,202,0)', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                             C币明细
                         </div>
                     </div>
                 </div>
 
                 <div style={{ alignSelf: 'center', marginTop: 25, height: 200, width: CLIENT_WIDTH - 40, display: 'flex', justifyContent: 'space-between', flexDirection: 'row', flexWrap: 'wrap' }}>
-                    <SelectItem />
-                    <SelectItem />
-                    <SelectItem />
-                    <SelectItem />
+                    {this.state.rechargeList.map((item, index) => {
+                        return <SelectItem callback={this.itemCallback} selectId={this.state.selectId} key={index} coins={item.coins} price={item.price} id={item.id} />
+                    })}
                 </div>
 
                 <div style={{ marginLeft: 22, marginTop: 10, fontSize: 20, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>选择支付方式</div>
@@ -71,7 +84,7 @@ class Pay extends PureComponent {
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderTopStyle: 'solid', borderTopWidth: 1, borderTopColor: 'rgba(154,154,154,0.11)', height: 72, width: CLIENT_WIDTH, position: 'absolute', bottom: 0, left: 0 }}>
-                    <div style={{ marginLeft: 40, fontSize: 18, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>{`共计 ¥20`}</div>
+                    <div style={{ marginLeft: 40, fontSize: 18, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>{`共计 ¥${this.state.selectPrice}`}</div>
                     <div style={{ color: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginRight: 20, height: 44, width: 178, borderRadius: 22, backgroundColor: 'rgb(255,42,29)' }}>
                         立即充值
                     </div>
@@ -79,6 +92,17 @@ class Pay extends PureComponent {
 
             </div>
         );
+    }
+
+    itemCallback = (id, price) => {
+        this.setState({
+            selectId: id,
+            selectPrice: price
+        })
+    }
+
+    goToCCoinList = () => {
+        this.props.history.push('/coin_list/');
     }
 
     goToPayInfo = () => {

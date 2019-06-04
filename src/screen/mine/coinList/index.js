@@ -86,7 +86,7 @@ class CoinList extends PureComponent {
     };
 
     goBack = () => {
-        this.props.history.push('/mine/');
+        this.props.history.goBack();
     }
 }
 
