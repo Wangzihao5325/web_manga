@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import store from '../../store/index';
-import {pop_show} from '../../store/actions/popAction';
+import { pop_show } from '../../store/actions/popAction';
 import { get_user_info } from '../../store/actions/userAction';
 import { tab_navi_show } from '../../store/actions/tabBottomNaviAction';
 import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../global/sizes';
@@ -117,6 +117,9 @@ class Mine extends Component {
                 store.dispatch(get_user_info(e));
             });
         }
+        Api.appVersion((e) => {
+            console.log(e);
+        });
     }
 
     render() {
@@ -175,7 +178,7 @@ class Mine extends Component {
     }
 
     goToSetInviteCode = () => {
-         //store.dispatch(pop_show('InviteCode'));
+        //store.dispatch(pop_show('InviteCode'));
         this.props.history.push('/set_invite_code/');
     }
 

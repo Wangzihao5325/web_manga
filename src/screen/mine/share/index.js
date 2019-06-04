@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import QRCode from 'qrcode.react';
 import { withRouter } from 'react-router-dom';
 import store from '../../../store/index';
+import { pop_show } from '../../../store/actions/popAction';
 import Api from '../../../socket/index';
 import { tab_navi_unshow } from '../../../store/actions/tabBottomNaviAction';
 import { HeaderPro } from '../../../component/header/index';
@@ -93,7 +94,7 @@ class Share extends PureComponent {
                     </div>
                 </div>
                 <div style={{ borderTopStyle: 'solid', borderTopColor: 'rgba(136,136,136,0.14)', borderTopWidth: 1, height: 110, width: CLIENT_WIDTH, position: 'fixed', left: 0, bottom: 0, backgroundColor: 'white' }}>
-                    <div style={{ marginTop: 10, width: CLIENT_WIDTH, height: 40, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                    <div onClick={this.showInviteCode} style={{ marginTop: 10, width: CLIENT_WIDTH, height: 40, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <div style={{ marginLeft: 15 }}>
                             <QRCode value='www.baidu.com' size={40} />
                         </div>
@@ -115,6 +116,10 @@ class Share extends PureComponent {
                 </div>
             </div>
         );
+    }
+
+    showInviteCode = () => {
+        store.dispatch(pop_show('InviteCode'));
     }
 
     goBack = () => {

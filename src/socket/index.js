@@ -832,6 +832,26 @@ class api {
         this.securtyFetch(url, paramObj, onSuccess, onError);
     }
 
+    appVersion(onSuccess, onError) {//web端调取此接口只为了获取官网地址
+        const url = '/api/version';
+        const timestamp = (new Date().getTime() / 1000).toFixed(0);
+
+        if (!IsSecurty) {
+            let formData = new FormData();
+            formData.append('timestamp', timestamp);
+            formData.append('platform', 'I');
+            this.normalFetch(url, formData, onSuccess, onError);
+            return;
+        }
+
+        let paramObj = {
+            platform: PlatformStr,
+            timestamp
+        }
+
+        this.securtyFetch(url, paramObj, onSuccess, onError);
+    }
+
 }
 
 export default new api();
