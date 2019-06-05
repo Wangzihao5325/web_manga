@@ -65,8 +65,8 @@ class Bottom extends PureComponent {
                     <div style={{ height: 27, width: 27, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 23, width: 27 }} src={require('../../../../image/detail/manga_read_left_arrow.png')} alt='' /></div>
                     <div style={{ color: 'white' }}>上一话</div>
                 </div>
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <div style={{ height: 27, width: 27, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 27, width: 27 }} src={require('../../../../image/detail/heart.png')} alt='' /></div>
+                <div onClick={this.collectCallback} style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <div style={{ height: 27, width: 27, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 27, width: 27 }} src={this.props.isCollect ? require('../../../../image/detail/heart.png') : require('../../../../image/detail/unheart.png')} alt='' /></div>
                     <div style={{ color: 'white' }}>收藏</div>
                 </div>
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
@@ -83,6 +83,12 @@ class Bottom extends PureComponent {
                 </div>
             </div>
         );
+    }
+
+    collectCallback = () => {
+        if (this.props.collectChange) {
+            this.props.collectChange(this.props.isCollect);
+        }
     }
 
     preChapter = () => {
@@ -144,7 +150,7 @@ class MangaRead extends PureComponent {
         order: true,
         nowChapterDataIndex: 0,        //当前章节在章节列表中的位置
         nowChapterIndex: 0,             //当前章节的话数
-        isCollect: false,               //是否收藏该漫画
+        isCollect: 0,               //是否收藏该漫画
 
         showModal: false,
         modalChapterCoins: 0,
@@ -177,7 +183,6 @@ class MangaRead extends PureComponent {
             });
         });
         Api.comicInfo(type, id, (e) => {
-            console.log(e);
             let endText = '连载中';
             if (e.dump_status) {
                 endText = '已完结';
@@ -186,7 +191,8 @@ class MangaRead extends PureComponent {
                 title: e.title,
                 totalChapter: e.resource_total,
                 isEnd: e.dump_status,
-                isEndText: endText
+                isEndText: endText,
+                isCollect: e.is_collect === 1 ? true : false,
             });
         });
         Api.comicResource(type, id, 'asc', 1, 1000, (e) => {
@@ -234,7 +240,8 @@ class MangaRead extends PureComponent {
                     title: e.title,
                     totalChapter: e.resource_total,
                     isEnd: e.dump_status,
-                    isEndText: endText
+                    isEndText: endText,
+                    isCollect: e.is_collect === 1 ? true : false,
                 });
             });
 
@@ -257,9 +264,9 @@ class MangaRead extends PureComponent {
 
     render() {
         return (
-            <div onClick={this.controllerStateChange} style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }} >
+            <div  style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }} >
                 {this.state.isControllerShow && <Header title={`第${this.state.nowChapterIndex}话`} back={this.goBack} rightBtnText='分享' rigthBtnClick={this.share} />}
-                <div style={{ height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div onClick={this.controllerStateChange} style={{ height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <InfiniteScroll
                         pageStart={0}
                         hasMore={true}
@@ -308,7 +315,7 @@ class MangaRead extends PureComponent {
                         }
                     </div>
                 </Drawer>
-                {this.state.isControllerShow && <Bottom drawShow={this.drawOnShow} preChapter={this.goToPre} nextChapter={this.goToNext} />}
+                {this.state.isControllerShow && <Bottom isCollect={this.state.isCollect} collectChange={this.collectChange} drawShow={this.drawOnShow} preChapter={this.goToPre} nextChapter={this.goToNext} />}
 
                 <Modal
                     className="Modal"
@@ -355,6 +362,34 @@ class MangaRead extends PureComponent {
 
             </div>
         );
+    }
+
+    collectChange = (isCollect) => {
+        const global_type = this.props.match.params.type;
+        const id = parseInt(this.props.match.params.id);
+        if (isCollect) {
+            Api.deleteCollect(global_type, [id], (e, code, message) => {
+                if (message = 'success') {
+                    this.setState({
+                        isCollect: false
+                    });
+                    ToastsStore.success('取消收藏成功');
+                } else {
+                    ToastsStore.success('取消收藏失败');
+                }
+            })
+        } else {
+            Api.addCollect(global_type, id, (e, code, message) => {
+                if (message = 'success') {
+                    this.setState({
+                        isCollect: true
+                    });
+                    ToastsStore.success('收藏成功');
+                } else {
+                    ToastsStore.success('收藏失败');
+                }
+            });
+        }
     }
 
     buyNow = () => {
