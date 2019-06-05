@@ -122,13 +122,17 @@ class ChapterItem extends Component {
         return (
             <div onClick={this.itemOnClick} id={`chapter_list_${this.props.index}`} style={{ width: 281, height: 55, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', height: 54, width: 250, borderBottomColor: 'rgb(50,50,50)', borderBottomWidth: 1, borderBottomStyle: 'solid' }}>
-                    <div style={{ fontSize: 13, color: 'white' }}>{`${this.props.item.index}-${this.props.item.title}`}</div>
+                    <div className='text_div' style={{ fontSize: 13, color: 'white' }}>{`${this.props.item.index}-${this.props.item.title}`}</div>
                     {
                         this.props.item.is_pay === 1 &&
                         <div style={{ alignSelf: 'center', width: 50, height: 20, marginRight: 20, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
                             <div style={{ height: 20, width: 20, borderRadius: 10, backgroundColor: 'rgb(255,42,49)', fontWeight: 'bold', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}><div style={{ fontSize: 14, color: 'white' }}>C</div></div>
                             <div style={{ color: 'rgb(255,42,49)', fontSize: 18 }}>{`${coins}`}</div>
                         </div>
+                    }
+                      {
+                        this.props.item.is_pay === 0 &&
+                        <div style={{ alignSelf: 'center', width: 50, height: 20, marginRight: 20, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}/>
                     }
                 </div>
             </div>
@@ -301,7 +305,7 @@ class MangaRead extends PureComponent {
                     visible={this.state.isDrawerShow}
                     width={281}
                 >
-                    <div style={{ position: 'fixed', top: 0, right: 0, height: 42, width: 281, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: 'white', backgroundColor: 'rgb(34,34,34)' }}>
+                    <div className='text_div' style={{ position: 'fixed', top: 0, right: 0, height: 42, width: 281, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: 'white', backgroundColor: 'rgb(34,34,34)' }}>
                         {this.state.title}
                     </div>
 
