@@ -8,7 +8,7 @@ import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../../../global/sizes';
 import Api from '../../../../socket/index';
 import SecurtyImage from '../../../../component/securtyImage/Image';
 import 'antd/dist/antd.css';
-import { Drawer } from 'antd';
+import { Drawer, Rate } from 'antd';
 import { ToastsStore } from 'react-toasts';
 import Modal from 'react-modal';
 import _ from 'lodash';
@@ -69,7 +69,7 @@ class Bottom extends PureComponent {
                     <div style={{ height: 27, width: 27, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 27, width: 27 }} src={this.props.isCollect ? require('../../../../image/detail/heart.png') : require('../../../../image/detail/unheart.png')} alt='' /></div>
                     <div style={{ color: 'white' }}>收藏</div>
                 </div>
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                <div onClick={this.starStateChange} style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                     <div style={{ height: 27, width: 27, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 27, width: 27 }} src={require('../../../../image/detail/star.png')} alt='' /></div>
                     <div style={{ color: 'white' }}>评分</div>
                 </div>
@@ -83,6 +83,12 @@ class Bottom extends PureComponent {
                 </div>
             </div>
         );
+    }
+
+    starStateChange = () => {
+        if (this.props.openStar) {
+            this.props.openStar();
+        }
     }
 
     collectCallback = () => {
@@ -160,7 +166,10 @@ class MangaRead extends PureComponent {
         modalChapterIndex: 0,
         modalChapterTrueIndex: 0,
         buyType: 'all',
-        isAutoBuy: true
+        isAutoBuy: true,
+
+        isShowStar: false,
+        starValue: 2.5
     }
 
     componentDidMount() {
@@ -229,6 +238,7 @@ class MangaRead extends PureComponent {
                     data: e.data,
                     nowPage: e.current_page,
                     totalPage: e.last_page,
+                    isShowStar: false
                 });
             });
             Api.comicInfo(type, id, (e) => {
@@ -315,7 +325,7 @@ class MangaRead extends PureComponent {
                         }
                     </div>
                 </Drawer>
-                {this.state.isControllerShow && <Bottom isCollect={this.state.isCollect} collectChange={this.collectChange} drawShow={this.drawOnShow} preChapter={this.goToPre} nextChapter={this.goToNext} />}
+                {this.state.isControllerShow && <Bottom openStar={this.openStar} isCollect={this.state.isCollect} collectChange={this.collectChange} drawShow={this.drawOnShow} preChapter={this.goToPre} nextChapter={this.goToNext} />}
 
                 <Modal
                     className="Modal"
@@ -359,9 +369,52 @@ class MangaRead extends PureComponent {
                         }
                     </div>
                 </Modal>
+                {
+                    this.state.isShowStar &&
+                    <div onClick={this.closeStar} style={{ position: 'fixed', top: 0, bottom: 0, left: 0, right: 0, backgroundColor: 'rgba(0,0,0,0.6)', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
 
+                        <div onClick={this.starContentClick} style={{ position: 'relative', width: 276, height: 290, display: 'flex', flexDirection: 'column-reverse' }}>
+                            <div style={{ height: 96, width: 96, position: 'absolute', top: 0, left: 90, zIndex: 2 }}><img style={{ height: 96, width: 96 }} src={require('../../../../image/detail/star_header.png')} alt='' /></div>
+                            <div style={{ alignItems: 'center', width: 276, height: 242, display: 'flex', flexDirection: 'column', backgroundColor: 'white', borderRadius: 5 }}>
+                                <div style={{ fontSize: 20, color: 'rgb(34,34,34)', marginTop: 53 }} >小主打个分呗</div>
+                                <div style={{ marginBottom: 20, fontSize: 14, color: 'rgb(168,168,168)', marginTop: 5 }}>求你了~~喵 么么哒爱你</div>
+                                <Rate allowHalf value={this.state.starValue} onChange={this.starValueChange} />
+                                <div style={{ marginTop: 20, fontSize: 18, color: 'rgb(255,29,35)' }} onClick={this.submitStar}>好哒</div>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
         );
+    }
+
+    starContentClick = (event) => {
+        event.stopPropagation()
+    }
+
+    starValueChange = (value) => {
+        this.setState({
+            starValue: value
+        });
+    }
+
+    openStar = () => {
+        this.setState({
+            isShowStar: true
+        });
+    }
+
+    closeStar = () => {
+        this.setState({
+            isShowStar: false
+        });
+    }
+
+    submitStar = () => {
+        ToastsStore.success('评分成功!');
+        this.setState({
+            isShowStar: false
+        });
     }
 
     collectChange = (isCollect) => {

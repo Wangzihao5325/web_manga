@@ -4,3 +4,4 @@
 .ant-drawer-content{
     background-color:rgb(34,34,34)
 }
+.disabled { pointer-events: none; }
