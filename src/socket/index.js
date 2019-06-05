@@ -892,6 +892,35 @@ class api {
         this.securtyFetch(url, paramObj, onSuccess, onError);
     }
 
+    resourceCoins(action, global_type, comic_id, comic_resource_id, index, onSuccess, onError) {
+        const url = '/api/resource-buy';
+        const timestamp = (new Date().getTime() / 1000).toFixed(0);
+
+        if (!IsSecurty) {
+            let formData = new FormData();
+            formData.append('action', action);
+            formData.append('index', index);
+            formData.append('timestamp', timestamp);
+            formData.append('global_type', global_type);
+            formData.append('comic_id', comic_id);
+            formData.append('comic_resource_id', comic_resource_id);
+            this.normalFetch(url, formData, onSuccess, onError);
+            return;
+        }
+
+        let paramObj = {
+            action,
+            comic_id,
+            comic_resource_id,
+            global_type,
+            index,
+            platform: PlatformStr,
+            timestamp
+        }
+
+        this.securtyFetch(url, paramObj, onSuccess, onError);
+    }
+
 }
 
 export default new api();

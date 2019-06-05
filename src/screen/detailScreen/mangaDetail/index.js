@@ -123,7 +123,7 @@ class ChapterCoverItem extends PureComponent {
 
     itemClick = () => {
         if (this.props.itemClick) {
-            this.props.itemClick(this.props.item.is_pay, this.props.item.id, this.props.item.resource_id, this.props.item.title, this.props.item.index, Math.abs(this.props.item.coins));
+            this.props.itemClick(this.props.item.is_pay, this.props.item.id, this.props.item.resource_id, this.props.item.title, this.props.item.index, Math.abs(this.props.item.coins), this.props.index);
         }
     }
 }
@@ -176,6 +176,12 @@ class MangaDetail extends PureComponent {
         modalMyCoins: '0',
         modalAllChapterCoins: 0,
 
+        modalId: -1,
+        modalSourceId: -1,
+        modalIndex: -1,
+        modalTureIndex: 0,
+
+        isAutoBuy: true,
         buyType: 'all'
     }
 
@@ -271,7 +277,7 @@ class MangaDetail extends PureComponent {
                 }
                 {
                     this.state.data.map((item, index) => {
-                        return <ChapterCoverItem key={index} item={item} itemClick={this.goToMangaRead} />
+                        return <ChapterCoverItem key={index} item={item} index={index} itemClick={this.goToMangaRead} />
                     })
                 }
                 {
@@ -301,26 +307,38 @@ class MangaDetail extends PureComponent {
                     isOpen={this.state.showModal}>
                     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                         <div style={{ marginTop: 20, color: 'rgb(0,0,0)', fontSize: 14, alignSelf: 'center' }}>{`${this.state.modalTitle}${this.state.modalChapterIndex}话`}</div>
-
-                        <div onClick={this.buyOne} style={{ alignSelf: 'center', marginTop: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 44, width: CLIENT_WIDTH - 80, borderRadius: 22, borderStyle: 'solid', borderWidth: 1, borderColor: this.state.buyType === 'one' ? 'rgb(255,42,49)' : 'rgb(168,168,168)', color: this.state.buyType === 'one' ? 'rgb(255,42,49)' : 'rgb(168,168,168)' }}>
-                            {`${this.state.modalChapterCoins} C币购买此话`}
-                        </div>
-
-                        <div onClick={this.buyAll} style={{ alignSelf: 'center', marginTop: 13, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 44, width: CLIENT_WIDTH - 80, borderRadius: 22, borderStyle: 'solid', borderWidth: 1, borderColor: this.state.buyType === 'all' ? 'rgb(255,42,49)' : 'rgb(168,168,168)', color: this.state.buyType === 'all' ? 'rgb(255,42,49)' : 'rgb(168,168,168)' }}>
-                            {`${this.state.modalAllChapterCoins} C币购买全部`}
-                        </div>
-
-                        <div style={{ alignSelf: 'center', width: CLIENT_WIDTH - 80, height: 40, alignItems: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                                <div style={{ height: 14, width: 14, borderRadius: 7, backgroundColor: 'rgb(255,42,49)', fontSize: 12, color: 'white', fontWeight: 'bold', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>C</div>
-                                <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginLeft: 5 }}>{`币余额:${this.state.modalMyCoins}`}</div>
+                        {this.state.modalChapterCoins > 0 &&
+                            <div onClick={this.buyOne} style={{ alignSelf: 'center', marginTop: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 44, width: CLIENT_WIDTH - 80, borderRadius: 22, borderStyle: 'solid', borderWidth: 1, borderColor: this.state.buyType === 'one' ? 'rgb(255,42,49)' : 'rgb(168,168,168)', color: this.state.buyType === 'one' ? 'rgb(255,42,49)' : 'rgb(168,168,168)' }}>
+                                {`${this.state.modalChapterCoins} C币购买此话`}
                             </div>
-                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                                <div style={{ height: 40, width: 14, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 14, width: 14 }} src={require('../../../image/collect/select_all.png')} alt='' /></div>
-                                <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginLeft: 5 }}>下章自动购买</div>
+                        }
+                        {this.state.modalChapterCoins > 0 &&
+                            <div onClick={this.buyAll} style={{ alignSelf: 'center', marginTop: 13, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 44, width: CLIENT_WIDTH - 80, borderRadius: 22, borderStyle: 'solid', borderWidth: 1, borderColor: this.state.buyType === 'all' ? 'rgb(255,42,49)' : 'rgb(168,168,168)', color: this.state.buyType === 'all' ? 'rgb(255,42,49)' : 'rgb(168,168,168)' }}>
+                                {`${this.state.modalAllChapterCoins} C币购买全部`}
                             </div>
-                        </div>
-
+                        }
+                        {this.state.modalChapterCoins > 0 &&
+                            <div style={{ alignSelf: 'center', width: CLIENT_WIDTH - 80, height: 40, alignItems: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                    <div style={{ height: 14, width: 14, borderRadius: 7, backgroundColor: 'rgb(255,42,49)', fontSize: 12, color: 'white', fontWeight: 'bold', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>C</div>
+                                    <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginLeft: 5 }}>{`币余额:${this.state.modalMyCoins}`}</div>
+                                </div>
+                                <div onClick={this.autoBuy} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                    <div style={{ height: 40, width: 14, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 14, width: 14 }} src={this.state.isAutoBuy ? require('../../../image/collect/select_all.png') : require('../../../image/collect/unSelect_all.png')} alt='' /></div>
+                                    <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginLeft: 5 }}>下章自动购买</div>
+                                </div>
+                            </div>
+                        }
+                        {this.state.modalChapterCoins > 0 &&
+                            <div style={{ alignSelf: 'center', height: 44, width: CLIENT_WIDTH - 80, display: 'flex', flexDirection: 'row' }}>
+                                <div onClick={this.earnMoney} style={{ borderTopLeftRadius: 22, borderBottomLeftRadius: 22, flex: 1, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgb(34,34,34)', color: 'white', fontSize: 14 }}>去赚C币</div>
+                                <div onClick={this.buyNow} style={{ borderTopRightRadius: 22, borderBottomRightRadius: 22, flex: 2, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgb(255,42,49)', color: 'white', fontSize: 14 }}>立即购买</div>
+                            </div>
+                        }
+                        {
+                            this.state.modalChapterCoins === 0 &&
+                            <div style={{ color: 'rgb(168,168,168)', fontSize: 14, alignSelf: 'center', marginTop: 50 }}>正在获取购买信息ing...</div>
+                        }
                     </div>
                 </Modal>
 
@@ -328,22 +346,66 @@ class MangaDetail extends PureComponent {
         );
     }
 
+    buyNow = () => {
+        if (this.state.buyType === 'none') {
+            ToastsStore.warning('您的C币不够啦,快去赚取金币吧!');
+            return;
+        }
+        let globalType = this.state.mangaInfoObj.global_type;
+        let tureIndex = this.state.modalTureIndex;
+        Api.resourceCoins(this.state.buyType, globalType, this.state.modalId, this.state.modalSourceId, this.state.modalIndex, (e, code, message) => {
+            if (message === 'success') {
+                let dataReg = [...this.state.data];
+                dataReg[tureIndex].is_pay = 0;
+                this.setState({
+                    data: dataReg
+                });
+                this.props.history.push(`/manga_read/${this.state.modalId}/${this.state.modalSourceId}/${this.state.modalIndex}/${globalType}`);
+            }
+        });
+    }
+
+    earnMoney = () => {
+        this.props.history.replace('/task/');
+    }
+
+    autoBuy = () => {
+        this.setState({
+            isAutoBuy: !this.state.isAutoBuy
+        });
+    }
+
     buyOne = () => {
         if (this.state.buyType === 'none') {
-            //ToastsStore.
+            ToastsStore.warning('您的C币不够啦,快去赚取金币吧!');
+            return;
         }
+        this.setState({
+            buyType: 'one'
+        });
     }
 
     buyAll = () => {
-
+        if (this.state.modalAllChapterCoins <= this.state.modalMyCoins) {
+            this.setState({
+                buyType: 'all'
+            });
+        } else {
+            ToastsStore.warning('您的C币不够啦,快去赚取金币吧!');
+        }
     }
 
-    openModal = (id, sourceId, title, index) => {
+    openModal = (id, sourceId, title, index, trueIndex) => {
         let globalType = this.state.mangaInfoObj.global_type;
         this.setState({
             showModal: true,
             modalTitle: title,
             modalChapterIndex: index,
+
+            modalId: id,
+            modalSourceId: sourceId,
+            modalIndex: index,
+            modalTureIndex: trueIndex
 
         }, () => {
             Api.mangaImage(globalType, id, sourceId, index, 1, 10, (e, code, message) => {
@@ -374,7 +436,12 @@ class MangaDetail extends PureComponent {
 
     closeModal = () => {
         this.setState({
-            showModal: false
+            showModal: false,
+            modalChapterCoins: 0,
+            modalMyCoins: '0',
+            modalAllChapterCoins: 0,
+
+            buyType: 'all'
         });
     }
 
@@ -397,9 +464,9 @@ class MangaDetail extends PureComponent {
         }
     }
 
-    goToMangaRead = (isPay, id, sourceId, title, index, coins) => {
+    goToMangaRead = (isPay, id, sourceId, title, index, coins, trueIndex) => {
         if (isPay) {
-            this.openModal(id, sourceId, title, index);
+            this.openModal(id, sourceId, title, index, trueIndex);
             // store.dispatch(pop_show('InviteCode'));
         } else {
             this.props.history.push(`/manga_read/${id}/${sourceId}/${index}/${this.props.match.params.type}`);
