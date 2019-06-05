@@ -264,7 +264,7 @@ class MangaRead extends PureComponent {
 
     render() {
         return (
-            <div  style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }} >
+            <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }} >
                 {this.state.isControllerShow && <Header title={`第${this.state.nowChapterIndex}话`} back={this.goBack} rightBtnText='分享' rigthBtnClick={this.share} />}
                 <div onClick={this.controllerStateChange} style={{ height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <InfiniteScroll
@@ -307,7 +307,7 @@ class MangaRead extends PureComponent {
                         </div>
                         </div>
                     </div>
-                    <div className='scrolllist' style={{ marginTop: 80 }} >
+                    <div className='scrolllist' style={{ marginTop: 80, background: 'rgb(34,34,34)' }} >
                         {
                             this.state.chapterListData.map((item, index) => {
                                 return <ChapterItem itemClick={this.changeChapter} key={index} item={item} index={item.index} tureIndex={index} />;
