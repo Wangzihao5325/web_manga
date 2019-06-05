@@ -57,16 +57,16 @@ class MangaInfoHeader extends PureComponent {
                         <SecurtyImage borderRadius={4} style={{ height: 178, width: 121 }} source={this.props.item.cover_url} />
                     </div>
                     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }} >
-                        <div style={{ fontSize: 21, color: 'white', marginLeft: 20, marginTop: 10, fontWeight: 'bold' }}>{this.props.item.title}</div>
+                        <div className='text_div' style={{ fontSize: 21, color: 'white', marginLeft: 20, marginTop: 10, fontWeight: 'bold', width: CLIENT_WIDTH - 181 }}>{this.props.item.title}</div>
                         <div style={{ marginTop: 20, marginLeft: 20, height: 20, width: 100, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                             <div style={{ height: 20, width: 20 }}><img style={{ height: 20, width: 20 }} src={require('../../../image/main/first_fire.png')} alt='' /></div>
                             <div style={{ color: 'rgb(255,42,49)', fontSize: 16, marginLeft: 5, fontWeight: 'bold' }}>{hotNum}</div>
                         </div>
-                        <div style={{ marginTop: 22, marginLeft: 20, display: 'flex', flexDirection: 'row' }}>
+                        <div style={{ marginTop: 22, marginLeft: 20, width: CLIENT_WIDTH - 181, display: 'flex', flexDirection: 'row' }}>
                             <Rate disabled defaultValue={rateScore} />
                             <div style={{ color: 'rgb(168,168,168)', fontSize: 19, fontWeight: 'bold', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>{score}</div>
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 20, marginTop: 13 }}>
+                        <div style={{ display: 'flex', width: CLIENT_WIDTH - 181, flexDirection: 'row', marginLeft: 20, marginTop: 13 }}>
                             {this.state.tabs.map((item, index) => {
                                 return <div key={index} style={{ borderRadius: 3, marginRight: 4, height: 18, width: 35, backgroundColor: item.color, color: 'white', fontSize: 11, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>{item.title}</div>
                             })}
@@ -78,7 +78,7 @@ class MangaInfoHeader extends PureComponent {
                         <SecurtyImage style={{ height: 175, width: CLIENT_WIDTH }} source={this.props.item.cover_url} />
                     </div>
                 </div>
-                <div style={{ marginTop: 84 + 26, width: CLIENT_WIDTH - 40, alignSelf: 'center', color: 'rgb(127,127,127)', fontSize: 15 }}>{this.props.item.intro}</div>
+                <div className='intro' style={{ marginTop: 84 + 26, width: CLIENT_WIDTH - 40, height: 47, alignSelf: 'center', color: 'rgb(127,127,127)', fontSize: 15 }}>{this.props.item.intro}</div>
             </div>
         );
     }
