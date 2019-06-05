@@ -5,3 +5,10 @@
     background-color:rgb(34,34,34)
 }
 .disabled { pointer-events: none; }
+
+.text_div{
+    white-space: nowrap;
+    text-overflow:ellipsis;
+    text-overflow: ellipsis;
+    overflow:hidden;
+}

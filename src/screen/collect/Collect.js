@@ -71,7 +71,7 @@ export default class Collect extends PureComponent {
                                             key={index}
                                             title={item.title}
                                             intro={item.intro ? item.intro : ' '}
-                                            source={item.cover_path}
+                                            source={item.cover_url}
                                             coverClick={() => { this.props.navi.push(`/manga_detail/${item.id}/${item.global_type}`) }}
                                             selectCallback={this._collectSelectCallback}
                                         />);
