@@ -5,6 +5,7 @@ import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../../global/sizes';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 import { Menu } from '../../../component/tabSelect/WeekSelect';
 import { Comic3Item } from '../../../component/frontCover/index';
+import './index.css';
 
 
 export default class UpdatePage extends Component {
@@ -56,7 +57,7 @@ export default class UpdatePage extends Component {
                         itemStyle={{ outline: 'none' }}
                     />
                 </div>
-                <div style={{ flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div className='scrolllist' style={{ flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <InfiniteScroll
                         pageStart={0}
                         hasMore={true}

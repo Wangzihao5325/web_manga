@@ -7,6 +7,7 @@ import { HeaderPro } from '../../../component/header/index';
 import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../../global/sizes';
 import Api from '../../../socket/index';
 import SecurtyImage from '../../../component/securtyImage/Image';
+import './index.css';
 
 class ImageItem extends PureComponent {
     render() {
@@ -44,7 +45,7 @@ class CGDetail extends PureComponent {
         return (
             <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }} >
                 <HeaderPro title={this.state.title} back={this.goBack} />
-                <div style={{ height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div className='scrolllist' style={{ height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <InfiniteScroll
                         pageStart={0}
                         hasMore={true}

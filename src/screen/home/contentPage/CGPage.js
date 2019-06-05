@@ -48,7 +48,6 @@ class CGPage extends Component {
 
     componentDidMount() {
         Api.specialList(this.props.type, null, 1, 10, (e) => {
-            console.log(e);
             let originData = e.lists.data;
             let data1Result = [];
             let data2Result = [];
@@ -71,7 +70,7 @@ class CGPage extends Component {
 
     render() {
         return (
-            <div style={{ flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
+            <div className='scrolllist' style={{ flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
                 <InfiniteScroll
                     pageStart={0}
                     hasMore={true}

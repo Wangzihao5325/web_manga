@@ -4,3 +4,7 @@
     text-overflow: ellipsis;
     overflow:hidden;
 }
+
+.scrolllist{
+    -webkit-overflow-scrolling : touch;
+}
