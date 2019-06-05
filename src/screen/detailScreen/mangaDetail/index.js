@@ -346,24 +346,28 @@ class MangaDetail extends PureComponent {
             modalChapterIndex: index,
 
         }, () => {
-            Api.resourceCoins(globalType, id, sourceId, (e) => {
-                let oneCoins = Math.abs(e.one_coins);
-                let allCoins = Math.abs(e.all_coins);
-                let myCoins = parseInt(e.coins);
-                let selectType = 'all';
-                if (myCoins < oneCoins) {
-                    selectType = 'none';
-                } else if (myCoins >= oneCoins && myCoins < allCoins) {
-                    selectType = 'one';
-                } else {
-                    selectType = 'all';
+            Api.mangaImage(globalType, id, sourceId, index, 1, 10, (e, code, message) => {
+                if (code === 200) {
+                    let oneCoins = Math.abs(e.one_coins);
+                    let allCoins = Math.abs(e.all_coins);
+                    let myCoins = parseInt(e.coins);
+                    let selectType = 'all';
+                    if (myCoins < oneCoins) {
+                        selectType = 'none';
+                    } else if (myCoins >= oneCoins && myCoins < allCoins) {
+                        selectType = 'one';
+                    } else {
+                        selectType = 'all';
+                    }
+                    this.setState({
+                        modalChapterCoins: oneCoins,
+                        modalMyCoins: myCoins,
+                        modalAllChapterCoins: allCoins,
+                        buyType: selectType
+                    });
+                } else if (code === 0) {
+                    this.props.history.push(`/manga_read/${id}/${sourceId}/${index}/${globalType}`);
                 }
-                this.setState({
-                    modalChapterCoins: oneCoins,
-                    modalMyCoins: myCoins,
-                    modalAllChapterCoins: allCoins,
-                    buyType: selectType
-                });
             });
         });
     }

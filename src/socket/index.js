@@ -92,7 +92,7 @@ class api {
                     const code = (reponseJson.code || reponseJson.code === 0) ? reponseJson.code : null;
                     const message = reponseJson.message ? reponseJson.message : null;
                     try {
-                        if (code === 0) {
+                        if (code === 0 || code === 200) {
                             onSuccess(result, code, message);
                         } else {
                             ToastsStore.error(message);
@@ -123,7 +123,7 @@ class api {
                     const code = (reponseJson.code || reponseJson.code === 0) ? reponseJson.code : 0;
                     const message = reponseJson.message ? reponseJson.message : null;
                     try {
-                        if (code === 0) {
+                        if (code === 0 || code === 200) {
                             onSuccess(result, code, message);
                         } else {
                             ToastsStore.error(message);
