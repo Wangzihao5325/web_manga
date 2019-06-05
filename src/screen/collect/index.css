@@ -2,3 +2,9 @@
     content: "";
     flex: auto;
  }
+
+ .one_line_title{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+ }
