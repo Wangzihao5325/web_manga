@@ -1,4 +1,4 @@
-import React, { PureComponent,Component } from 'react';
+import React, { PureComponent, Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import store from '../../../../store/index';
 import { tab_navi_unshow } from '../../../../store/actions/tabBottomNaviAction';
@@ -473,10 +473,8 @@ class MangaRead extends PureComponent {
 
         const isPay = this.state.chapterListData[this.state.nowChapterDataIndex + 1].is_pay;
         if (isPay) {
-            const newId = parseInt(this.props.match.params.id);
-            const newSource = parseInt(this.props.match.params.resource);
-            const newIndex = parseInt(this.props.match.params.index);
-            this.openModal(newId, newSource, this.state.title, newIndex, this.state.nowChapterDataIndex);
+            let item = this.state.chapterListData[this.state.nowChapterDataIndex + 1];
+            this.openModal(item.id, item.resource_id, item.title, item.index, this.state.nowChapterDataIndex + 1);
         } else {
             const newSourceId = this.state.chapterListData[this.state.nowChapterDataIndex + 1].resource_id;
             const id = parseInt(this.props.match.params.id);
@@ -499,7 +497,8 @@ class MangaRead extends PureComponent {
 
         const isPay = this.state.chapterListData[this.state.nowChapterDataIndex - 1].is_pay;
         if (isPay) {
-            this.openModal(1, 2, 3, 4, 5);
+            let item = this.state.chapterListData[this.state.nowChapterDataIndex - 1];
+            this.openModal(item.id, item.resource_id, item.title, item.index, this.state.nowChapterDataIndex - 1);
         } else {
             const newSourceId = this.state.chapterListData[this.state.nowChapterDataIndex - 1].resource_id;
             const id = parseInt(this.props.match.params.id);
