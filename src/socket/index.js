@@ -473,7 +473,7 @@ class api {
         this.securtyFetch(url, paramObj, onSuccess, onError);
     }
 
-    mangaImage(global_type, comic_id, comic_resource_id, page, limit, onSuccess, onError) {
+    mangaImage(global_type, comic_id, comic_resource_id, index, page, limit, onSuccess, onError) {
         const url = '/api/comic-image';
         const timestamp = (new Date().getTime() / 1000).toFixed(0);
 
@@ -482,6 +482,7 @@ class api {
             formData.append('comic_id', comic_id);
             formData.append('comic_resource_id', comic_resource_id);
             formData.append('global_type', global_type);
+            formData.append('index', index);
             formData.append('limit', limit);
             formData.append('page', page);
             formData.append('timestamp', timestamp);
@@ -493,6 +494,7 @@ class api {
             comic_id,
             comic_resource_id,
             global_type,
+            index,
             limit,
             page,
             platform: PlatformStr,

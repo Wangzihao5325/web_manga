@@ -253,7 +253,7 @@ class MangaDetail extends PureComponent {
                 {this.state.mangaInfoObj && <MangaInfoHeader goback={this.goBack} item={this.state.mangaInfoObj} />}
                 {
                     this.state.mangaInfoObj &&
-                    <div style={{ marginBottom: 20, height: 20, width: CLIENT_WIDTH - 40, alignSelf: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <div style={{ marginTop: 10, marginBottom: 20, height: 20, width: CLIENT_WIDTH - 40, alignSelf: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
                             <div style={{ fontSize: 13, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>{`${text}`}</div>
                             <div style={{ fontSize: 13, color: 'rgb(255,42,49)', fontWeight: 'bold' }}>{`(更新至${totalNum}话)`}</div>
@@ -329,7 +329,7 @@ class MangaDetail extends PureComponent {
     }
 
     buyOne = () => {
-        if(this.state.buyType === 'none'){
+        if (this.state.buyType === 'none') {
             //ToastsStore.
         }
     }
@@ -398,7 +398,7 @@ class MangaDetail extends PureComponent {
             this.openModal(id, sourceId, title, index);
             // store.dispatch(pop_show('InviteCode'));
         } else {
-            this.props.history.push(`/manga_read/${id}/${sourceId}/${this.props.match.params.type}`);
+            this.props.history.push(`/manga_read/${id}/${sourceId}/${index}/${this.props.match.params.type}`);
         }
     }
 

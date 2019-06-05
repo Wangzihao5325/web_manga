@@ -30,7 +30,7 @@ class CGDetail extends PureComponent {
         store.dispatch(tab_navi_unshow());
         const cgId = parseInt(this.props.match.params.id);
         const title = this.props.match.params.title;
-        Api.mangaImage('cg', cgId, 0, 1, 10, (e) => {
+        Api.mangaImage('cg', cgId, 0, 0, 1, 10, (e) => {
             this.setState({
                 title,
                 data: e.data,
@@ -75,7 +75,7 @@ class CGDetail extends PureComponent {
         }
         const cgId = parseInt(this.props.match.params.id);
         const newPage = this.state.nowPage + 1;
-        Api.mangaImage('cg', cgId, 0, newPage, 10, (e) => {
+        Api.mangaImage('cg', cgId, 0, 0, newPage, 10, (e) => {
             let regData = [...this.state.data];
             let newData = regData.concat(e.data);
             this.setState({

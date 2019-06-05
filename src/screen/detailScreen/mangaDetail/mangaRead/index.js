@@ -148,7 +148,8 @@ class MangaRead extends PureComponent {
         const id = parseInt(this.props.match.params.id);
         const source = parseInt(this.props.match.params.resource);
         const type = this.props.match.params.type;
-        Api.mangaImage(type, id, source, 1, 10, (e) => {
+        const mangaIndex = parseInt(this.props.match.params.index);
+        Api.mangaImage(type, id, source, mangaIndex, 1, 10, (e) => {
             this.setState({
                 data: e.data,
                 nowPage: e.current_page,
@@ -201,7 +202,8 @@ class MangaRead extends PureComponent {
         const newSource = parseInt(this.props.match.params.resource);
         if (id !== newId || source !== newSource) {
             const type = this.props.match.params.type;
-            Api.mangaImage(type, newId, newSource, 1, 10, (e) => {
+            const mangaIndex = parseInt(this.props.match.params.index);
+            Api.mangaImage(type, newId, newSource, mangaIndex, 1, 10, (e) => {
                 this.setState({
                     data: e.data,
                     nowPage: e.current_page,
@@ -308,8 +310,9 @@ class MangaRead extends PureComponent {
         } else {
             const newSourceId = this.state.chapterListData[this.state.nowChapterDataIndex + 1].resource_id;
             const id = parseInt(this.props.match.params.id);
+            const newIndex = this.state.chapterListData[this.state.nowChapterDataIndex + 1].index;
 
-            this.props.history.replace(`/manga_read/${id}/${newSourceId}/${this.props.match.params.type}`);
+            this.props.history.replace(`/manga_read/${id}/${newSourceId}/${newIndex}/${this.props.match.params.type}`);
             this.draweOnClose();
             let anchorElement = document.getElementById('manga_image_0');
             if (anchorElement) {        // 如果对应id的锚点存在，就跳转到锚点
@@ -330,8 +333,9 @@ class MangaRead extends PureComponent {
         } else {
             const newSourceId = this.state.chapterListData[this.state.nowChapterDataIndex - 1].resource_id;
             const id = parseInt(this.props.match.params.id);
+            const newIndex = this.state.chapterListData[this.state.nowChapterDataIndex - 1].index;
 
-            this.props.history.replace(`/manga_read/${id}/${newSourceId}/${this.props.match.params.type}`);
+            this.props.history.replace(`/manga_read/${id}/${newSourceId}/${newIndex}/${this.props.match.params.type}`);
             this.draweOnClose();
             let anchorElement = document.getElementById('manga_image_0');
             if (anchorElement) {        // 如果对应id的锚点存在，就跳转到锚点
@@ -344,7 +348,7 @@ class MangaRead extends PureComponent {
         if (item.is_pay) {
             ToastsStore.warning('请进行购买');
         } else {
-            this.props.history.replace(`/manga_read/${item.id}/${item.resource_id}/${this.props.match.params.type}`);
+            this.props.history.replace(`/manga_read/${item.id}/${item.resource_id}/${item.index}/${this.props.match.params.type}`);
             this.draweOnClose();
             let anchorElement = document.getElementById('manga_image_0');
             if (anchorElement) {        // 如果对应id的锚点存在，就跳转到锚点
@@ -431,8 +435,8 @@ class MangaRead extends PureComponent {
         const source = parseInt(this.props.match.params.resource);
         const type = this.props.match.params.type;
         const newPage = this.state.nowPage + 1;
-
-        Api.mangaImage(type, id, source, newPage, 10, (e) => {
+        const mangaIndex = parseInt(this.props.match.params.index);
+        Api.mangaImage(type, id, source, mangaIndex, newPage, 10, (e) => {
             let regData = [...this.state.data];
             let newData = regData.concat(e.data);
             this.setState({
