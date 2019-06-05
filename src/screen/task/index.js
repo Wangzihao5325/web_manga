@@ -127,10 +127,16 @@ class MoneyItemDone extends Component {
 class MoneyItemWillOPen extends Component {
     render() {
         return (
-            <div style={{ height: 70, width: 48, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end' }}>
+            <div onClick={this.open} style={{ height: 70, width: 48, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end' }}>
                 <img style={{ width: 47, height: 61 }} src={require('../../image/task/will_open.png')} alt='' />
             </div>
         );
+    }
+
+    open = () => {
+        if (this.props.open) {
+            this.props.open();
+        }
     }
 }
 
@@ -149,7 +155,8 @@ class Task extends Component {
     state = {
         newData: [],
         dailyData: [],
-        coinData: []
+        coinData: [],
+        day: 0
     };
 
     componentDidMount() {
@@ -173,7 +180,7 @@ class Task extends Component {
             stateArr.forEach((item, index) => {
                 let enve = null;
                 if (item === -20) {
-                    enve = <MoneyItemWillOPen key={index} />
+                    enve = <MoneyItemWillOPen key={index} open={this.openMoney} />
                 } else if (item === -10) {
                     enve = <MoneyItemWillShow key={index} />
                 } else {
@@ -183,7 +190,8 @@ class Task extends Component {
             });
 
             this.setState({
-                coinData: dataReg
+                coinData: dataReg,
+                day: 5 - block
             });
 
         });
@@ -223,7 +231,7 @@ class Task extends Component {
                 <div className='image-bg-container' style={{ borderBottomLeftRadius: 10, borderBottomRightRadius: 10, marginTop: -20, height: 163, width: 320, alignSelf: 'center', display: 'flex', flexDirection: 'column', backgroundImage: `url(${page_bg})` }} >
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 22, marginLeft: 20 }}>
                         <div style={{ fontSize: 16, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>连续第</div>
-                        <div style={{ fontSize: 16, color: 'red', fontWeight: 'bold' }}>2</div>
+                        <div style={{ fontSize: 16, color: 'red', fontWeight: 'bold' }}>{this.state.day}</div>
                         <div style={{ fontSize: 16, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>天</div>
                     </div>
                     <div style={{ marginTop: 20, height: 70, width: 280, alignSelf: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'end' }}>
@@ -242,6 +250,46 @@ class Task extends Component {
                 </div>
             </div>
         );
+    }
+
+    openMoney = () => {
+        Api.dailySign((e, code, message) => {
+            if (message === 'success') {
+                let block = e.block;
+                let coins = e.coins;
+                let stateArr = [];
+                let dataReg = [];
+                coins.forEach((item) => {
+                    stateArr.push(item.value);
+                });
+                for (let i = 0; i < block; i++) {
+                    if (i === 0) {
+                        stateArr.push(-20);
+                    } else {
+                        stateArr.push(-10);
+                    }
+                }
+
+                stateArr.forEach((item, index) => {
+                    let enve = null;
+                    if (item === -20) {
+                        enve = <MoneyItemWillOPen key={index} open={this.openMoney} />
+                    } else if (item === -10) {
+                        enve = <MoneyItemWillShow key={index} />
+                    } else {
+                        enve = <MoneyItemDone coins={item} key={index} />
+                    }
+                    dataReg.push(enve);
+                });
+
+                this.setState({
+                    coinData: dataReg,
+                    day: 5 - block
+                });
+            } else {
+                ToastsStore.warning(e.message);
+            }
+        });
     }
 
     goToPay = () => {
