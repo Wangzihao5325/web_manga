@@ -106,11 +106,11 @@ class SudokuVe extends Component {
                 </div>
                 <div style={{ height: 44, width: SudokuVe_WIDTH, marginTop: 20, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div onClick={this._more} style={{ height: 44, width: BOTTOM_BTN_WIDTH, backgroundColor: 'rgb(244,244,244)', borderRadius: 4, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                        <div style={{ height: 14, width: 14 }}><img style={{ height: 14, width: 14 }} src={require('../../image/main/more.png')} alt='' /></div>
+                        <div style={{ height: 44, width: 14, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 14, width: 14 }} src={require('../../image/main/more.png')} alt='' /></div>
                         <div style={{ fontSize: 14, color: 'rgb(152,152,152)', marginLeft: 5 }}>更多</div>
                     </div>
                     <div onClick={this._changePage} style={{ height: 44, width: BOTTOM_BTN_WIDTH, backgroundColor: 'rgb(244,244,244)', borderRadius: 4, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                        <div style={{ height: 14, width: 14 }}><img style={{ height: 14, width: 14 }} src={require('../../image/main/change.png')} alt='' /></div>
+                        <div style={{ height: 44, width: 14, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 14, width: 14 }} src={require('../../image/main/change.png')} alt='' /></div>
                         <div style={{ fontSize: 14, color: 'rgb(152,152,152)', marginLeft: 5 }}>换一批</div>
                     </div>
                 </div>
