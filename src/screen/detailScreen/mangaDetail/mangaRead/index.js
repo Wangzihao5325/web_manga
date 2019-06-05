@@ -12,6 +12,7 @@ import { Drawer } from 'antd';
 import { ToastsStore } from 'react-toasts';
 import Modal from 'react-modal';
 import _ from 'lodash';
+import './index.css';
 
 
 const dis_time = 5000;
@@ -143,6 +144,7 @@ class MangaRead extends PureComponent {
         order: true,
         nowChapterDataIndex: 0,        //当前章节在章节列表中的位置
         nowChapterIndex: 0,             //当前章节的话数
+        isCollect: false,               //是否收藏该漫画
 
         showModal: false,
         modalChapterCoins: 0,
@@ -175,6 +177,7 @@ class MangaRead extends PureComponent {
             });
         });
         Api.comicInfo(type, id, (e) => {
+            console.log(e);
             let endText = '连载中';
             if (e.dump_status) {
                 endText = '已完结';
@@ -297,7 +300,7 @@ class MangaRead extends PureComponent {
                         </div>
                         </div>
                     </div>
-                    <div style={{ marginTop: 80 }} >
+                    <div className='scrolllist' style={{ marginTop: 80 }} >
                         {
                             this.state.chapterListData.map((item, index) => {
                                 return <ChapterItem itemClick={this.changeChapter} key={index} item={item} index={item.index} tureIndex={index} />;
