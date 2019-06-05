@@ -484,6 +484,7 @@ class MangaDetail extends PureComponent {
     readNow = () => {
         let item = this.state.data[0];
         if (item.is_pay) {
+            this.openModal(item.id, item.resource_id, item.title, item.index, 0);
         } else {
             this.props.history.push(`/manga_read/${item.id}/${item.resource_id}/${item.index}/${this.props.match.params.type}`);
         }

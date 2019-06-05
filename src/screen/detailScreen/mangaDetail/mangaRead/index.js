@@ -111,7 +111,7 @@ class ChapterItem extends PureComponent {
                     {
                         this.props.item.is_pay === 1 &&
                         <div style={{ alignSelf: 'center', width: 50, height: 20, marginRight: 20, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
-                            <div style={{ height: 20, width: 20, borderRadius: 10, backgroundColor: 'rgb(255,42,49)', fontWeight: 'bold', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}><dic style={{ fontSize: 14, color: 'white' }}>C</dic></div>
+                            <div style={{ height: 20, width: 20, borderRadius: 10, backgroundColor: 'rgb(255,42,49)', fontWeight: 'bold', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}><div style={{ fontSize: 14, color: 'white' }}>C</div></div>
                             <div style={{ color: 'rgb(255,42,49)', fontSize: 18 }}>{`${coins}`}</div>
                         </div>
                     }
