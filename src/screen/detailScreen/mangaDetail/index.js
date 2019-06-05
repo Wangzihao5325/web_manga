@@ -485,7 +485,7 @@ class MangaDetail extends PureComponent {
         let item = this.state.data[0];
         if (item.is_pay) {
         } else {
-            this.props.history.push(`/manga_read/${item.id}/${item.resource_id}/${this.props.match.params.type}`);
+            this.props.history.push(`/manga_read/${item.id}/${item.resource_id}/${item.index}/${this.props.match.params.type}`);
         }
     }
 
