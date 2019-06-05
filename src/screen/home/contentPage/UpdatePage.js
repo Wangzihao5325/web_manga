@@ -67,7 +67,7 @@ export default class UpdatePage extends Component {
                     >
                         {
                             this.state.data.map((item, index) => {
-                                return <Comic3Item isHiddenIndexTab={true} index={index} key={item.title} item={item} />;
+                                return <Comic3Item coverClick={() => this.itemClick(item)} isHiddenIndexTab={true} index={index} key={item.title} item={item} />;
                             })
                         }
                         <div style={{ height: 80, width: CLIENT_WIDTH - 24 }} />{/**底部垫高，防止正文部分被bottom遮挡 */}
@@ -75,6 +75,10 @@ export default class UpdatePage extends Component {
                 </div>
             </div>
         );
+    }
+
+    itemClick = (item) => {
+        this.props.navi.push(`/manga_detail/${item.id}/${item.global_type}`);
     }
 
     _onSelect = (key) => {

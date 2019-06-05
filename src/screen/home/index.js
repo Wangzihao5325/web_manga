@@ -61,7 +61,7 @@ class Home extends Component {
                         <img style={{ height: 16, width: 16 }} src={require('../../image/main/main_more.png')} alt='' />
                     </div>
                 </div>
-                {reg.keyMap[this.state.selected] === 'recommend' && <UpdatePage />}
+                {reg.keyMap[this.state.selected] === 'recommend' && <UpdatePage navi={this.props.history} />}
                 {reg.keyMap[this.state.selected] === 'hanman' && <MangaPage type='hanman' navi={this.props.history} />}
                 {reg.keyMap[this.state.selected] === 'hman' && <MangaPage type='hman' navi={this.props.history} />}
                 {reg.keyMap[this.state.selected] === 'anime' && <MangaPage type='anime' navi={this.props.history} />}
