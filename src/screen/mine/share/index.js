@@ -10,8 +10,19 @@ import { HeaderPro } from '../../../component/header/index';
 import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../../global/sizes';
 import { ToastsStore } from 'react-toasts';
 import ClipboardJS from 'clipboard';
+import html2canvas from 'html2canvas';
 
 const BG_WIDTH = CLIENT_WIDTH > 360 ? 360 : CLIENT_WIDTH - 15;
+
+var saveFile = function (data, filename) {
+    var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+    save_link.href = data;
+    save_link.download = filename;
+
+    var event = document.createEvent('MouseEvents');
+    event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+    save_link.dispatchEvent(event);
+};
 
 class Progress extends PureComponent {
     render() {
@@ -121,7 +132,15 @@ class Share extends PureComponent {
     }
 
     saveQrCode = () => {
-        ToastsStore.warning('请截屏保存二维码,完成任务请通过客户端版本！');
+        store.dispatch(pop_show('InviteCode'));
+        setTimeout(() => {
+            html2canvas(document.body).then(function (canvas) {
+                //document.body.appendChild(canvas);
+                let data = canvas.toDataURL('image/png', 1);
+                saveFile(data, 'share_code.png');
+            });
+        }, 0);
+        // ToastsStore.warning('请截屏保存二维码,完成任务请通过客户端版本！');
     }
 
     copyInviteLink = () => {
