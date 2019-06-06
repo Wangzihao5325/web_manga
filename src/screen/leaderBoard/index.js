@@ -24,15 +24,13 @@ class LeaderBoard extends PureComponent {
 
     componentDidMount() {
         store.dispatch(tab_navi_unshow());
-
-        const timestamp = (new Date().getTime() / 1000).toFixed(0);
-        Api.specialList('recommend', timestamp, 1, 10, (e) => {
-            let data = e.lists.data;
-            let nowPage = e.lists.current_page;
+        Api.mangaRank('hanman', 1, 10, (e) => {
+            let data = e.data;
+            let nowPage = e.current_page;
             this.setState({
                 data,
                 nowPage,
-                totalPage: e.lists.last_page
+                totalPage: e.last_page
             });
         });
     }
@@ -81,7 +79,29 @@ class LeaderBoard extends PureComponent {
     }
 
     onSelect = key => {
-        this.setState({ selected: key });
+        this.setState({ selected: key }, () => {
+            let key = 'hanman';
+            switch (this.state.selected) {
+                case '韩漫':
+                    key = 'hanman'
+                    break;
+                case 'H漫':
+                    key = 'hman';
+                    break;
+                case '动漫':
+                    key = 'anime'
+                    break;
+            }
+            Api.mangaRank(key, 1, 10, (e) => {
+                let data = e.data;
+                let nowPage = e.current_page;
+                this.setState({
+                    data,
+                    nowPage,
+                    totalPage: e.last_page
+                });
+            });
+        });
     }
 
     goBack = () => {
