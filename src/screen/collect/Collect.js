@@ -60,6 +60,13 @@ export default class Collect extends PureComponent {
                         loadMore={this._loadMore}
                     >
                         <div className='box' style={{ width: CLIENT_WIDTH - 24, height: '100vh', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignContent: 'flex-start' }}>
+                            {
+                                this.state.collectData.length === 0 &&
+                                <div style={{ marginTop: 55, width: CLIENT_WIDTH, height: 300, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                    <div style={{ height: 199, width: 235 }}><img style={{ height: 199, width: 235 }} src={require('../../image/collect/no_collect_data.png')} alt='' /></div>
+                                    <div style={{ color: 'rgb(160,160,160)', fontSize: 16, marginTop: 50 }}>暂无收藏</div>
+                                </div>
+                            }
                             {//to do historyData修改
                                 this.state.collectData.map((item, index) => {
                                     return (

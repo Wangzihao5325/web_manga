@@ -26,7 +26,7 @@ class Item extends PureComponent {
                         <SecurtyImage borderRadius={4} style={{ width: 75, height: 110 }} source={this.props.source} />
                     </div>
                     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                        <div className='one_line_title' style={{ width:CLIENT_WIDTH-200,marginLeft: 17, marginTop: 11, color: 'rgb(44,44,44)', fontSize: 15, fontWeight: 'bold' }}>{this.props.title}</div>
+                        <div className='one_line_title' style={{ width: CLIENT_WIDTH - 200, marginLeft: 17, marginTop: 11, color: 'rgb(44,44,44)', fontSize: 15, fontWeight: 'bold' }}>{this.props.title}</div>
                         <div style={{ marginTop: 15, color: 'rgb(168,168,168)', fontSize: 13, marginLeft: 17 }}>{`更新到:第${this.props.total}集`}</div>
                     </div>
                     {!this.props.editMode && <div onClick={this.goToSee} style={{ alignSelf: 'center', borderRadius: 15, borderStyle: 'solid', borderColor: 'rgb(255,29,35)', borderWidth: 1, height: 30, width: 58, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: 'rgb(255,29,35)', fontSize: 14 }}>续看</div>}
@@ -109,6 +109,13 @@ export default class History extends PureComponent {
                             })
                         }
                         <div style={{ height: 80, width: CLIENT_WIDTH - 24 }} />{/**底部垫高，防止正文部分被bottom遮挡 */}
+                        {
+                            this.state.historyData.length === 0 &&
+                            <div style={{ width: CLIENT_WIDTH, height: 300, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                <div style={{ height: 199, width: 235 }}><img style={{ height: 199, width: 235 }} src={require('../../image/collect/no_collect_data.png')} alt='' /></div>
+                                <div style={{ color: 'rgb(160,160,160)', fontSize: 16, marginTop: 50 }}>暂无历史</div>
+                            </div>
+                        }
                     </InfiniteScroll>
                 </div>
 
