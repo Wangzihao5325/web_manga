@@ -9,6 +9,7 @@ import ScrollMenu from 'react-horizontal-scrolling-menu';
 import { InnerMenu, Menu, WIDTH as ITEM_WIDTH } from '../../component/tabSelect/TypeSelect';
 import { FrontCover } from '../../component/frontCover';
 import InfiniteScroll from 'react-infinite-scroller';
+import './index.css';
 
 class TypeScreen extends PureComponent {
 
@@ -153,7 +154,7 @@ class TypeScreen extends PureComponent {
                         itemStyle={{ outline: 'none' }}
                     />
                 </div>
-                <div style={{ flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ width: CLIENT_WIDTH, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
                     <InfiniteScroll
                         pageStart={0}
                         hasMore={true}
@@ -162,7 +163,7 @@ class TypeScreen extends PureComponent {
                         threshold={250}
                         loadMore={this._loadMore}
                     >
-                        <div style={{ flex: 1, height: '100vh', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around' }}>
+                        <div className='box' style={{ marginLeft: 6, width: CLIENT_WIDTH - 12, height: '100vh', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignContent: 'flex-start' }}>
                             {
                                 this.state.mangaData
                             }
