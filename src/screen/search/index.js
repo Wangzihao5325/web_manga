@@ -7,6 +7,8 @@ import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../global/sizes';
 import { ToastsStore } from 'react-toasts';
 import Api from '../../socket/index';
 import './index.css';
+import InfiniteScroll from 'react-infinite-scroller';
+import { Comic3Item } from '../../component/frontCover/index';
 
 const textReg = { content: '' };
 
@@ -41,7 +43,10 @@ class Search extends PureComponent {
 
     state = {
         isSearch: false,
-        hotData: []
+        hotData: [],
+        searchData: [],
+        nowPage: -1,
+        totalPage: -1
     }
 
     componentDidMount() {
@@ -92,8 +97,31 @@ class Search extends PureComponent {
                         }
                     </div >
                 }
+
+                {this.state.isSearch && this.state.searchData.length > 0 &&
+                    <div className='scrolllist' style={{ flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <InfiniteScroll
+                            pageStart={0}
+                            hasMore={true}
+                            useWindow={false}
+                            getScrollParent={() => this.scrollParentRef}
+                            loadMore={this._loadMore}
+                        >
+                            {
+                                this.state.searchData.map((item, index) => {
+                                    return <Comic3Item coverClick={() => this.itemClick(item)} isHiddenIndexTab={true} index={index} key={item.title} item={item} />;
+                                })
+                            }
+                            <div style={{ height: 80, width: CLIENT_WIDTH - 24 }} />{/**底部垫高，防止正文部分被bottom遮挡 */}
+                        </InfiniteScroll>
+                    </div>
+                }
             </div>
         );
+    }
+
+    _loadMore = () => {
+
     }
 
     itemClick = (item) => {
@@ -102,14 +130,27 @@ class Search extends PureComponent {
 
     inputOnChange = ({ target }) => {
         textReg.content = target.value;
+        if (target.value === '' && this.state.isSearch) {
+            this.setState({
+                isSearch: false
+            });
+        }
     }
 
     onKeyup = (e) => {
         if (e.keyCode === 13) {
             const type = this.props.match.params.type;
             const title = textReg.content;
+            this.setState({
+                isSearch: true,
+            });
             Api.searchByType(type, title, 1, 10, (e) => {
                 console.log(e);
+                this.setState({
+                    searchData: e.data,
+                    nowPage: e.current_page,
+                    totalPage: e.last_page
+                });
             });
         }
     }
