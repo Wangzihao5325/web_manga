@@ -9,6 +9,7 @@ import Api from '../../../socket/index';
 import SecurtyImage from '../../../component/securtyImage/Image';
 import Modal from 'react-modal';
 import './index.css';
+import { ToastsStore } from 'react-toasts';
 
 class ImageItem extends PureComponent {
     render() {
@@ -36,13 +37,15 @@ class CGDetail extends PureComponent {
         store.dispatch(tab_navi_unshow());
         const cgId = parseInt(this.props.match.params.id);
         const title = this.props.match.params.title;
-        Api.mangaImage('cg', cgId, 0, 0, 1, 10, (e, code, message) => {
+        const type = this.props.match.params.type;
+        Api.mangaImage(type, cgId, 0, 0, 1, 10, (e, code, message) => {
             if (code === 200) {
                 console.log(e);
-                let oneCoins = Math.abs(parseInt(e.one_coins));
+                let oneCoins = Math.abs(parseInt(e.all_coins));
                 let myCoins = parseInt(e.coins);
                 let buyType = myCoins >= oneCoins ? 'one' : 'none';
                 this.setState({
+                    title,
                     showModal: true,
                     modalChapterCoins: oneCoins,
                     modalMyCoins: myCoins,
@@ -126,7 +129,41 @@ class CGDetail extends PureComponent {
     }
 
     buyNow = () => {
-       // Api.resourceCoins('all',);
+        if (this.state.buyType === 'none') {
+            ToastsStore.warning('您的C币不足！');
+            return;
+        }
+        const type = this.props.match.params.type;
+        const cgId = parseInt(this.props.match.params.id);
+        Api.resourceCoins('all', type, cgId, 0, 0, (e, code, message) => {
+            console.log(message);
+            if (e) {
+                const cgId = parseInt(this.props.match.params.id);
+                const title = this.props.match.params.title;
+                const type = this.props.match.params.type;
+                Api.mangaImage(type, cgId, 0, 0, 1, 10, (e, code, message) => {
+                    if (code === 200) {
+                        let oneCoins = Math.abs(parseInt(e.all_coins));
+                        let myCoins = parseInt(e.coins);
+                        let buyType = myCoins >= oneCoins ? 'one' : 'none';
+                        this.setState({
+                            title,
+                            showModal: true,
+                            modalChapterCoins: oneCoins,
+                            modalMyCoins: myCoins,
+                            buyType
+                        });
+                    } else if (code === 0) {
+                        this.setState({
+                            title,
+                            data: e.data,
+                            nowPage: e.current_page,
+                            totalPage: e.last_page,
+                        });
+                    }
+                });
+            }
+        });
     }
 
     closeModal = () => {
@@ -143,9 +180,10 @@ class CGDetail extends PureComponent {
         if (this.state.nowPage >= this.state.totalPage) {
             return;
         }
+        const type = this.props.match.params.type;
         const cgId = parseInt(this.props.match.params.id);
         const newPage = this.state.nowPage + 1;
-        Api.mangaImage('cg', cgId, 0, 0, newPage, 10, (e) => {
+        Api.mangaImage(type, cgId, 0, 0, newPage, 10, (e) => {
             let regData = [...this.state.data];
             let newData = regData.concat(e.data);
             this.setState({
