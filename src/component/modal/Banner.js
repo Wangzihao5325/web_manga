@@ -25,8 +25,14 @@ class BannerItem extends PureComponent {
     }
 
     bannerPress = () => {
-        const { GLOBAL_TYPE } = this.context;
-        this.props.navi.push(`/manga_detail/${this.props.item.id}/${GLOBAL_TYPE}`);
+        if (this.props.item.type === 'LINK') {
+            window.location.href = this.props.item.redirect_url;
+        }
+        if (this.props.item.type === 'COMIC') {
+            const { GLOBAL_TYPE } = this.context;
+            this.props.navi.push(`/manga_detail/${this.props.item.comic_id}/${GLOBAL_TYPE}`);
+        }
+
     }
 }
 
