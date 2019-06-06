@@ -46,7 +46,8 @@ class Search extends PureComponent {
         hotData: [],
         searchData: [],
         nowPage: -1,
-        totalPage: -1
+        totalPage: -1,
+        searchTitle: '',
     }
 
     componentDidMount() {
@@ -116,12 +117,24 @@ class Search extends PureComponent {
                         </InfiniteScroll>
                     </div>
                 }
+                
             </div>
         );
     }
 
     _loadMore = () => {
-
+        if (this.state.nowPage >= this.state.totalPage) {
+            return;
+        }
+        const type = this.props.match.params.type;
+        const title = this.state.searchTitle;
+        Api.searchByType(type, title, this.state.nowPage + 1, 10, (e) => {
+            this.setState({
+                searchData: e.data,
+                nowPage: e.current_page,
+                totalPage: e.last_page
+            });
+        });
     }
 
     itemClick = (item) => {
@@ -143,9 +156,9 @@ class Search extends PureComponent {
             const title = textReg.content;
             this.setState({
                 isSearch: true,
+                searchTitle: title
             });
             Api.searchByType(type, title, 1, 10, (e) => {
-                console.log(e);
                 this.setState({
                     searchData: e.data,
                     nowPage: e.current_page,
