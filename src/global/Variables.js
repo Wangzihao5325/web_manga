@@ -1,6 +1,6 @@
 export default {
     account: {
-        token: null,//'34bed2e0bf6f48402bdca35ba04d1cd7 925cebbfbc68d925.35001484',//601191f8f2b85a511e70dd4b4ca7e58e 1445ce654d170bfe6.18181754
+        token: '92fe4ce7f75ea05157b10402abead2a7 35cf8c2b4dd42c6.58759733',//null
         deviceToken: null,
         deviceId: null,
         platform: null,
