@@ -26,7 +26,8 @@ class BannerItem extends PureComponent {
 
     bannerPress = () => {
         if (this.props.item.type === 'LINK') {
-            window.location.href = this.props.item.redirect_url;
+            //window.location.href = this.props.item.redirect_url;
+            window.open(this.props.item.redirect_url);
         }
         if (this.props.item.type === 'COMIC') {
             const { GLOBAL_TYPE } = this.context;
