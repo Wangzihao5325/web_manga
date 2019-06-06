@@ -21,9 +21,9 @@ class Item extends Component {
                     <SecurtyImage borderRadius={4} style={{ height: ItemImageHeight, width: ItemWidth }} source={this.props.item.cover_url} />
                 </div>
                 <div style={{ height: 31, width: ItemWidth, backgroundColor: 'white', borderRadius: 4, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                    <div className='text_div' style={{ flex: 1, marginLeft: 2, fontSize: 13, color: 'rgb(0,0,0)' }}>{this.props.item.title}</div>
-                    <div style={{ height: 31, width: 12, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}><img style={{ height: 12, width: 12 }} src={require('../../../image/mine/aliPay.png')} alt='' /></div>
-                    <div style={{ height: 31, width: 50, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', fontSize: 12, color: 'rgb(168,168,168)' }}>652</div>
+                    <div className='text_div' style={{ flex: 1, marginLeft: 2, marginRight: 10, fontSize: 13, color: 'rgb(0,0,0)' }}>{this.props.item.title}</div>
+                    <div style={{ height: 31, width: 12, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}><img style={{ height: 12, width: 12 }} src={require('../../../image/detail/cg_good.png')} alt='' /></div>
+                    <div style={{ height: 31, width: 30, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', fontSize: 12, color: 'rgb(168,168,168)' }}>{`${this.props.item.score}`}</div>
                 </div>
             </div>
         );
@@ -48,6 +48,7 @@ class CGPage extends Component {
 
     componentDidMount() {
         Api.specialList(this.props.type, null, 1, 10, (e) => {
+            console.log(e);
             let originData = e.lists.data;
             let data1Result = [];
             let data2Result = [];

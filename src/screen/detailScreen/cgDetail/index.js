@@ -32,6 +32,7 @@ class CGDetail extends PureComponent {
         const cgId = parseInt(this.props.match.params.id);
         const title = this.props.match.params.title;
         Api.mangaImage('cg', cgId, 0, 0, 1, 10, (e) => {
+            console.log(e);
             this.setState({
                 title,
                 data: e.data,
@@ -55,9 +56,9 @@ class CGDetail extends PureComponent {
                         loadMore={this._loadMore}
                     >
                         {
-                            this.state.data.map((item, index) => {
-                                return <ImageItem source={item.image_url} key={index} />
-                            })
+                            // this.state.data.map((item, index) => {
+                            //     return <ImageItem source={item.image_url} key={index} />
+                            // })
                         }
                         {/* <div style={{ height: 80, width: CLIENT_WIDTH - 24 }} />*/}{/**底部垫高，防止正文部分被bottom遮挡 */}
                     </InfiniteScroll>
