@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { ToastsStore } from 'react-toasts';
+import store from '../../store/index';
+import { tab_navi_select_change } from '../../store/actions/tabBottomNaviAction';
 
 
 //image
@@ -71,10 +73,6 @@ class Item extends Component {
 
 class Footer extends Component {
 
-    state = {
-        highlightIndex: 0
-    }
-
     render() {
         return (
             <div
@@ -93,24 +91,23 @@ class Footer extends Component {
                     zIndex: 20
                 }}
             >
-                <Item isLogin={this.props.isLogin} navi={this.props.history} callback={this.pressCallback} index={0} highLightIndex={this.state.highlightIndex} icon={main_active} defalut={main_default} name={'首页'} />
-                <Item isLogin={this.props.isLogin} navi={this.props.history} callback={this.pressCallback} index={1} highLightIndex={this.state.highlightIndex} icon={collect_active} defalut={collect_default} name={'书架'} />
-                <Item isLogin={this.props.isLogin} navi={this.props.history} callback={this.pressCallback} index={2} highLightIndex={this.state.highlightIndex} icon={task_active} defalut={task_default} name={'任务'} />
-                <Item isLogin={this.props.isLogin} navi={this.props.history} callback={this.pressCallback} index={3} highLightIndex={this.state.highlightIndex} icon={mine_active} defalut={mine_default} name={'我的'} />
+                <Item isLogin={this.props.isLogin} navi={this.props.history} callback={this.pressCallback} index={0} highLightIndex={this.props.naviHighlightIndex} icon={main_active} defalut={main_default} name={'首页'} />
+                <Item isLogin={this.props.isLogin} navi={this.props.history} callback={this.pressCallback} index={1} highLightIndex={this.props.naviHighlightIndex} icon={collect_active} defalut={collect_default} name={'书架'} />
+                <Item isLogin={this.props.isLogin} navi={this.props.history} callback={this.pressCallback} index={2} highLightIndex={this.props.naviHighlightIndex} icon={task_active} defalut={task_default} name={'任务'} />
+                <Item isLogin={this.props.isLogin} navi={this.props.history} callback={this.pressCallback} index={3} highLightIndex={this.props.naviHighlightIndex} icon={mine_active} defalut={mine_default} name={'我的'} />
             </div>
         );
     }
 
     pressCallback = (index) => {
-        this.setState({
-            highlightIndex: index
-        });
+        store.dispatch(tab_navi_select_change(index));
     }
 }
 
 function mapState2Props(store) {
     return {
-        isLogin: store.user.isLogin
+        isLogin: store.user.isLogin,
+        naviHighlightIndex: store.tabNavi.highlightIndex,
     }
 }
 

@@ -1,7 +1,8 @@
 import * as Types from '../actionTypes';
 
 const initialState = {
-    isShow: true
+    isShow: true,
+    highlightIndex: 0
 }
 
 const reducer = (state = initialState, action) => {
@@ -15,6 +16,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 isShow: false
+            };
+        case Types.TAB_BOTTOM_NAVI_SELECT_CHANGE:
+            return {
+                ...state,
+                highlightIndex: action.index
             };
         default: return state;
     }
