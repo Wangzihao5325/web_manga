@@ -5,7 +5,7 @@ import store from '../../store/index';
 import { add_app_info_url } from '../../store/actions/appInfoAction';
 import { pop_show } from '../../store/actions/popAction';
 import { get_user_info } from '../../store/actions/userAction';
-import { tab_navi_show } from '../../store/actions/tabBottomNaviAction';
+import { tab_navi_show, tab_navi_select_change } from '../../store/actions/tabBottomNaviAction';
 import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../global/sizes';
 import Api from '../../socket/index';
 //import { pop_show } from '../../store/actions/popAction';
@@ -24,7 +24,7 @@ class Header extends Component {
                     <div style={{ color: 'white', fontSize: 13, marginTop: 5 }}>{this.props.slogan}</div>
                 </div>
                 <div onClick={this.callback} style={{ width: 44, height: 55, paddingLeft: 18, paddingTop: 19 }}>
-                    <img style={{ height: 16, width: 8, alignSelf: 'center' }} src={require('../../image/mine/mine_right_arrow.png')} alt='' />
+                    {!this.props.isLogin && <img style={{ height: 16, width: 8, alignSelf: 'center' }} src={require('../../image/mine/mine_right_arrow.png')} alt='' />}
                 </div>
             </div>
         );
@@ -114,6 +114,7 @@ class Mine extends Component {
 
     componentDidMount() {
         store.dispatch(tab_navi_show());
+        store.dispatch(tab_navi_select_change(3));
         if (this.props.login) {
             Api.userInfo((e) => {
                 store.dispatch(get_user_info(e));
@@ -129,7 +130,7 @@ class Mine extends Component {
             <div style={{ height: CLIENT_HEIGHT, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'column' }}>
                 <WhiteBorder toInviteList={this.goToInviteNum} toCoinsList={this.goToMyCoins} inviteNum={this.props.inviteNum} coins={this.props.coins} />
                 <div className='mine-header-container' style={{ height: 188, width: '100%', paddingTop: 53, backgroundImage: `url(${bg_image})` }} >
-                    <Header goToLogin={this.goToLogin} userName={this.props.userName} slogan={this.props.slogan} />
+                    <Header isLogin={this.props.login} goToLogin={this.goToLogin} userName={this.props.userName} slogan={this.props.slogan} />
                 </div>
                 <Tabs
                     share={this.goToShare}

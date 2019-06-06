@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import store from '../../store/index';
-import { tab_navi_show } from '../../store/actions/tabBottomNaviAction';
+import { tab_navi_show, tab_navi_select_change } from '../../store/actions/tabBottomNaviAction';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 import { Menu } from '../../component/tabSelect/ScrollTabSelect';
 import Api from '../../socket/index';
@@ -27,6 +27,7 @@ class Home extends Component {
 
     componentDidMount() {
         store.dispatch(tab_navi_show());
+        store.dispatch(tab_navi_select_change(0));
         Api.comicGlobal((e) => {
             let keyArr = e.map((item) => {
                 reg.keyMap[item.name] = item.key;

@@ -9,7 +9,7 @@ import page_bg from '../../image/task/page_bg.png';
 import done_open from '../../image/task/done_open.png';
 import { ToastsStore } from 'react-toasts';
 import store from '../../store/index';
-import { tab_navi_show } from '../../store/actions/tabBottomNaviAction';
+import { tab_navi_show,tab_navi_select_change } from '../../store/actions/tabBottomNaviAction';
 import './index.css';
 
 class StateBtn extends Component {
@@ -161,6 +161,7 @@ class Task extends Component {
 
     componentDidMount() {
         store.dispatch(tab_navi_show());
+        store.dispatch(tab_navi_select_change(2));
         Api.signList((e) => {
             let block = e.block;
             let coins = e.coins;
