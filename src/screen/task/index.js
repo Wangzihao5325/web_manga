@@ -9,7 +9,7 @@ import page_bg from '../../image/task/page_bg.png';
 import done_open from '../../image/task/done_open.png';
 import { ToastsStore } from 'react-toasts';
 import store from '../../store/index';
-import { tab_navi_show,tab_navi_select_change } from '../../store/actions/tabBottomNaviAction';
+import { tab_navi_show, tab_navi_select_change } from '../../store/actions/tabBottomNaviAction';
 import './index.css';
 
 class StateBtn extends Component {
@@ -164,7 +164,7 @@ class Task extends Component {
         store.dispatch(tab_navi_select_change(2));
         Api.signList((e) => {
             let block = e.block;
-            let coins = e.coins;
+            let coins = e.coins.reverse();
             let stateArr = [];
             let dataReg = [];
             coins.forEach((item) => {
@@ -257,7 +257,7 @@ class Task extends Component {
         Api.dailySign((e, code, message) => {
             if (message === 'success') {
                 let block = e.block;
-                let coins = e.coins;
+                let coins = e.coins.reverse();
                 let stateArr = [];
                 let dataReg = [];
                 coins.forEach((item) => {
