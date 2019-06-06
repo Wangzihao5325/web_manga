@@ -48,7 +48,6 @@ class CGPage extends Component {
 
     componentDidMount() {
         Api.specialList(this.props.type, null, 1, 10, (e) => {
-            console.log(e);
             let originData = e.lists.data;
             let data1Result = [];
             let data2Result = [];

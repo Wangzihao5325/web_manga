@@ -35,37 +35,20 @@ class CGDetail extends PureComponent {
 
     componentDidMount() {
         store.dispatch(tab_navi_unshow());
-        const cgId = parseInt(this.props.match.params.id);
-        const title = this.props.match.params.title;
-        const type = this.props.match.params.type;
-        Api.mangaImage(type, cgId, 0, 0, 1, 10, (e, code, message) => {
-            if (code === 200) {
-                console.log(e);
-                let oneCoins = Math.abs(parseInt(e.all_coins));
-                let myCoins = parseInt(e.coins);
-                let buyType = myCoins >= oneCoins ? 'one' : 'none';
-                this.setState({
-                    title,
-                    showModal: true,
-                    modalChapterCoins: oneCoins,
-                    modalMyCoins: myCoins,
-                    buyType
-                });
-            } else if (code === 0) {
-                this.setState({
-                    title,
-                    data: e.data,
-                    nowPage: e.current_page,
-                    totalPage: e.last_page,
-                });
-            }
-        });
+        this.refresh();
     }
 
     render() {
         return (
             <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }} >
                 <HeaderPro title={this.state.title} back={this.goBack} />
+                {
+                    this.state.data.length === 0 &&
+                    <div style={{ marginTop: 100, width: CLIENT_WIDTH, height: 300, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <div style={{ height: 199, width: 235 }}><img style={{ height: 199, width: 235 }} src={require('../../../image/collect/no_collect_data.png')} alt='' /></div>
+                        <div onClick={this.refresh} style={{ color: 'rgb(160,160,160)', fontSize: 16, marginTop: 50 }}>点击刷新一下吧！</div>
+                    </div>
+                }
                 {this.state.data.length > 0 &&
                     <div className='scrolllist' style={{ height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <InfiniteScroll
@@ -124,6 +107,33 @@ class CGDetail extends PureComponent {
         );
     }
 
+    refresh = () => {
+        const cgId = parseInt(this.props.match.params.id);
+        const title = this.props.match.params.title;
+        const type = this.props.match.params.type;
+        Api.mangaImage(type, cgId, 0, 0, 1, 10, (e, code, message) => {
+            if (code === 200) {
+                let oneCoins = Math.abs(parseInt(e.all_coins));
+                let myCoins = parseInt(e.coins);
+                let buyType = myCoins >= oneCoins ? 'one' : 'none';
+                this.setState({
+                    title,
+                    showModal: true,
+                    modalChapterCoins: oneCoins,
+                    modalMyCoins: myCoins,
+                    buyType
+                });
+            } else if (code === 0) {
+                this.setState({
+                    title,
+                    data: e.data,
+                    nowPage: e.current_page,
+                    totalPage: e.last_page,
+                });
+            }
+        });
+    }
+
     earnMoney = () => {
         this.props.history.replace('/task/');
     }
@@ -136,7 +146,6 @@ class CGDetail extends PureComponent {
         const type = this.props.match.params.type;
         const cgId = parseInt(this.props.match.params.id);
         Api.resourceCoins('all', type, cgId, 0, 0, (e, code, message) => {
-            console.log(message);
             if (e) {
                 const cgId = parseInt(this.props.match.params.id);
                 const title = this.props.match.params.title;
@@ -156,6 +165,7 @@ class CGDetail extends PureComponent {
                     } else if (code === 0) {
                         this.setState({
                             title,
+                            showModal: false,
                             data: e.data,
                             nowPage: e.current_page,
                             totalPage: e.last_page,
