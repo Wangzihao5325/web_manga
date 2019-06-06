@@ -189,7 +189,7 @@ class Comic3Item extends Component {
                     <SecurtyImage borderRadius={5} style={{ width: COMIC3_ITEM_IMAGE_WIDTH, height: COMIC3_ITEM_IMAGE_HEIGHT }} source={this.props.item.cover_url} />
                 </div>
                 <div style={{ marginRight: 18, marginLeft: 21, flex: 1, height: COMIC3_ITEM_IMAGE_HEIGHT, display: 'flex', flexDirection: 'column', alignSelf: 'center' }}>
-                    <div className='text_div' style={{ fontSize: 15, color: 'rgb(34,34,34)', fontWeight: 'bold', marginTop: 3 }}>{this.props.item.title}</div>
+                    <div className='text_div' style={{ fontSize: 15, color: 'rgb(34,34,34)', fontWeight: 'bold', marginTop: 3, width: 150 }}>{this.props.item.title}</div>
                     <div style={{ height: 20, marginTop: 13, display: 'flex', flexDirection: 'row' }}>
                         {this.state.tabs.map((item, index) => {
                             return <div key={index} style={{ borderRadius: 3, marginRight: 4, height: 18, width: 35, backgroundColor: item.color, color: 'white', fontSize: 11, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>{item.title}</div>

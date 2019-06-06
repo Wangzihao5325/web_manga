@@ -22,11 +22,12 @@ class KeyWordsItem extends PureComponent {
     render() {
         let color = 'rgb(168,168,168)';
         let textColor = 'rgb(34,34,34)';
-        let length = this.props.title.length * 13 + 24;
+        let title = this.props.title.length > 10 ? this.props.title.slice(0, 10) : this.props.title;
+        let length = title.length * 13 + 24;
         return (
             <div onClick={this.itemSelect} style={{ marginTop: 10, marginLeft: 5, marginRight: 5, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: 34, width: length, borderRadius: 17, backgroundColor: 'white', borderColor: color, borderStyle: 'solid', borderWidth: 1 }}>
-                <div className='text_div' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginLeft: 12, marginRight: 12, color: textColor, fontSize: 13, }}>
-                    {this.props.title}
+                <div className='text_div' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginLeft: 12, marginRight: 12, color: textColor, fontSize: 13 }}>
+                    {title}
                 </div>
             </div>
         );
@@ -117,7 +118,15 @@ class Search extends PureComponent {
                         </InfiniteScroll>
                     </div>
                 }
-                
+
+                {
+                    this.state.isSearch && this.state.searchData.length == 0 &&
+                    <div style={{ marginTop: 55, width: CLIENT_WIDTH, height: 300, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <div style={{ height: 199, width: 235 }}><img style={{ height: 199, width: 235 }} src={require('../../image/collect/no_collect_data.png')} alt='' /></div>
+                        <div style={{ color: 'rgb(160,160,160)', fontSize: 16, marginTop: 50 }}>哎呀呀,没有搜索到东西呢!</div>
+                    </div>
+                }
+
             </div>
         );
     }
