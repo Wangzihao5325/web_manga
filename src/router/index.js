@@ -57,7 +57,7 @@ class AppRouter extends Component {
                         <Route path="/cg_detail/:id/:title/:type" component={CGDetail} />
                         <Route path="/manga_detail/:id/:type" component={MangaDetail} />
                         <Route path="/manga_read/:id/:resource/:index/:type" component={MangaRead} />
-                        <Route path="/search/" component={Search} />
+                        <Route path="/search/:type/" component={Search} />
                         <Route path="/leaderBoard/" component={LeaderBoard} />
                         <Route path="/type/" component={TypeScreen} />
                         <Route path="/feedback/" component={Feedback} />

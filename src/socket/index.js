@@ -598,6 +598,33 @@ class api {
         this.securtyFetch(url, paramObj, onSuccess, onError);
     }
 
+    searchByType(global_type, comic_title, page, limit, onSuccess, onError) {
+        const url = '/api/comic-lists';
+        const timestamp = (new Date().getTime() / 1000).toFixed(0);
+
+        if (!IsSecurty) {
+            let formData = new FormData();
+            formData.append('timestamp', timestamp);
+            formData.append('global_type', global_type);
+            formData.append('comic_title', comic_title);
+            formData.append('page', page);
+            formData.append('limit', limit);
+            this.normalFetch(url, formData, onSuccess, onError);
+            return;
+        }
+
+        let paramObj = {
+            comic_title,
+            global_type,
+            limit,
+            page,
+            platform: PlatformStr,
+            timestamp
+        }
+
+        this.securtyFetch(url, paramObj, onSuccess, onError);
+    }
+
     mangaListByType(global_type, type_id, is_pay, state, sort, page, limit, onSuccess, onError) {
         const url = '/api/comic-lists';
         const timestamp = (new Date().getTime() / 1000).toFixed(0);
