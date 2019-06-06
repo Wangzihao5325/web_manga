@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import { withRouter } from 'react-router';
+import { ToastsStore } from 'react-toasts';
+
 
 //image
 import main_active from '../../image/main_tab_active.png';
@@ -43,9 +46,17 @@ class Item extends Component {
                 this.props.navi.push('/');
                 break;
             case 1:
+                if (!this.props.isLogin) {
+                    ToastsStore.warning('请先登陆！');
+                    return;
+                }
                 this.props.navi.push('/collect/');
                 break;
             case 2:
+                if (!this.props.isLogin) {
+                    ToastsStore.warning('请先登陆！');
+                    return;
+                }
                 this.props.navi.push('/task/');
                 break;
             case 3:
@@ -76,16 +87,16 @@ class Footer extends Component {
                     backgroundColor: 'white',
                     borderTopColor: 'rgb(245,245,245)',
                     borderTopWidth: 1,
-                    borderTopStyle:'solid',
+                    borderTopStyle: 'solid',
                     display: 'flex',
                     flexDirection: 'row',
                     zIndex: 20
                 }}
             >
-                <Item navi={this.props.history} callback={this.pressCallback} index={0} highLightIndex={this.state.highlightIndex} icon={main_active} defalut={main_default} name={'首页'} />
-                <Item navi={this.props.history} callback={this.pressCallback} index={1} highLightIndex={this.state.highlightIndex} icon={collect_active} defalut={collect_default} name={'书架'} />
-                <Item navi={this.props.history} callback={this.pressCallback} index={2} highLightIndex={this.state.highlightIndex} icon={task_active} defalut={task_default} name={'任务'} />
-                <Item navi={this.props.history} callback={this.pressCallback} index={3} highLightIndex={this.state.highlightIndex} icon={mine_active} defalut={mine_default} name={'我的'} />
+                <Item isLogin={this.props.isLogin} navi={this.props.history} callback={this.pressCallback} index={0} highLightIndex={this.state.highlightIndex} icon={main_active} defalut={main_default} name={'首页'} />
+                <Item isLogin={this.props.isLogin} navi={this.props.history} callback={this.pressCallback} index={1} highLightIndex={this.state.highlightIndex} icon={collect_active} defalut={collect_default} name={'书架'} />
+                <Item isLogin={this.props.isLogin} navi={this.props.history} callback={this.pressCallback} index={2} highLightIndex={this.state.highlightIndex} icon={task_active} defalut={task_default} name={'任务'} />
+                <Item isLogin={this.props.isLogin} navi={this.props.history} callback={this.pressCallback} index={3} highLightIndex={this.state.highlightIndex} icon={mine_active} defalut={mine_default} name={'我的'} />
             </div>
         );
     }
@@ -97,5 +108,11 @@ class Footer extends Component {
     }
 }
 
-const FooterWithRouter = withRouter(Footer);
+function mapState2Props(store) {
+    return {
+        isLogin: store.user.isLogin
+    }
+}
+
+const FooterWithRouter = withRouter(connect(mapState2Props)(Footer));
 export default FooterWithRouter;

@@ -146,12 +146,16 @@ class Mine extends Component {
     goToInviteNum = () => {
         if (this.props.login) {
             this.props.history.push('/invite_list/');
+        } else {
+            ToastsStore.warning('请先登陆!');
         }
     }
 
     goToMyCoins = () => {
         if (this.props.login) {
             this.props.history.push('/coin_list/');
+        } else {
+            ToastsStore.warning('请先登陆!');
         }
     }
 
@@ -164,15 +168,27 @@ class Mine extends Component {
     }
 
     goToShare = () => {
-        this.props.history.push('/share/');
+        if (this.props.login) {
+            this.props.history.push('/share/');
+        } else {
+            ToastsStore.warning('请先登陆!');
+        }
     }
 
     goToPay = () => {
-        this.props.history.push('/pay/');
+        if (this.props.login) {
+            this.props.history.push('/pay/');
+        } else {
+            ToastsStore.warning('请先登陆!');
+        }
     }
 
     goToFeedback = () => {
-        this.props.history.push('/feedback/');
+        if (this.props.login) {
+            this.props.history.push('/feedback/');
+        } else {
+            ToastsStore.warning('请先登陆!');
+        }
     }
 
     goToCustom = () => {
@@ -180,8 +196,11 @@ class Mine extends Component {
     }
 
     goToSetInviteCode = () => {
-        //store.dispatch(pop_show('InviteCode'));
-        this.props.history.push('/set_invite_code/');
+        if (this.props.login) {
+            this.props.history.push('/set_invite_code/');
+        } else {
+            ToastsStore.warning('请先登陆!');
+        }
     }
 
 }
