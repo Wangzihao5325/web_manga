@@ -11,7 +11,7 @@ class PhoneNumInput extends Component {
             <div style={{ height: 67, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{ borderBottomColor: 'rgb(244,244,244)', borderBottomStyle: 'solid', borderBottomWidth: 1, display: 'flex', height: 67, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                     <div style={{ color: 'rgb(34,34,34)', fontSize: 15, marginRight: 13 }}>+86</div>
-                    <input className='phone-number-input' style={{ outline: 'none',height: 14, width: CLIENT_WIDTH - 56 - 60 }} onChange={this.inputOnChange} type='text' placeholder='请输入手机号码' />
+                    <input style={{ outline: 'none', height: 14, width: CLIENT_WIDTH - 56 - 60, borderColor: 'rgb(245,245,245)', borderStyle: 'solid', borderWidth: 1 }} onChange={this.inputOnChange} type='text' placeholder='请输入手机号码' />
                 </div>
             </div>
         );
@@ -42,7 +42,7 @@ class VerCodeInput extends Component {
         return (
             <div style={{ height: 67, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{ borderBottomColor: 'rgb(244,244,244)', borderBottomStyle: 'solid', borderBottomWidth: 1, display: 'flex', height: 67, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                    <input className='phone-number-input' style={{ outline: 'none',height: 14, width: CLIENT_WIDTH - 56 - 72, marginRight: 13 }} onChange={this.inputOnChange} type='text' placeholder='请输入验证码' />
+                    <input className='phone-number-input' style={{ outline: 'none', height: 14, width: CLIENT_WIDTH - 56 - 72, marginRight: 13 }} onChange={this.inputOnChange} type='text' placeholder='请输入验证码' />
                     <div onClick={this.sendMessage} style={{ fontSize: 12, color: 'rgb(255,42,49)', height: 31, width: 72, borderWidth: 1, borderStyle: 'solid', borderColor: 'rgb(255,42,49)', borderRadius: 15, alignItems: 'center', display: 'flex', justifyContent: 'center' }}>
                         {this.state.text}
                     </div>
@@ -101,7 +101,7 @@ class LoginPhoneNumInput extends Component {
         return (
             <div style={{ height: 43, marginTop: this.props.marginTop ? this.props.marginTop : 0, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{ borderRadius: 21, backgroundColor: 'white', display: 'flex', height: 43, width: 270, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                    <input className='phone-number-input' style={{ outline: 'none',height: 14, width: 250 }} onChange={this.inputOnChange} type='text' placeholder='请输入手机号码' />
+                    <input className='phone-number-input' style={{ outline: 'none', height: 24, width: 250, borderColor: 'white', borderStyle: 'solid', borderWidth: 1 }} onChange={this.inputOnChange} type='text' placeholder='请输入手机号码' />
                 </div>
             </div>
         );
@@ -131,7 +131,7 @@ class LoginVerCodeInput extends Component {
         return (
             <div style={{ marginTop: this.props.marginTop ? this.props.marginTop : 0, height: 43, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{ backgroundColor: 'white', borderRadius: 21, display: 'flex', height: 43, width: 270, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                    <input className='phone-number-input' style={{ outline: 'none',height: 14, width: 160, marginRight: 13 }} onChange={this.inputOnChange} type='text' placeholder='请输入验证码' />
+                    <input style={{ outline: 'none', height: 24, width: 160, marginRight: 13, borderColor: 'white', borderStyle: 'solid', borderWidth: 1 }} onChange={this.inputOnChange} type='text' placeholder='请输入验证码' />
                     <div style={{ height: 25, width: 1, backgroundColor: 'rgb(182,182,182)' }} />
                     <div onClick={this.sendMessage} style={{ fontSize: 12, color: 'rgb(255,42,49)', height: 31, width: 72, borderRadius: 15, alignItems: 'center', display: 'flex', justifyContent: 'center' }}>
                         {this.state.text}
@@ -191,7 +191,7 @@ class LoginPasswordInput extends Component {
         return (
             <div style={{ height: 43, marginTop: this.props.marginTop ? this.props.marginTop : 0, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{ borderRadius: 21, backgroundColor: 'white', display: 'flex', height: 43, width: 270, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                    <input className='phone-number-input' style={{ outline: 'none',height: 14, width: 250 }} onChange={this.inputOnChange} type='text' placeholder='请输入密码' />
+                    <input className='phone-number-input' style={{ outline: 'none', height: 24, width: 250, borderColor: 'white', borderStyle: 'solid', borderWidth: 1 }} onChange={this.inputOnChange} type='password' placeholder='请输入密码' />
                 </div>
             </div>
         );
