@@ -133,7 +133,12 @@ class SudokuVe extends Component {
                     title={item.title}
                     intro={item.intro}
                     source={item.cover_url}
-                    coverClick={() => { this.props.navi.push(`/manga_detail/${item.id}/${this.props.globalType}`) }}
+                    coverClick={() => {
+                        if (item.global_type === 'hanman' || item.global_type === 'hman') {
+                            this.props.navi.push(`/manga_detail/${item.id}/${item.global_type}`)
+                        }
+                        // to do video
+                    }}
 
                 />
             );
@@ -179,7 +184,17 @@ class Comic2 extends Component {
                 </div>
 
                 <div style={{ height: BANNER_TOTAL_HEIGHT, width: BANNER_WIDTH, display: 'flex', flexDirection: 'column' }}>
-                    <BannerCover coverClick={() => { this.props.navi.push(`/manga_detail/${bannerData.id}/${this.props.globalType}`) }} title={bannerData.title} intro={bannerData.intro} source={bannerData.banner_url ? bannerData.banner_url : bannerData.cover_url} />
+                    <BannerCover
+                        title={bannerData.title}
+                        intro={bannerData.intro}
+                        source={bannerData.banner_url ? bannerData.banner_url : bannerData.cover_url}
+                        coverClick={() => {
+                            if (bannerData.global_type === 'hanman' || bannerData.global_type === 'hman') {
+                                this.props.navi.push(`/manga_detail/${bannerData.id}/${bannerData.global_type}`)
+                            }
+                            // to do video
+                        }}
+                    />
                 </div>
 
                 <div style={{ marginTop: 10, height: VER_HEIGHT, width: Comic2_WIDTH, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
@@ -215,7 +230,12 @@ class Comic2 extends Component {
                     title={item.title}
                     intro={item.intro}
                     source={item.cover_url}
-                    coverClick={() => { this.props.navi.push(`/manga_detail/${item.id}/${this.props.globalType}`) }}
+                    coverClick={() => {
+                        if (item.global_type === 'hanman' || item.global_type === 'hman') {
+                            this.props.navi.push(`/manga_detail/${item.id}/${item.global_type}`)
+                        }
+                        // to do video
+                    }}
 
                 />
             );
@@ -275,7 +295,18 @@ class Comic3 extends Component {
             if (index > 2) {
                 return false;
             }
-            result.push(<Comic3Item index={index} key={index} item={item} coverClick={() => { this.props.navi.push(`/manga_detail/${item.id}/${this.props.globalType}`) }} />);
+            result.push(
+                <Comic3Item
+                    index={index}
+                    key={index}
+                    item={item}
+                    coverClick={() => {
+                        if (item.global_type === 'hanman' || item.global_type === 'hman') {
+                            this.props.navi.push(`/manga_detail/${item.id}/${item.global_type}`)
+                        }
+                        // to do video
+                    }}
+                />);
             return true;
         });
         return result;
@@ -320,7 +351,19 @@ class Comic4 extends Component {
             if (index >= this.props.limit) {
                 return false;
             }
-            result.push(<Comic4Item index={index} key={index} item={item} coverClick={() => { this.props.navi.push(`/manga_detail/${item.id}/${this.props.globalType}`) }} />);
+            result.push(
+                <Comic4Item
+                    index={index}
+                    key={index}
+                    item={item}
+                    coverClick={
+                        () => {
+                            if (item.global_type === 'hanman' || item.global_type === 'hman') {
+                                this.props.navi.push(`/manga_detail/${item.id}/${item.global_type}`)
+                            }
+                            // to do video
+                        }}
+                />);
             return true;
         });
         return result;
