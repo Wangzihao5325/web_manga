@@ -8,6 +8,7 @@ import Api from '../../socket/index';
 import SecurtyImage from '../../component/securtyImage/Image';
 import _ from 'lodash';
 import './index.css';
+import { ToastsStore } from 'react-toasts';
 
 const mangaTypeData = [{ name: '韩漫' }, { name: 'H漫画' }, { name: '动漫' }];
 
@@ -149,6 +150,9 @@ export default class History extends PureComponent {
     }
 
     delete = () => {
+        if (this.state.historySelectArr.length === 0) {
+            return;
+        }
         let typeKey = typeUtil(this.state.innerSelected);
         Api.deleteHistory(typeKey, this.state.historySelectArr, (e, code, message) => {
             if (message === 'success') {

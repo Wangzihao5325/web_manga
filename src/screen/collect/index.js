@@ -33,7 +33,7 @@ class Collect extends PureComponent {
                         <div style={{ fontWeight: 'bold', height: 43, width: 80, display: 'flex', justifyContent: 'center', alignItems: 'center' }} />
 
                         <div style={{ fontWeight: 'bold', height: 43, width: 80, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            {`已选${0}本`}
+                            {`请选择漫画`}
                         </div>
                         <div onClick={this._closeEditMode} style={{ fontWeight: 'bold', height: 43, width: 80, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             完成

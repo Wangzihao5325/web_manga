@@ -120,6 +120,21 @@ export default class Collect extends PureComponent {
         );
     }
 
+    _loadMore = () => {
+        if (this.state.nowPage >= this.state.totalPage) {
+            return;
+        }
+        let typeKey = typeUtil(this.state.innerSelected);
+        // Api.mangaCollect(typeKey, this.state.nowPage + 1, 15, (e) => {
+        //     let dataReg = this.state.historyData.concat(e.data);
+        //     this.setState({
+        //         historyData: dataReg,
+        //         nowPage: e.current_page,
+        //         totalPage: e.last_page
+        //     });
+        // });
+    }
+
     _collectSelectCallback = (index, id, isSelect) => {
         let dataReg = [...this.state.collectData];
         dataReg[index].isSelect = !isSelect;
@@ -164,6 +179,9 @@ export default class Collect extends PureComponent {
     }
 
     delete = () => {
+        if (this.state.collectSelectArr.length === 0) {
+            return;
+        }
         let typeKey = typeUtil(this.state.innerSelected);
         Api.deleteCollect(typeKey, this.state.collectSelectArr, (e, code, message) => {
             if (message === 'success') {
