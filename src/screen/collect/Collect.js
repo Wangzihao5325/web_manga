@@ -128,8 +128,8 @@ export default class Collect extends PureComponent {
             selectArrReg.push(id);
         }
         this.setState({
-            historyData: dataReg,
-            historySelectArr: selectArrReg
+            collectData: dataReg,
+            collectSelectArr: selectArrReg
         });
     }
 
