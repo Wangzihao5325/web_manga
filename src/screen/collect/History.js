@@ -10,8 +10,8 @@ import _ from 'lodash';
 import './index.css';
 import { ToastsStore } from 'react-toasts';
 
-const mangaTypeData = [{ name: '韩漫' }, { name: 'H漫画' }, { name: '动漫' }];
-
+// const mangaTypeData = [{ name: '韩漫' }, { name: 'H漫画' }, { name: '动漫' }];
+const mangaTypeData = [{ name: '韩漫' }, { name: 'H漫画' }];
 class Item extends PureComponent {
 
     state = {
@@ -87,7 +87,7 @@ export default class History extends PureComponent {
         return (
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                 {!this.props.isEditMode &&
-                    <div style={{ height: 29, width: 190, marginTop: 10, marginLeft: 1 }}>
+                    <div style={{ height: 29, width: 130, marginTop: 10, marginLeft: 1 }}>
                         <ScrollMenu
                             dragging={false}
                             data={innerMenu}
