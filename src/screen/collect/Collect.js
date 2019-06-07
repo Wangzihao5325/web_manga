@@ -125,14 +125,14 @@ export default class Collect extends PureComponent {
             return;
         }
         let typeKey = typeUtil(this.state.innerSelected);
-        // Api.mangaCollect(typeKey, this.state.nowPage + 1, 15, (e) => {
-        //     let dataReg = this.state.historyData.concat(e.data);
-        //     this.setState({
-        //         historyData: dataReg,
-        //         nowPage: e.current_page,
-        //         totalPage: e.last_page
-        //     });
-        // });
+        Api.mangaCollect(typeKey, this.state.nowPage + 1, 15, (e) => {
+            let dataReg = this.state.collectData.concat(e.data);
+            this.setState({
+                collectData: dataReg,
+                nowPage: e.current_page,
+                totalPage: e.last_page
+            });
+        });
     }
 
     _collectSelectCallback = (index, id, isSelect) => {
