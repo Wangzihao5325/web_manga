@@ -54,13 +54,13 @@ class Search extends PureComponent {
 
     componentDidMount() {
         store.dispatch(tab_navi_unshow());
-        if (window.localStorage.erokun_searchhistory) {
-            let searchHistory = JSON.parse(window.localStorage.erokun_searchhistory);
+        const type = this.props.match.params.type;
+        if (window.localStorage[`erokun_searchhistory_${type}`]) {
+            let searchHistory = JSON.parse(window.localStorage[`erokun_searchhistory_${type}`]);
             this.setState({
                 searchHistory
             });
         }
-        const type = this.props.match.params.type;
         Api.guessLike(type, 1, (e) => {
             let data = e.data;
             if (data.length > 6) {
@@ -162,7 +162,8 @@ class Search extends PureComponent {
     }
 
     clearHistory = () => {
-        window.localStorage.setItem('erokun_searchhistory', JSON.stringify([]));
+        const type = this.props.match.params.type;
+        window.localStorage.setItem(`erokun_searchhistory_${type}`, JSON.stringify([]));
         this.setState({
             searchHistory: []
         });
@@ -227,11 +228,11 @@ class Search extends PureComponent {
             });
 
             let history = [];
-            if (window.localStorage.erokun_searchhistory) {
-                history = JSON.parse(window.localStorage.erokun_searchhistory);
+            if (window.localStorage[`erokun_searchhistory_${type}`]) {
+                history = JSON.parse(window.localStorage[`erokun_searchhistory_${type}`]);
             }
             history.push(title);
-            window.localStorage.setItem('erokun_searchhistory', JSON.stringify(history));
+            window.localStorage.setItem(`erokun_searchhistory_${type}`, JSON.stringify(history));
             this.setState((preState) => {
                 let reg = [...preState.searchHistory];
                 reg.push(title);
