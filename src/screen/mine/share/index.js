@@ -58,6 +58,16 @@ class Share extends PureComponent {
 
     componentDidMount() {
         store.dispatch(tab_navi_unshow());
+        let fullShareUrl = `${this.props.share_url}${this.props.invite_code}`;
+        let fullShareText = this.props.share_text.replace(/{{share_url}}/, fullShareUrl);
+        let clipboard = new ClipboardJS('.invite_link_btn', {
+            text: function (trigger) {
+                return fullShareText;
+            }
+        });
+        clipboard.on('success', function (e) {
+            ToastsStore.success('复制邀请链接成功，快去分享吧！');
+        });
         Api.getInviteRule((e) => {
             this.setState({
                 ruleData: e
@@ -144,12 +154,7 @@ class Share extends PureComponent {
     }
 
     copyInviteLink = () => {
-        new ClipboardJS('.invite_link_btn', {
-            text: function (trigger) {
-                return 'this is a invite link';
-            }
-        });
-        ToastsStore.success('复制邀请链接成功，快去分享吧！');
+        console.log('copy');
     }
 
     showInviteCode = () => {
@@ -165,6 +170,8 @@ function mapState2Props(store) {
     return {
         invite_code: store.user.invite_code,
         offical_url: store.appInfo.offical_url,
+        share_url: store.appInfo.share_url,
+        share_text: store.appInfo.share_text
     }
 }
 

@@ -4,6 +4,7 @@ const initialState = {
     offical_url: '',
     share_url: '',
     potato_url: '',
+    share_text: ''
 }
 
 const reducer = (state = initialState, action) => {
@@ -13,7 +14,8 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 offical_url: action.offical,
                 share_url: action.share,
-                potato_url: action.potato
+                potato_url: action.potato,
+                share_text: action.shareText
             };
         default: return state;
     }
