@@ -174,7 +174,7 @@ class Comic2 extends Component {
                     {this.props.title}
                 </div>
                 <div style={{ height: BANNER_TOTAL_HEIGHT, width: BANNER_WIDTH, display: 'flex', flexDirection: 'column' }}>
-                    <BannerCover coverClick={() => { this.props.navi.push(`/manga_detail/${bannerData.id}/${this.props.globalType}`) }} title={bannerData.title} intro={bannerData.intro} source={bannerData.cover_url} />
+                    <BannerCover coverClick={() => { this.props.navi.push(`/manga_detail/${bannerData.id}/${this.props.globalType}`) }} title={bannerData.title} intro={bannerData.intro} source={bannerData.banner_url ? bannerData.banner_url : bannerData.cover_url} />
                 </div>
                 <div style={{ marginTop: 10, height: VER_HEIGHT, width: Comic2_WIDTH, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
                     {
