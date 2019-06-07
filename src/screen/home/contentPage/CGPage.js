@@ -106,9 +106,9 @@ class CGPage extends Component {
             let data2Result = [...this.state.data2];
             originData.forEach((item, index) => {
                 if (index % 2 === 0) {
-                    data1Result.push(<Item key={item.title} item={item} />);
+                    data1Result.push(<Item itemClick={this._goToDetail} key={item.title} item={item} />);
                 } else {
-                    data2Result.push(<Item key={item.title} item={item} />);
+                    data2Result.push(<Item itemClick={this._goToDetail} key={item.title} item={item} />);
                 }
             });
             this.setState({
