@@ -23,7 +23,7 @@ class Item extends PureComponent {
                     </div>
                     <div style={{ height: 77, width: 100, display: 'flex', flexDirection: 'row-reverse', alignItems: 'center' }}>
                         <div style={{ height: 18, width: 18, borderRadius: 9, backgroundColor: 'rgb(255,42,49)', fontSize: 20, color: 'white', fontWeight: 'bold', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>C</div>
-                        <div style={{ fontSize: 20, color: 'rgb(255,42,94)', fontWeight: 'bold', marginRight: 6 }}>{`+${this.props.item.value}`}</div>
+                        <div style={{ fontSize: 20, color: 'rgb(255,42,94)', fontWeight: 'bold', marginRight: 6 }}>{`${this.props.item.value}`}</div>
                     </div>
                 </div>
             </div>
