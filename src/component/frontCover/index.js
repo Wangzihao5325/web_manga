@@ -23,8 +23,13 @@ class FrontCover extends Component {
     }
 
     render() {
+        let style = { height: VER_HEIGHT, width: VER_WIDTH, display: 'flex', flexDirection: 'column' };
+        if (this.props.isHoList && typeof this.props.index === 'number' && this.props.index % 3 === 1) {
+            let marginWidth = (this.props.wapperWidth - 3 * VER_WIDTH) / 2;
+            style = { marginLeft: marginWidth, marginRight: marginWidth, height: VER_HEIGHT, width: VER_WIDTH, display: 'flex', flexDirection: 'column' };
+        }
         return (
-            <div onClick={this.coverClick} className='cover_container' style={{ height: VER_HEIGHT, width: VER_WIDTH, display: 'flex', flexDirection: 'column' }}>
+            <div onClick={this.coverClick} className='cover_container' style={style}>
                 <div style={{ width: VER_WIDTH, height: VER_IMAGE_HEIGHT }}>
                     <SecurtyImage borderRadius={5} style={{ width: VER_WIDTH, height: VER_IMAGE_HEIGHT }} source={this.props.source} />
                 </div>
@@ -49,8 +54,13 @@ class FrontCoverWithSelect extends Component {
     }
 
     render() {
+        let style = { height: VER_HEIGHT, width: VER_WIDTH, display: 'flex', flexDirection: 'column', position: 'relative' };
+        if (this.props.isHoList && this.props.index % 3 === 1) {
+            let marginWidth = (this.props.wapperWidth - 3 * VER_WIDTH) / 2;
+            style = { marginLeft: marginWidth, marginRight: marginWidth, height: VER_HEIGHT, width: VER_WIDTH, display: 'flex', flexDirection: 'column', position: 'relative' };
+        }
         return (
-            <div onClick={this.coverClick} className='cover_container' style={{ height: VER_HEIGHT, width: VER_WIDTH, display: 'flex', flexDirection: 'column', position: 'relative' }}>
+            <div onClick={this.coverClick} className='cover_container' style={style}>
                 <div style={{ width: VER_WIDTH, height: VER_IMAGE_HEIGHT }}>
                     {this.props.editMode &&
                         <div style={{ height: VER_IMAGE_HEIGHT, width: VER_WIDTH, position: 'absolute', top: 0, left: 0, backgroundColor: 'rgba(99,99,99,0.2)' }}>

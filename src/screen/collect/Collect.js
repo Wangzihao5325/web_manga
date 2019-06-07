@@ -71,6 +71,8 @@ export default class Collect extends PureComponent {
                                 this.state.collectData.map((item, index) => {
                                     return (
                                         <FrontCoverWithSelect
+                                            isHoList={true}
+                                            wapperWidth={CLIENT_WIDTH - 24}
                                             index={index}
                                             id={item.id}
                                             editMode={this.props.isEditMode}

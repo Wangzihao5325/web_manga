@@ -1,6 +1,6 @@
 .box:after {
     content: "";
-    flex: auto;
+    flex: row;
  }
 
  .one_line_title{

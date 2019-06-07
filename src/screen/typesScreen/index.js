@@ -88,7 +88,18 @@ class TypeScreen extends PureComponent {
 
             Api.mangaListByType(typeKey, innerTypeKey, payKey, stateKey, sortKey, 1, 12, (e) => {
                 let dataReg = e.data.map((item, index) => {
-                    return <FrontCover key={index} title={item.title} intro={item.intro ? item.intro : ' '} source={item.cover_url} coverClick={() => { this.props.history.push(`/manga_detail/${item.id}/${item.global_type}`) }} />
+                    return (
+                        <FrontCover
+                            isHoList={true}
+                            wapperWidth={CLIENT_WIDTH - 24}
+                            index={index}
+                            key={index}
+                            title={item.title}
+                            intro={item.intro ? item.intro : ' '}
+                            source={item.cover_url}
+                            coverClick={() => { this.props.history.push(`/manga_detail/${item.id}/${item.global_type}`) }}
+                        />
+                    );
                 })
                 this.setState({
                     nowPage: e.current_page,
@@ -154,7 +165,7 @@ class TypeScreen extends PureComponent {
                         itemStyle={{ outline: 'none' }}
                     />
                 </div>
-                <div style={{ width: CLIENT_WIDTH, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ marginTop: 10, width: CLIENT_WIDTH, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
                     <InfiniteScroll
                         pageStart={0}
                         hasMore={true}
@@ -163,7 +174,7 @@ class TypeScreen extends PureComponent {
                         threshold={250}
                         loadMore={this._loadMore}
                     >
-                        <div className='box' style={{ marginLeft: 6, width: CLIENT_WIDTH - 12, height: '100vh', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignContent: 'flex-start' }}>
+                        <div className='box' style={{ marginLeft: 12, width: CLIENT_WIDTH - 24, height: '100vh', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignContent: 'flex-start' }}>
                             {
                                 this.state.mangaData
                             }
@@ -182,7 +193,15 @@ class TypeScreen extends PureComponent {
         }
         Api.mangaListByType(typeKey, innerTypeKey, payKey, stateKey, sortKey, nowPage + 1, 12, (e) => {
             let newPart = e.data.map((item, index) => {
-                return <FrontCover key={index} title={item.title} intro={item.intro ? item.intro : ' '} source={item.cover_url} coverClick={() => { this.props.history.push(`/manga_detail/${item.id}/${item.global_type}`) }} />
+                return (<FrontCover
+                    isHoList={true}
+                    wapperWidth={CLIENT_WIDTH - 24}
+                    index={(e.current_page - 1) * 12 + index}
+                    key={(e.current_page - 1) * 12 + index}
+                    title={item.title} intro={item.intro ? item.intro : ' '}
+                    source={item.cover_url}
+                    coverClick={() => { this.props.history.push(`/manga_detail/${item.id}/${item.global_type}`) }}
+                />);
             })
             let dataReg = [...mangaData].concat(newPart);
             this.setState({
