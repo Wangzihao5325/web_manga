@@ -331,7 +331,7 @@ class Comic4 extends Component {
                     <div style={{ marginLeft: 3, fontSize: 20, color: 'rgb(255,42,49)', fontWeight: 'bold' }}> •</div>
                     <div style={{ marginLeft: 3, fontSize: 20, color: 'rgb(34,34,34)', fontWeight: 'bold' }}> {this.props.subTitle}</div>
                 </div>
-                <div style={{ height: COMIC4_TOTAL_HEIGHT, width: Comic4_WIDTH }}>
+                <div style={{ height: COMIC4_TOTAL_HEIGHT, width: Comic4_WIDTH,marginTop:10 }}>
                     <ScrollMenu
                         data={items}
                         onSelect={this.onSelect}

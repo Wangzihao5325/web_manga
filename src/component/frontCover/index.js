@@ -252,8 +252,8 @@ class Comic4Item extends Component {
                 <div style={{ width: COMIC4_ITEM_WIDTH, height: COMIC4_IMAGE_HEIGHT, display: 'flex', flexDirection: 'column', marginTop: 4 }}>
                     <SecurtyImage borderRadius={5} style={{ width: COMIC4_ITEM_WIDTH, height: COMIC4_IMAGE_HEIGHT }} source={this.props.item.cover_url} />
                 </div>
-                <div className='text_div' style={{ height: 30, width: COMIC4_ITEM_WIDTH, color: 'rgb(34,34,34)', fontSize: 15, marginTop: 5, fontWeight: 'bold' }}>{this.props.item.title}</div>
-                <div className='text_div' style={{ height: 30, width: COMIC4_ITEM_WIDTH, color: 'rgb(168,168,168)', fontSize: 12 }}>{this.props.item.intro}</div>
+                <div className='text_div' style={{ height: 20, width: COMIC4_ITEM_WIDTH, color: 'rgb(34,34,34)', fontSize: 15, marginTop: 5, fontWeight: 'bold', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>{this.props.item.title}</div>
+                <div className='text_div' style={{ height: 15, width: COMIC4_ITEM_WIDTH, color: 'rgb(168,168,168)', fontSize: 12, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>{this.props.item.intro}</div>
             </div>
         );
     }
