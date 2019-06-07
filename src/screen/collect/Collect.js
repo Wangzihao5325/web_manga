@@ -42,6 +42,7 @@ export default class Collect extends PureComponent {
                 {!this.props.isEditMode &&
                     <div style={{ height: 29, width: 130, marginTop: 10, marginLeft: 1 }}>
                         <ScrollMenu
+                            alignCenter={false}
                             dragging={false}
                             data={innerMenu}
                             selected={innerSelected}
