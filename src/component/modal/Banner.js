@@ -6,6 +6,7 @@ import SecurtyImage from '../../component/securtyImage/Image';
 
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
+import Api from '../../socket/index';
 
 const WIDTH = CLIENT_WIDTH - 24;
 const HEIGHT = WIDTH / 2;
@@ -27,6 +28,11 @@ class BannerItem extends PureComponent {
     bannerPress = () => {
         if (this.props.item.type === 'LINK') {
             //window.location.href = this.props.item.redirect_url;
+            Api.taskDone('CLICK_AD', (e, code, message) => {
+                console.log(e);
+                console.log(code);
+                console.log(message);
+            });
             window.open(this.props.item.redirect_url);
         }
         if (this.props.item.type === 'COMIC') {

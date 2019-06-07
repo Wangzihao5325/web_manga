@@ -971,6 +971,27 @@ class api {
         this.securtyFetch(url, paramObj, onSuccess, onError);
     }
 
+    taskDone(event, onSuccess, onError) {
+        const url = '/api/exchange-task';
+        const timestamp = (new Date().getTime() / 1000).toFixed(0);
+
+        if (!IsSecurty) {
+            let formData = new FormData();
+            formData.append('timestamp', timestamp);
+            formData.append('event', event);
+            this.normalFetch(url, formData, onSuccess, onError);
+            return;
+        }
+
+        let paramObj = {
+            event,
+            platform: PlatformStr,
+            timestamp
+        }
+
+        this.securtyFetch(url, paramObj, onSuccess, onError);
+    }
+
 }
 
 export default new api();
