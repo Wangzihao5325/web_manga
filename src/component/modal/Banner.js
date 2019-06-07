@@ -29,8 +29,6 @@ class BannerItem extends PureComponent {
         if (this.props.item.type === 'LINK') {
             //window.location.href = this.props.item.redirect_url;
             Api.taskDone('CLICK_AD', (e, code, message) => {
-                console.log(e);
-                console.log(code);
                 console.log(message);
             });
             window.open(this.props.item.redirect_url);

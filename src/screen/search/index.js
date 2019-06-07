@@ -43,6 +43,7 @@ class KeyWordsItem extends PureComponent {
 class Search extends PureComponent {
 
     state = {
+        searchHistory: [],
         isSearch: false,
         hotData: [],
         searchData: [],
@@ -53,6 +54,12 @@ class Search extends PureComponent {
 
     componentDidMount() {
         store.dispatch(tab_navi_unshow());
+        if (window.localStorage.erokun_searchhistory) {
+            let searchHistory = JSON.parse(window.localStorage.erokun_searchhistory);
+            this.setState({
+                searchHistory
+            });
+        }
         const type = this.props.match.params.type;
         Api.guessLike(type, 1, (e) => {
             let data = e.data;
@@ -78,6 +85,29 @@ class Search extends PureComponent {
                         取消
                     </div>
                 </div>
+
+                {
+
+                    !this.state.isSearch && this.state.searchHistory.length > 0 &&
+                    <div style={{ marginTop: 10, alignSelf: 'center', display: 'flex', height: 30, width: CLIENT_WIDTH - 14, flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <div style={{ marginLeft: 12, color: 'rgb(168,168,168)', fontSize: 14 }}>搜索历史</div>
+                        <div onClick={this.clearHistory} style={{ marginRight: 12, height: 30, width: 16, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                            <img style={{ height: 16, width: 16 }} src={require('../../image/collect/delete.png')} alt='' />
+                        </div>
+                    </div >
+                }
+
+                {
+
+                    !this.state.isSearch && this.state.searchHistory.length > 0 &&
+                    <div style={{ alignSelf: 'center', display: 'flex', width: CLIENT_WIDTH - 14, flexDirection: 'row', justifyContent: 'flex-start', flexWrap: 'wrap' }}>
+                        {
+                            this.state.searchHistory.map((element, index) => {
+                                return <KeyWordsItem clickCallback={this.searchHistoryItemClick} key={index} item={element} title={element} />
+                            })
+                        }
+                    </div >
+                }
 
                 {
 
@@ -131,6 +161,13 @@ class Search extends PureComponent {
         );
     }
 
+    clearHistory = () => {
+        window.localStorage.setItem('erokun_searchhistory', JSON.stringify([]));
+        this.setState({
+            searchHistory: []
+        });
+    }
+
     _loadMore = () => {
         if (this.state.nowPage >= this.state.totalPage) {
             return;
@@ -138,6 +175,20 @@ class Search extends PureComponent {
         const type = this.props.match.params.type;
         const title = this.state.searchTitle;
         Api.searchByType(type, title, this.state.nowPage + 1, 10, (e) => {
+            this.setState({
+                searchData: e.data,
+                nowPage: e.current_page,
+                totalPage: e.last_page
+            });
+        });
+    }
+    searchHistoryItemClick = (title) => {
+        const type = this.props.match.params.type;
+        this.setState({
+            isSearch: true,
+            searchTitle: title
+        });
+        Api.searchByType(type, title, 1, 10, (e) => {
             this.setState({
                 searchData: e.data,
                 nowPage: e.current_page,
@@ -173,6 +224,20 @@ class Search extends PureComponent {
                     nowPage: e.current_page,
                     totalPage: e.last_page
                 });
+            });
+
+            let history = [];
+            if (window.localStorage.erokun_searchhistory) {
+                history = JSON.parse(window.localStorage.erokun_searchhistory);
+            }
+            history.push(title);
+            window.localStorage.setItem('erokun_searchhistory', JSON.stringify(history));
+            this.setState((preState) => {
+                let reg = [...preState.searchHistory];
+                reg.push(title);
+                return {
+                    searchHistory: reg
+                }
             });
         }
     }
