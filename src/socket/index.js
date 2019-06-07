@@ -950,6 +950,27 @@ class api {
         this.securtyFetch(url, paramObj, onSuccess, onError);
     }
 
+    taskDoneCoins(key, onSuccess, onError) {
+        const url = '/api/get-coins';
+        const timestamp = (new Date().getTime() / 1000).toFixed(0);
+
+        if (!IsSecurty) {
+            let formData = new FormData();
+            formData.append('timestamp', timestamp);
+            formData.append('key', key);
+            this.normalFetch(url, formData, onSuccess, onError);
+            return;
+        }
+
+        let paramObj = {
+            key,
+            platform: PlatformStr,
+            timestamp
+        }
+
+        this.securtyFetch(url, paramObj, onSuccess, onError);
+    }
+
 }
 
 export default new api();

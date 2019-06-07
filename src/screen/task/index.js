@@ -9,6 +9,7 @@ import page_bg from '../../image/task/page_bg.png';
 import done_open from '../../image/task/done_open.png';
 import { ToastsStore } from 'react-toasts';
 import store from '../../store/index';
+import { get_user_info } from '../../store/actions/userAction';
 import { tab_navi_show, tab_navi_select_change } from '../../store/actions/tabBottomNaviAction';
 import './index.css';
 
@@ -34,10 +35,16 @@ class StateBtn extends Component {
                 break;
         }
         return (
-            <div style={containerStyle}>
+            <div onClick={this.btnClick} style={containerStyle}>
                 {`${text}`}
             </div>
         );
+    }
+
+    btnClick = () => {
+        if (this.props.btnClick) {
+            this.props.btnClick(this.props.state);
+        }
     }
 }
 
@@ -77,21 +84,21 @@ class TaskItem extends Component {
             case 'COLLECT_COMIC':
                 imgPath = require('../../image/task/collect_comic.png');
                 break;
-            case 'LOOK_THIRTY':
+            case 'LOOK_ONE':
                 imgPath = require('../../image/task/look_tirthy.png');
                 break;
-            case 'READ_TEN':
+            case 'READ_ONE':
                 imgPath = require('../../image/task/read_ten.png');
                 break;
-            case 'READ_TWENTY_MORE':
+            case 'READ_THREE':
                 imgPath = require('../../image/task/read_twenty.png');
                 break;
-            case 'READ_THIRTY_MORE':
-                imgPath = require('../../image/task/read_ten.png');
-                break;
-            case 'READ_SIXTY_MORE':
+            case 'READ_FIVE':
                 imgPath = require('../../image/task/read_hour.png');
                 break;
+            // case 'READ_SIXTY_MORE':
+            //     imgPath = require('../../image/task/read_hour.png');
+            //     break;
             default:
                 break;
         }
@@ -106,9 +113,15 @@ class TaskItem extends Component {
                     </div>
                 </div>
                 <div style={{ flex: 1 }} />
-                <StateBtn state={this.props.item.sign} />
+                <StateBtn btnClick={this.clickCallback} state={this.props.item.sign} />
             </div>
         );
+    }
+
+    clickCallback = (state) => {
+        if (this.props.clickCallback) {
+            this.props.clickCallback(this.props.item.key, state);
+        }
     }
 }
 
@@ -202,11 +215,11 @@ class Task extends Component {
             let dailyReg = [];
             e.forEach((item, index) => {
                 if (item.group === 'new') {
-                    const newItem = <TaskItem key={index} item={item} />
+                    const newItem = <TaskItem clickCallback={this.clickCallback} navi={this.props.history} key={index} item={item} />
                     newReg.push(newItem);
                 }
                 if (item.group === 'daily') {
-                    const dailyItem = <TaskItem key={index} item={item} />
+                    const dailyItem = <TaskItem clickCallback={this.clickCallback} navi={this.props.history} key={index} item={item} />
                     dailyReg.push(dailyItem);
                 }
             });
@@ -218,9 +231,10 @@ class Task extends Component {
     }
 
     render() {
-
+        let heightNew = 72 + 65 * this.state.newData.length;
+        let heightDaily = 73 + 65 * this.state.dailyData.length;
         return (
-            <div className='image-bg-container' style={{ height: 1420, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'column', backgroundImage: `url(${bg_image})` }}>
+            <div className='image-bg-container' style={{ width: CLIENT_WIDTH, display: 'flex', flexDirection: 'column', backgroundImage: `url(${bg_image})` }}>
                 <div className='image-bg-container' style={{ height: 204, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'column', backgroundImage: `url(${header_bg_image})` }}>
                     <div style={{ marginTop: 50, marginLeft: 36, color: 'rgb(232,232,232)' }}>已拥有C币</div>
                     <div style={{ fontSize: 38, marginTop: 7, color: 'white', marginLeft: 35, fontWeight: 'bold' }}>{this.props.coins}</div>
@@ -240,17 +254,73 @@ class Task extends Component {
                     </div>
                 </div>
                 <LinkBar />
-                <div style={{ marginTop: -12, borderRadius: 10, alignSelf: 'center', height: 332, width: 320, display: 'flex', flexDirection: 'column', backgroundColor: 'white' }}>
+                <div style={{ marginTop: -12, borderRadius: 10, alignSelf: 'center', height: heightNew, width: 320, display: 'flex', flexDirection: 'column', backgroundColor: 'white' }}>
                     <div style={{ fontSize: 16, color: 'rgb(34,34,34)', marginTop: 25, marginLeft: 26, fontWeight: 'bold', marginBottom: 15 }}>新手奖励</div>
                     {this.state.newData}
                 </div>
                 <LinkBar />
-                <div style={{ marginTop: -12, borderRadius: 10, alignSelf: 'center', height: 593, width: 320, display: 'flex', flexDirection: 'column', backgroundColor: 'white' }}>
+                <div style={{ marginTop: -12, borderRadius: 10, alignSelf: 'center', height: heightDaily, width: 320, display: 'flex', flexDirection: 'column', backgroundColor: 'white' }}>
                     <div style={{ fontSize: 16, color: 'rgb(34,34,34)', marginTop: 25, marginLeft: 26, fontWeight: 'bold', marginBottom: 15 }}>日常奖励</div>
                     {this.state.dailyData}
                 </div>
+                <div style={{ height: 100, width: 320 }} />
             </div>
         );
+    }
+
+    clickCallback = (key, state) => {
+        if (state === 2) {
+            return;
+        }
+        if (state === 1) {
+            Api.taskDoneCoins(key, (e, code, message) => {
+                if (message === 'success') {
+                    ToastsStore.success('奖励领取成功');
+                    Api.taskList((e) => {
+                        let newReg = [];
+                        let dailyReg = [];
+                        e.forEach((item, index) => {
+                            if (item.group === 'new') {
+                                const newItem = <TaskItem clickCallback={this.clickCallback} navi={this.props.history} key={index} item={item} />
+                                newReg.push(newItem);
+                            }
+                            if (item.group === 'daily') {
+                                const dailyItem = <TaskItem clickCallback={this.clickCallback} navi={this.props.history} key={index} item={item} />
+                                dailyReg.push(dailyItem);
+                            }
+                        });
+                        this.setState({
+                            newData: newReg,
+                            dailyData: dailyReg
+                        });
+                    });
+                    if (this.props.login) {
+                        Api.userInfo((e) => {
+                            store.dispatch(get_user_info(e));
+                        });
+                    }
+                }
+            });
+        }
+        if (state === 0) {
+            switch (key) {
+                case 'REGISTER':
+                    //注册任务默认完成，不需要操作
+                    break;
+                case 'SAVE_PHOTO':
+                    ToastsStore.warning('请在App内完成此任务');
+                    break;
+                case 'SAVE_CARD':
+                    ToastsStore.warning('请在App内完成此任务');
+                    break;
+                case 'BIND_MOBILE':
+                    //web端绑定手机任务默认完成
+                    break;
+                default:
+                    this.props.history.push('/');
+                    break;
+            }
+        }
     }
 
     openMoney = () => {
