@@ -182,7 +182,7 @@ class GuessLike extends PureComponent {
 
     itemsGen = (data) => {
         let result = data.map((item, index) => {
-            return <FrontCover key={index} title={item.title} intro={item.intro} source={item.cover_url} coverClick={() => { this.props.navi.replace(`/manga_detail/${item.id}/${this.props.globalType}`) }} />;
+            return <FrontCover isHo={true} key={index} title={item.title} intro={item.intro} source={item.cover_url} coverClick={() => { this.props.navi.replace(`/manga_detail/${item.id}/${this.props.globalType}`) }} />;
         });
         return result;
     }

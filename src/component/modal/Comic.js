@@ -325,7 +325,7 @@ class Comic4 extends Component {
     render() {
         const items = this.itemsGen(this.props.data);
         return (
-            <div style={{ height: Comic4_HEIGHT, width: Comic4_WIDTH, display: 'flex', flexDirection: 'column' }}>
+            <div style={{ height: Comic4_HEIGHT, width: Comic4_WIDTH, display: 'flex', flexDirection: 'column', marginRight: 5 }}>
                 <div style={{ marginTop: 10, height: 30, width: SudokuVe_WIDTH, display: 'flex', flexDirection: 'row' }}>
                     <div style={{ fontSize: 20, color: 'rgb(34,34,34)', fontWeight: 'bold' }}> {this.props.title}</div>
                     <div style={{ marginLeft: 3, fontSize: 20, color: 'rgb(255,42,49)', fontWeight: 'bold' }}> •</div>

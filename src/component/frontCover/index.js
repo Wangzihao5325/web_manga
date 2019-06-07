@@ -28,6 +28,9 @@ class FrontCover extends Component {
             let marginWidth = (this.props.wapperWidth - 3 * VER_WIDTH) / 2;
             style = { marginLeft: marginWidth, marginRight: marginWidth, height: VER_HEIGHT, width: VER_WIDTH, display: 'flex', flexDirection: 'column' };
         }
+        if(this.props.isHo){
+            style={...style,marginRight:8}
+        }
         return (
             <div onClick={this.coverClick} className='cover_container' style={style}>
                 <div style={{ width: VER_WIDTH, height: VER_IMAGE_HEIGHT }}>
