@@ -147,7 +147,7 @@ class SudokuVe extends Component {
     }
 
     _more = () => {
-        console.log('more');
+        this.props.navi.push('/type/');
     }
 
     _changePage = () => {
@@ -244,7 +244,7 @@ class Comic2 extends Component {
     }
 
     _more = () => {
-        console.log('more');
+        this.props.navi.push('/type/');
     }
 
     _changePage = () => {
@@ -313,12 +313,9 @@ class Comic3 extends Component {
     }
 
     _more = () => {
-        console.log('more');
+        this.props.navi.push('/type/');
     }
 
-    _changePage = () => {
-
-    }
 }
 
 const Comic4_WIDTH = CLIENT_WIDTH - 24;
@@ -370,7 +367,7 @@ class Comic4 extends Component {
     }
 
     onSelect = (key) => {
-        console.log(key);
+       // console.log(key);
     }
 }
 
