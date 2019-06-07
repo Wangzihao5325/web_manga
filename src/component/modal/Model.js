@@ -28,7 +28,7 @@ export default class Model extends Component {
                                 case 'm_banner':
                                     return <Banner key={index} data={item.m_banner_data} />;
                                 case 'm_comic':
-                                    return <Comic key={index} title={item.title} limit={item.client_limit} styleText={item.client_style} data={item.m_comic_data} />;
+                                    return <Comic key={index} subTitle={item.subtitle} title={item.title} limit={item.client_limit} styleText={item.client_style} data={item.m_comic_data} />;
                             }
                         })
                     }

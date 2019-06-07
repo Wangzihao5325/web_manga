@@ -96,8 +96,10 @@ class SudokuVe extends Component {
         const totalHeight = coverHeight + 60 + 64;
         return (
             <div style={{ height: totalHeight, width: SudokuVe_WIDTH, display: 'flex', flexDirection: 'column' }}>
-                <div style={{ marginTop: 20, height: 30, width: SudokuVe_WIDTH, display: 'flex', flexDirection: 'column', fontSize: 20, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>
-                    {this.props.title}
+                <div style={{ marginTop: 10, height: 30, width: SudokuVe_WIDTH, display: 'flex', flexDirection: 'row' }}>
+                    <div style={{ fontSize: 20, color: 'rgb(34,34,34)', fontWeight: 'bold' }}> {this.props.title}</div>
+                    <div style={{ marginLeft: 3, fontSize: 20, color: 'rgb(255,42,49)', fontWeight: 'bold' }}> •</div>
+                    <div style={{ marginLeft: 3, fontSize: 20, color: 'rgb(34,34,34)', fontWeight: 'bold' }}> {this.props.subTitle}</div>
                 </div>
                 <div style={{ marginTop: 10, height: coverHeight, width: SudokuVe_WIDTH, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
                     {
@@ -170,17 +172,22 @@ class Comic2 extends Component {
         const totalHeight = 30 + BANNER_TOTAL_HEIGHT + VER_HEIGHT + 44 + 50;
         return (
             <div style={{ height: totalHeight, width: Comic2_WIDTH, display: 'flex', flexDirection: 'column' }}>
-                <div style={{ marginTop: 20, height: 30, width: SudokuVe_WIDTH, display: 'flex', flexDirection: 'column', fontSize: 20, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>
-                    {this.props.title}
+                <div style={{ marginTop: 10, height: 30, width: SudokuVe_WIDTH, display: 'flex', flexDirection: 'row' }}>
+                    <div style={{ fontSize: 20, color: 'rgb(34,34,34)', fontWeight: 'bold' }}> {this.props.title}</div>
+                    <div style={{ marginLeft: 3, fontSize: 20, color: 'rgb(255,42,49)', fontWeight: 'bold' }}> •</div>
+                    <div style={{ marginLeft: 3, fontSize: 20, color: 'rgb(34,34,34)', fontWeight: 'bold' }}> {this.props.subTitle}</div>
                 </div>
+
                 <div style={{ height: BANNER_TOTAL_HEIGHT, width: BANNER_WIDTH, display: 'flex', flexDirection: 'column' }}>
                     <BannerCover coverClick={() => { this.props.navi.push(`/manga_detail/${bannerData.id}/${this.props.globalType}`) }} title={bannerData.title} intro={bannerData.intro} source={bannerData.banner_url ? bannerData.banner_url : bannerData.cover_url} />
                 </div>
+
                 <div style={{ marginTop: 10, height: VER_HEIGHT, width: Comic2_WIDTH, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
                     {
                         this.itemsGen(this.props.data, this.state.page)
                     }
                 </div>
+
                 <div style={{ height: 44, width: SudokuVe_WIDTH, marginTop: 20, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div onClick={this._more} style={{ height: 44, width: BOTTOM_BTN_WIDTH, backgroundColor: 'rgb(244,244,244)', borderRadius: 4, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                         <div style={{ height: 44, width: 14, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 14, width: 14 }} src={require('../../image/main/more.png')} alt='' /></div>
@@ -234,15 +241,20 @@ class Comic2 extends Component {
 }
 
 const Comic3_WIDTH = CLIENT_WIDTH - 24;
-const Comic3_ITEMS_HEIGHT = COMIC3_ITEM_HEIGHT * 3 + 20;
 
 class Comic3 extends Component {
     render() {
+        let Comic3_ITEMS_HEIGHT = COMIC3_ITEM_HEIGHT * 3 + 20;
+        if (this.props.data.length < 3) {
+            Comic3_ITEMS_HEIGHT = COMIC3_ITEM_HEIGHT * this.props.data.length + 20;
+        }
         const totalHeight = Comic3_ITEMS_HEIGHT + 64 + 50;
         return (
             <div style={{ width: Comic3_WIDTH, height: totalHeight, display: 'flex', flexDirection: 'column' }}>
-                <div style={{ marginTop: 20, height: 30, width: SudokuVe_WIDTH, display: 'flex', flexDirection: 'column', fontSize: 20, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>
-                    {this.props.title}
+                <div style={{ marginTop: 10, height: 30, width: SudokuVe_WIDTH, display: 'flex', flexDirection: 'row' }}>
+                    <div style={{ fontSize: 20, color: 'rgb(34,34,34)', fontWeight: 'bold' }}> {this.props.title}</div>
+                    <div style={{ marginLeft: 3, fontSize: 20, color: 'rgb(255,42,49)', fontWeight: 'bold' }}> •</div>
+                    <div style={{ marginLeft: 3, fontSize: 20, color: 'rgb(34,34,34)', fontWeight: 'bold' }}> {this.props.subTitle}</div>
                 </div>
                 <div style={{ width: Comic3_WIDTH, height: Comic3_ITEMS_HEIGHT, display: 'flex', flexDirection: 'column' }}>
                     {this.itemsGen(this.props.data)}
@@ -286,8 +298,10 @@ class Comic4 extends Component {
         const items = this.itemsGen(this.props.data);
         return (
             <div style={{ height: Comic4_HEIGHT, width: Comic4_WIDTH, display: 'flex', flexDirection: 'column' }}>
-                <div style={{ marginTop: 20, height: 30, width: SudokuVe_WIDTH, display: 'flex', flexDirection: 'column', fontSize: 20, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>
-                    {this.props.title}
+                <div style={{ marginTop: 10, height: 30, width: SudokuVe_WIDTH, display: 'flex', flexDirection: 'row' }}>
+                    <div style={{ fontSize: 20, color: 'rgb(34,34,34)', fontWeight: 'bold' }}> {this.props.title}</div>
+                    <div style={{ marginLeft: 3, fontSize: 20, color: 'rgb(255,42,49)', fontWeight: 'bold' }}> •</div>
+                    <div style={{ marginLeft: 3, fontSize: 20, color: 'rgb(34,34,34)', fontWeight: 'bold' }}> {this.props.subTitle}</div>
                 </div>
                 <div style={{ height: COMIC4_TOTAL_HEIGHT, width: Comic4_WIDTH }}>
                     <ScrollMenu
@@ -331,13 +345,13 @@ class Comic extends Component {
                 return <SudokuHo title={this.props.title} data={this.props.data} limit={this.props.limit} />;
                 */
             case 'comic_1':
-                return <SudokuVe navi={this.props.history} globalType={GLOBAL_TYPE} title={this.props.title} data={this.props.data} limit={this.props.limit} />;
+                return <SudokuVe navi={this.props.history} globalType={GLOBAL_TYPE} title={this.props.title} subTitle={this.props.subTitle} data={this.props.data} limit={this.props.limit} />;
             case 'comic_2':
-                return <Comic2 navi={this.props.history} globalType={GLOBAL_TYPE} title={this.props.title} data={this.props.data} />;
+                return <Comic2 navi={this.props.history} globalType={GLOBAL_TYPE} title={this.props.title} subTitle={this.props.subTitle} data={this.props.data} />;
             case 'comic_3':
-                return <Comic3 navi={this.props.history} globalType={GLOBAL_TYPE} title={this.props.title} data={this.props.data} limit={this.props.limit} />;
+                return <Comic3 navi={this.props.history} globalType={GLOBAL_TYPE} title={this.props.title} subTitle={this.props.subTitle} data={this.props.data} limit={this.props.limit} />;
             case 'comic_4':
-                return <Comic4 navi={this.props.history} globalType={GLOBAL_TYPE} title={this.props.title} data={this.props.data} limit={this.props.limit} />;
+                return <Comic4 navi={this.props.history} globalType={GLOBAL_TYPE} title={this.props.title} subTitle={this.props.subTitle} data={this.props.data} limit={this.props.limit} />;
             default:
                 return null;
         }

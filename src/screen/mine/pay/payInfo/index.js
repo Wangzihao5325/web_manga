@@ -28,7 +28,7 @@ class PayInfo extends PureComponent {
     }
 
     goBack = () => {
-        this.props.history.push('/pay/');
+        this.props.history.goBack();
     }
 }
 
