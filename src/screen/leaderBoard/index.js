@@ -11,7 +11,8 @@ import { Comic3Item } from '../../component/frontCover/index';
 import Api from '../../socket/index';
 
 
-const DATA = [{ key: '12', name: '韩漫' }, { key: '13', name: 'H漫' }, { key: '14', name: '动漫' }]
+//const DATA = [{ key: '12', name: '韩漫' }, { key: '13', name: 'H漫' }, { key: '14', name: '动漫' }]
+const DATA = [{ key: '12', name: '韩漫' }, { key: '13', name: 'H漫' }]
 
 class LeaderBoard extends PureComponent {
 
@@ -41,7 +42,7 @@ class LeaderBoard extends PureComponent {
         return (
             <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }} >
                 <HeaderPro title='排行榜' back={this.goBack} />
-                <div style={{ flex: 1, width: 250 }} >
+                <div style={{ flex: 1, width: 160 }} >
                     <ScrollMenu
                         data={menu}
                         selected={selected}
