@@ -4,10 +4,9 @@ import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../../global/sizes';
 import InfiniteScroll from 'react-infinite-scroller';
 import SecurtyImage from '../../../component/securtyImage/Image';
 
-import Masonry from 'react-masonry-infinite';
-import shortid from 'shortid';
 import Api from '../../../socket/index';
 import './index.css';
+import Banner from '../../../component/modal/Banner';
 
 const ItemWidth = CLIENT_WIDTH / 2 - 12;
 
@@ -43,7 +42,8 @@ class CGPage extends Component {
         nowPage: -1,
         totalPage: -1,
         data1: [],
-        data2: []
+        data2: [],
+        adData: [],
     }
 
     componentDidMount() {
@@ -59,6 +59,7 @@ class CGPage extends Component {
                 }
             });
             this.setState({
+                adData: e.ad,
                 data1: data1Result,
                 data2: data2Result,
                 nowPage: e.lists.current_page,
@@ -70,7 +71,12 @@ class CGPage extends Component {
 
     render() {
         return (
-            <div className='scrolllist' style={{ flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
+            <div className='scrolllist' style={{ flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                {this.state.adData.length > 0 &&
+                    <div style={{marginTop:8}}>
+                        <Banner data={this.state.adData} />
+                    </div>
+                }
                 <InfiniteScroll
                     pageStart={0}
                     hasMore={true}
