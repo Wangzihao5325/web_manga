@@ -129,6 +129,35 @@ class ChapterCoverItem extends PureComponent {
     }
 }
 
+class HmanItem extends PureComponent {
+    render() {
+        let normalStyle = { position: 'relative', marginTop: 5, borderRadius: 4, color: 'rgb(34,34,34)', height: 63, width: 63, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgb(244,244,244)' };
+        let marginWidth = (this.props.warpWidth - 63 * 5) / 8;
+        if (this.props.index % 5 == 0) {
+            normalStyle = { ...normalStyle, marginRight: marginWidth };
+        } else if (this.props.index % 5 == 4) {
+            normalStyle = { ...normalStyle, marginLeft: marginWidth };
+        } else {
+            normalStyle = { ...normalStyle, marginLeft: marginWidth, marginRight: marginWidth };
+        }
+        return (
+            <div onClick={this.itemClick} style={normalStyle}>
+                {
+                    this.props.item.is_pay === 1 &&
+                    <div style={{ position: 'absolute', top: 0, right: 0, height: 20, width: 20, borderTopRightRadius: 4, borderBottomLeftRadius: 4, backgroundColor: 'rgb(255,42,49)', fontSize: 18, color: 'white', fontWeight: 'bold', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>C</div>
+                }
+                {this.props.item.index}
+            </div>
+        );
+    }
+
+    itemClick = () => {
+        if (this.props.itemClick) {
+            this.props.itemClick(this.props.item.is_pay, this.props.item.id, this.props.item.resource_id, this.props.item.title, this.props.item.index, Math.abs(this.props.item.coins), this.props.index);
+        }
+    }
+}
+
 const GuessLike_WIDTH = CLIENT_WIDTH - 24;
 const GuessLike_HEIGHT = VER_HEIGHT + 50;
 
@@ -255,13 +284,15 @@ class MangaDetail extends PureComponent {
             text = '已完结';
         }
 
+        let modalTitle = this.state.modalTitle.length > 15 ? `${this.state.modalTitle.slice(0, 13)}...` : this.state.modalTitle;
+
         return (
             <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }} >
                 {/* <HeaderPro title=' ' back={this.goBack} /> */}
 
                 {this.state.mangaInfoObj && <MangaInfoHeader goback={this.goBack} item={this.state.mangaInfoObj} />}
                 {
-                    this.state.mangaInfoObj &&
+                    this.state.mangaInfoObj && this.props.match.params.type === 'hanman' &&
                     <div style={{ marginTop: 10, marginBottom: 20, height: 20, width: CLIENT_WIDTH - 40, alignSelf: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
                             <div style={{ fontSize: 13, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>{`${text}`}</div>
@@ -278,19 +309,44 @@ class MangaDetail extends PureComponent {
                         </div>
                     </div>
                 }
-                {
+                {this.props.match.params.type === 'hanman' &&
                     this.state.data.map((item, index) => {
                         return <ChapterCoverItem key={index} item={item} index={index} itemClick={this.goToMangaRead} />
                     })
                 }
                 {
-                    this.state.data.length > 0 &&
+                    this.state.data.length > 0 && this.props.match.params.type === 'hanman' &&
                     <div onClick={this.moreChapter} style={{ height: 20, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                         <div><img style={{ height: 14, width: 14 }} src={require('../../../image/detail/more_chapter.png')} alt='' /></div>
                         <div style={{ fontSize: 15, color: 'rgb(255,42,49)', marginLeft: 2 }}>{this.state.isMoreChapterState ? '收起目录' : '展开目录'}</div>
                     </div>
                 }
+
                 {
+                    this.state.mangaInfoObj && this.props.match.params.type === 'hman' &&
+                    <div style={{ marginTop: 10, marginBottom: 20, height: 20, width: CLIENT_WIDTH - 40, alignSelf: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                            <div style={{ fontSize: 13, color: 'rgb(34,34,34)', fontWeight: 'bold' }}>{`${text}`}</div>
+                            <div style={{ fontSize: 13, color: 'rgb(255,42,49)', fontWeight: 'bold' }}>{`(更新至${totalNum}话)`}</div>
+                        </div>
+                        <div style={{ height: 20, width: 40, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                            <div onClick={this.moreChapter} style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: this.state.order ? 'rgb(255,42,49)' : 'rgb(34,34,34)' }}>
+                                {this.state.isMoreChapterState ? '收起' : '更多'}
+                            </div>
+                        </div>
+                    </div>
+                }
+                {this.props.match.params.type === 'hman' &&
+                    <div style={{ width: CLIENT_WIDTH - 20, alignSelf: 'center', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+                        {
+                            this.state.data.map((item, index) => {
+                                return <HmanItem warpWidth={CLIENT_WIDTH - 20} key={index} item={item} index={index} itemClick={this.goToMangaRead} />
+                            })
+                        }
+                    </div>
+                }
+
+                {//猜你喜欢
                     this.state.guessLikeData.length > 0 &&
                     <GuessLike navi={this.props.history} data={this.state.guessLikeData} globalType={this.props.match.params.type} />
                 }
@@ -309,7 +365,7 @@ class MangaDetail extends PureComponent {
                     onRequestClose={this.closeModal}
                     isOpen={this.state.showModal}>
                     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                        <div style={{ marginTop: 20, color: 'rgb(0,0,0)', fontSize: 14, alignSelf: 'center' }}>{`${this.state.modalTitle}${this.state.modalChapterIndex}话`}</div>
+                        <div style={{ marginTop: 20, color: 'rgb(0,0,0)', fontSize: 14, alignSelf: 'center' }}>{`${modalTitle}${this.state.modalChapterIndex}话`}</div>
                         {this.state.modalChapterCoins > 0 &&
                             <div onClick={this.buyOne} style={{ alignSelf: 'center', marginTop: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 44, width: CLIENT_WIDTH - 80, borderRadius: 22, borderStyle: 'solid', borderWidth: 1, borderColor: this.state.buyType === 'one' ? 'rgb(255,42,49)' : 'rgb(168,168,168)', color: this.state.buyType === 'one' ? 'rgb(255,42,49)' : 'rgb(168,168,168)' }}>
                                 {`${this.state.modalChapterCoins} C币购买此话`}
