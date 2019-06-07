@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import store from '../../../store/index';
 import { pop_show } from '../../../store/actions/popAction';
+import { auto_buy_change } from '../../../store/actions/readAction';
 import { tab_navi_unshow } from '../../../store/actions/tabBottomNaviAction';
 import { HeaderPro } from '../../../component/header/index';
 import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../../global/sizes';
@@ -211,7 +213,6 @@ class MangaDetail extends PureComponent {
         modalIndex: -1,
         modalTureIndex: 0,
 
-        isAutoBuy: true,
         buyType: 'all'
     }
 
@@ -383,7 +384,7 @@ class MangaDetail extends PureComponent {
                                     <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginLeft: 5 }}>{`币余额:${this.state.modalMyCoins}`}</div>
                                 </div>
                                 <div onClick={this.autoBuy} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                                    <div style={{ height: 40, width: 14, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 14, width: 14 }} src={this.state.isAutoBuy ? require('../../../image/collect/select_all.png') : require('../../../image/collect/unSelect_all.png')} alt='' /></div>
+                                    <div style={{ height: 40, width: 14, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 14, width: 14 }} src={this.props.is_auto_buy ? require('../../../image/collect/select_all.png') : require('../../../image/collect/unSelect_all.png')} alt='' /></div>
                                     <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginLeft: 5 }}>下章自动购买</div>
                                 </div>
                             </div>
@@ -429,9 +430,7 @@ class MangaDetail extends PureComponent {
     }
 
     autoBuy = () => {
-        this.setState({
-            isAutoBuy: !this.state.isAutoBuy
-        });
+        store.dispatch(auto_buy_change());
     }
 
     buyOne = () => {
@@ -623,5 +622,11 @@ class MangaDetail extends PureComponent {
     }
 }
 
-const MangaDetailWithRouter = withRouter(MangaDetail);
+function mapState2Props(store) {
+    return {
+        is_auto_buy: store.read.isAutoBuy,
+    }
+}
+
+const MangaDetailWithRouter = withRouter(connect(mapState2Props)(MangaDetail));
 export default MangaDetailWithRouter;

@@ -1,7 +1,9 @@
 import React, { PureComponent, Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import store from '../../../../store/index';
 import { tab_navi_unshow } from '../../../../store/actions/tabBottomNaviAction';
+import { auto_buy_change } from '../../../../store/actions/readAction';
 import InfiniteScroll from 'react-infinite-scroller';
 import { HeaderPro } from '../../../../component/header/index';
 import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../../../../global/sizes';
@@ -130,9 +132,9 @@ class ChapterItem extends Component {
                             <div style={{ color: 'rgb(255,42,49)', fontSize: 18 }}>{`${coins}`}</div>
                         </div>
                     }
-                      {
+                    {
                         this.props.item.is_pay === 0 &&
-                        <div style={{ alignSelf: 'center', width: 50, height: 20, marginRight: 20, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}/>
+                        <div style={{ alignSelf: 'center', width: 50, height: 20, marginRight: 20, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }} />
                     }
                 </div>
             </div>
@@ -170,7 +172,6 @@ class MangaRead extends PureComponent {
         modalChapterIndex: 0,
         modalChapterTrueIndex: 0,
         buyType: 'all',
-        isAutoBuy: true,
 
         isShowStar: false,
         starValue: 2.5
@@ -356,7 +357,7 @@ class MangaRead extends PureComponent {
                                     <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginLeft: 5 }}>{`币余额:${this.state.modalMyCoins}`}</div>
                                 </div>
                                 <div onClick={this.autoBuy} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                                    <div style={{ height: 40, width: 14, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 14, width: 14 }} src={this.state.isAutoBuy ? require('../../../../image/collect/select_all.png') : require('../../../../image/collect/unSelect_all.png')} alt='' /></div>
+                                    <div style={{ height: 40, width: 14, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 14, width: 14 }} src={this.props.is_auto_buy ? require('../../../../image/collect/select_all.png') : require('../../../../image/collect/unSelect_all.png')} alt='' /></div>
                                     <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginLeft: 5 }}>下章自动购买</div>
                                 </div>
                             </div>
@@ -488,9 +489,7 @@ class MangaRead extends PureComponent {
     }
 
     autoBuy = () => {
-        this.setState({
-            isAutoBuy: !this.state.isAutoBuy
-        });
+        store.dispatch(auto_buy_change());
     }
 
     buyOne = () => {
@@ -713,5 +712,11 @@ class MangaRead extends PureComponent {
     }
 }
 
-const MangaReadWithRouter = withRouter(MangaRead);
+function mapState2Props(store) {
+    return {
+        is_auto_buy: store.read.isAutoBuy,
+    }
+}
+
+const MangaReadWithRouter = withRouter(connect(mapState2Props)(MangaRead));
 export default MangaReadWithRouter;
