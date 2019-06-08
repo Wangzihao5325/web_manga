@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
 import store from '../../store/index';
 import { tab_navi_show, tab_navi_select_change } from '../../store/actions/tabBottomNaviAction';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 import { Menu } from '../../component/tabSelect/ScrollTabSelect';
 import Api from '../../socket/index';
 import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../global/sizes';
+import { ToastsStore } from 'react-toasts';
+
 
 import MangaPage from './contentPage/MangaPage';
 import UpdatePage from './contentPage/UpdatePage';
@@ -21,8 +24,11 @@ class Home extends Component {
     };
 
     onSelect = key => {
-        this.setState({ selected: key });
-
+        if (this.props.isLogin) {
+            this.setState({ selected: key });
+        } else {
+            ToastsStore.warning('请先登陆');
+        }
     }
 
     componentDidMount() {
@@ -73,5 +79,11 @@ class Home extends Component {
     }
 }
 
-const HomeWithRouter = withRouter(Home);
+function mapState2Props(store) {
+    return {
+        isLogin: store.user.isLogin,
+    }
+}
+
+const HomeWithRouter = withRouter(connect(mapState2Props)(Home));
 export default HomeWithRouter;

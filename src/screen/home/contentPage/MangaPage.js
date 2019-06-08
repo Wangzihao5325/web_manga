@@ -1,8 +1,11 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../../global/sizes';
 import Api from '../../../socket/index';
 import Model from '../../../component/modal/Model';
+import { ToastsStore } from 'react-toasts';
+
 
 class SearchBtn extends PureComponent {
     render() {
@@ -63,15 +66,27 @@ class MangaPage extends PureComponent {
     }
 
     goToLeaderboard = () => {
-        this.props.navi.push('/leaderBoard/');
+        if (this.props.isLogin) {
+            this.props.navi.push('/leaderBoard/');
+        } else {
+            ToastsStore.warning('请先登陆');
+        }
     }
 
     goToType = () => {
-        this.props.navi.push('/type/');
+        if (this.props.isLogin) {
+            this.props.navi.push('/type/');
+        } else {
+            ToastsStore.warning('请先登陆');
+        }
     }
 
     goToSearch = () => {
-        this.props.navi.push(`/search/${this.props.type}/`);
+        if (this.props.isLogin) {
+            this.props.navi.push(`/search/${this.props.type}/`);
+        } else {
+            ToastsStore.warning('请先登陆');
+        }
     }
 
     _loadMore = (page) => {
@@ -90,4 +105,12 @@ class MangaPage extends PureComponent {
     }
 }
 
-export default MangaPage;
+function mapState2Props(store) {
+    return {
+        isLogin: store.user.isLogin,
+    }
+}
+
+const MangaPageWithRedux = connect(mapState2Props)(MangaPage)
+
+export default MangaPageWithRedux;
