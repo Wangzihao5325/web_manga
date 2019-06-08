@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../global/sizes';
 import { FrontCoverHo, FrontCover, HO_HEIGHT, VER_HEIGHT, BannerCover, BANNER_WIDTH, BANNER_TOTAL_HEIGHT, COMIC3_ITEM_HEIGHT, Comic3Item, Comic4Item, COMIC4_TOTAL_HEIGHT, COMIC4_ITEM_WIDTH } from '../../component/frontCover/index';
+import { ToastsStore } from 'react-toasts';
 
 const SudokuHo_WIDTH = CLIENT_WIDTH - 24;
 const BOTTOM_BTN_WIDTH = (SudokuHo_WIDTH - 10) / 2;
@@ -147,7 +149,11 @@ class SudokuVe extends Component {
     }
 
     _more = () => {
-        this.props.navi.push('/type/');
+        if (this.props.isLogin) {
+            this.props.navi.push('/type/');
+        } else {
+            ToastsStore.warning('请先登录');
+        }
     }
 
     _changePage = () => {
@@ -244,7 +250,11 @@ class Comic2 extends Component {
     }
 
     _more = () => {
-        this.props.navi.push('/type/');
+        if (this.props.isLogin) {
+            this.props.navi.push('/type/');
+        } else {
+            ToastsStore.warning('请先登录');
+        }
     }
 
     _changePage = () => {
@@ -313,7 +323,11 @@ class Comic3 extends Component {
     }
 
     _more = () => {
-        this.props.navi.push('/type/');
+        if (this.props.isLogin) {
+            this.props.navi.push('/type/');
+        } else {
+            ToastsStore.warning('请先登录');
+        }
     }
 
 }
@@ -386,18 +400,24 @@ class Comic extends Component {
                 return <SudokuHo title={this.props.title} data={this.props.data} limit={this.props.limit} />;
                 */
             case 'comic_1':
-                return <SudokuVe navi={this.props.history} globalType={GLOBAL_TYPE} title={this.props.title} subTitle={this.props.subTitle} data={this.props.data} limit={this.props.limit} />;
+                return <SudokuVe isLogin={this.props.isLogin} navi={this.props.history} globalType={GLOBAL_TYPE} title={this.props.title} subTitle={this.props.subTitle} data={this.props.data} limit={this.props.limit} />;
             case 'comic_2':
-                return <Comic2 navi={this.props.history} globalType={GLOBAL_TYPE} title={this.props.title} subTitle={this.props.subTitle} data={this.props.data} />;
+                return <Comic2 isLogin={this.props.isLogin} navi={this.props.history} globalType={GLOBAL_TYPE} title={this.props.title} subTitle={this.props.subTitle} data={this.props.data} />;
             case 'comic_3':
-                return <Comic3 navi={this.props.history} globalType={GLOBAL_TYPE} title={this.props.title} subTitle={this.props.subTitle} data={this.props.data} limit={this.props.limit} />;
+                return <Comic3 isLogin={this.props.isLogin} navi={this.props.history} globalType={GLOBAL_TYPE} title={this.props.title} subTitle={this.props.subTitle} data={this.props.data} limit={this.props.limit} />;
             case 'comic_4':
-                return <Comic4 navi={this.props.history} globalType={GLOBAL_TYPE} title={this.props.title} subTitle={this.props.subTitle} data={this.props.data} limit={this.props.limit} />;
+                return <Comic4 isLogin={this.props.isLogin} navi={this.props.history} globalType={GLOBAL_TYPE} title={this.props.title} subTitle={this.props.subTitle} data={this.props.data} limit={this.props.limit} />;
             default:
                 return null;
         }
     }
 }
 
-const ComicWithRouter = withRouter(Comic);
+function mapState2Props(store) {
+    return {
+        isLogin: store.user.isLogin,
+    }
+}
+
+const ComicWithRouter = withRouter(connect(mapState2Props)(Comic));
 export default ComicWithRouter;

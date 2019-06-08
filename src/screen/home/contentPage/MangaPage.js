@@ -111,6 +111,6 @@ function mapState2Props(store) {
     }
 }
 
-const MangaPageWithRedux = connect(mapState2Props)(MangaPage)
+const MangaPageWithRedux = connect(mapState2Props)(MangaPage);
 
 export default MangaPageWithRedux;
