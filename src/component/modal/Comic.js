@@ -105,7 +105,7 @@ class SudokuVe extends Component {
                 </div>
                 <div style={{ marginTop: 10, height: coverHeight, width: SudokuVe_WIDTH, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
                     {
-                        this.itemsGen(this.props.data, this.state.page, this.props.limit)
+                        this.itemsGen(this.props.data, this.state.page, this.props.limit, this.props.isLogin)
                     }
                 </div>
                 <div style={{ height: 44, width: SudokuVe_WIDTH, marginTop: 20, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -122,7 +122,7 @@ class SudokuVe extends Component {
         );
     }
 
-    itemsGen = (data, page, limit) => {
+    itemsGen = (data, page, limit, isLogin) => {
         let result = [];
         for (let i = limit * (page - 1); i < limit * page; i++) {
             if (i >= data.length) {
@@ -136,6 +136,10 @@ class SudokuVe extends Component {
                     intro={item.intro}
                     source={item.cover_url}
                     coverClick={() => {
+                        if (!isLogin) {
+                            ToastsStore.warning('请先登录');
+                            return;
+                        }
                         if (item.global_type === 'hanman' || item.global_type === 'hman') {
                             this.props.navi.push(`/manga_detail/${item.id}/${item.global_type}`)
                         }
@@ -195,6 +199,10 @@ class Comic2 extends Component {
                         intro={bannerData.intro}
                         source={bannerData.banner_url ? bannerData.banner_url : bannerData.cover_url}
                         coverClick={() => {
+                            if (!this.props.isLogin) {
+                                ToastsStore.warning('请先登录');
+                                return;
+                            }
                             if (bannerData.global_type === 'hanman' || bannerData.global_type === 'hman') {
                                 this.props.navi.push(`/manga_detail/${bannerData.id}/${bannerData.global_type}`)
                             }
@@ -205,7 +213,7 @@ class Comic2 extends Component {
 
                 <div style={{ marginTop: 10, height: VER_HEIGHT, width: Comic2_WIDTH, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
                     {
-                        this.itemsGen(this.props.data, this.state.page)
+                        this.itemsGen(this.props.data, this.state.page, this.props.isLogin)
                     }
                 </div>
 
@@ -223,7 +231,7 @@ class Comic2 extends Component {
         );
     }
 
-    itemsGen = (data, page) => {
+    itemsGen = (data, page, isLogin) => {
         let result = [];
         for (let i = 4 * (page - 1) + 1; i < 4 * page; i++) {
             if (i >= data.length) {
@@ -237,6 +245,10 @@ class Comic2 extends Component {
                     intro={item.intro}
                     source={item.cover_url}
                     coverClick={() => {
+                        if (!isLogin) {
+                            ToastsStore.warning('请先登录');
+                            return;
+                        }
                         if (item.global_type === 'hanman' || item.global_type === 'hman') {
                             this.props.navi.push(`/manga_detail/${item.id}/${item.global_type}`)
                         }
@@ -287,7 +299,7 @@ class Comic3 extends Component {
                     <div style={{ marginLeft: 3, fontSize: 20, color: 'rgb(34,34,34)', fontWeight: 'bold' }}> {this.props.subTitle}</div>
                 </div>
                 <div style={{ width: Comic3_WIDTH, height: Comic3_ITEMS_HEIGHT, display: 'flex', flexDirection: 'column' }}>
-                    {this.itemsGen(this.props.data)}
+                    {this.itemsGen(this.props.data, this.props.isLogin)}
                 </div>
                 <div style={{ height: 44, width: SudokuVe_WIDTH, marginTop: 20, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div onClick={this._more} style={{ height: 44, width: SudokuHo_WIDTH, backgroundColor: 'rgb(244,244,244)', borderRadius: 4, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
@@ -299,7 +311,7 @@ class Comic3 extends Component {
         );
     }
 
-    itemsGen = (data) => {
+    itemsGen = (data, isLogin) => {
         let result = [];
         data.every((item, index) => {
             if (index > 2) {
@@ -311,6 +323,10 @@ class Comic3 extends Component {
                     key={index}
                     item={item}
                     coverClick={() => {
+                        if (!isLogin) {
+                            ToastsStore.warning('请先登录');
+                            return;
+                        }
                         if (item.global_type === 'hanman' || item.global_type === 'hman') {
                             this.props.navi.push(`/manga_detail/${item.id}/${item.global_type}`)
                         }
@@ -337,7 +353,7 @@ const Comic4_HEIGHT = COMIC4_TOTAL_HEIGHT + 50;
 
 class Comic4 extends Component {
     render() {
-        const items = this.itemsGen(this.props.data);
+        const items = this.itemsGen(this.props.data, this.props.isLogin);
         return (
             <div style={{ height: Comic4_HEIGHT, width: Comic4_WIDTH, display: 'flex', flexDirection: 'column', marginRight: 5 }}>
                 <div style={{ marginTop: 10, height: 30, width: SudokuVe_WIDTH, display: 'flex', flexDirection: 'row' }}>
@@ -357,7 +373,7 @@ class Comic4 extends Component {
         );
     }
 
-    itemsGen = (data) => {
+    itemsGen = (data, isLogin) => {
         let result = [];
         data.every((item, index) => {
             if (index >= this.props.limit) {
@@ -370,6 +386,10 @@ class Comic4 extends Component {
                     item={item}
                     coverClick={
                         () => {
+                            if (!isLogin) {
+                                ToastsStore.warning('请先登录');
+                                return;
+                            }
                             if (item.global_type === 'hanman' || item.global_type === 'hman') {
                                 this.props.navi.push(`/manga_detail/${item.id}/${item.global_type}`)
                             }
