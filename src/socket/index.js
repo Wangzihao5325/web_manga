@@ -40,7 +40,9 @@ class api {
             padding: CryptoJS.pad.Pkcs7
         });
         let securtyReg = encodeURI(encryptedData.toString());
-
+        
+        console.log('url');
+        console.log(url);
         console.log('body');
         console.log(securtyReg);
 
