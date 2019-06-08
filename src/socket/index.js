@@ -714,9 +714,7 @@ class api {
             let formData = new FormData();
             formData.append('timestamp', timestamp);
             formData.append('global_type', global_type);
-            comic_id.forEach((item) => {
-                formData.append('comic_id[]', item);
-            });
+            formData.append('comic_id', JSON.stringify(comic_id));
             this.normalFetch(url, formData, onSuccess, onError);
             return;
         }
@@ -762,9 +760,10 @@ class api {
             let formData = new FormData();
             formData.append('timestamp', timestamp);
             formData.append('global_type', global_type);
-            comic_id.forEach((item) => {
-                formData.append('comic_id[]', item);
-            });
+            formData.append('comic_id', JSON.stringify(comic_id));
+            // comic_id.forEach((item) => {
+            //     formData.append('comic_id[]', item);
+            // });
             this.normalFetch(url, formData, onSuccess, onError);
             return;
         }
@@ -998,12 +997,8 @@ class api {
             let formData = new FormData();
             formData.append('timestamp', timestamp);
             formData.append('remark', remark);
-            keys.forEach((item) => {
-                formData.append('keys[]', item);
-            });
-            cover_filename.forEach((item) => {
-                formData.append('cover_filename[]', item);
-            });
+            formData.append('keys', JSON.stringify(keys));
+            formData.append('cover_filename', JSON.stringify(cover_filename));
             this.normalFetch(url, formData, onSuccess, onError);
             return;
         }

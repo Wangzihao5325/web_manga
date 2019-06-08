@@ -124,8 +124,13 @@ class Feedback extends PureComponent {
             return;
         }
         let imageReg = this.state.fileList.map((file) => { return file.imageRef });
-        console.log(imageReg);
-        Api.feedbackPull(textReg.content, this.state.keyWords, imageReg, (e, code, message) => {
+        let regArr = [];
+        this.state.keyWords.forEach((item) => {
+            if (item.isSelect) {
+                regArr.push(item.key);
+            }
+        });
+        Api.feedbackPull(textReg.content, regArr, imageReg, (e, code, message) => {
             if (message === 'success') {
                 ToastsStore.success('反馈意见提交成功！');
                 this.props.history.goBack();
