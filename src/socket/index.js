@@ -992,10 +992,39 @@ class api {
         this.securtyFetch(url, paramObj, onSuccess, onError);
     }
 
+    feedbackPull(remark, keys, cover_filename, onSuccess, onError) {
+        const url = '/api/feed-create';
+        const timestamp = (new Date().getTime() / 1000).toFixed(0);
+
+        if (!IsSecurty) {
+            let formData = new FormData();
+            formData.append('timestamp', timestamp);
+            formData.append('remark', remark);
+            keys.forEach((item) => {
+                formData.append('keys[]', item);
+            });
+            cover_filename.forEach((item) => {
+                formData.append('cover_filename[]', item);
+            });
+            this.normalFetch(url, formData, onSuccess, onError);
+            return;
+        }
+
+        let paramObj = {
+            cover_filename,
+            keys,
+            platform: PlatformStr,
+            remark,
+            timestamp
+        }
+
+        this.securtyFetch(url, paramObj, onSuccess, onError);
+    }
+
     uploadPic(file, onSuccess, onError) {
+        /**图片上传需要单独的域名，暂时共用 */
         const url = '/api/feed-upload';
         let formData = new FormData();
-        //let file = { uri: uri, type: 'multipart/form-data', name: `ERoKun.png` };
         formData.append('image', file);
         this.normalFetch(url, formData, onSuccess, onError);
     }

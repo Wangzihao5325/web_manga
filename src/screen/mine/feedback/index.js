@@ -97,7 +97,7 @@ class Feedback extends PureComponent {
                     </div>
                 </div>
 
-                <input onChange={this.textOnChange} style={{ outline: 'none', fontSize: 15, alignSelf: 'center', borderRadius: 5, borderColor: 'rgb(245,245,245)', borderStyle: 'solid', borderWidth: 1, marginTop: 18, height: 50, width: CLIENT_WIDTH - 30, backgroundColor: 'rgb(245,245,245)' }} placeholder='邮箱/Telegram/Potato,方便我们联系(选填)' />
+                <input onChange={this.mailOnchange} style={{ outline: 'none', fontSize: 15, alignSelf: 'center', borderRadius: 5, borderColor: 'rgb(245,245,245)', borderStyle: 'solid', borderWidth: 1, marginTop: 18, height: 50, width: CLIENT_WIDTH - 30, backgroundColor: 'rgb(245,245,245)' }} placeholder='邮箱/Telegram/Potato,方便我们联系(选填)' />
 
                 <div onClick={this.submit} style={{ marginBottom: 20, justifyContent: 'center', alignItems: 'center', marginTop: 18, alignSelf: 'center', color: 'white', fontSize: 18, height: 46, width: CLIENT_WIDTH - 36, display: 'flex', flexDirection: 'row', borderRadius: 23, backgroundColor: 'rgb(255,42,49)' }}>
                     提交
@@ -111,8 +111,28 @@ class Feedback extends PureComponent {
     }
 
     submit = () => {
-        ToastsStore.success('反馈意见提交成功！');
-        this.props.history.goBack();
+        if (this.state.keyWords.length === 0) {
+            ToastsStore.warning('请至少选择一个场景');
+            return;
+        }
+        if (textReg.content.length < 10) {
+            ToastsStore.warning('请用至少10字描述一下具体情况');
+            return;
+        }
+        if (textReg.mail.length === 0) {
+            ToastsStore.warning('请输入联系方式，方便我们与您沟通');
+            return;
+        }
+        let imageReg = this.state.fileList.map((file) => { return file.imageRef });
+        console.log(imageReg);
+        Api.feedbackPull(textReg.content, this.state.keyWords, imageReg, (e, code, message) => {
+            if (message === 'success') {
+                ToastsStore.success('反馈意见提交成功！');
+                this.props.history.goBack();
+            } else {
+                ToastsStore.error('反馈意见提交失败！');
+            }
+        });
     }
 
     mailOnchange = ({ target }) => {
@@ -125,12 +145,13 @@ class Feedback extends PureComponent {
 
     customRequest = (files) => {
         const { file } = files;
-        Api.uploadPic(file, (e, code, message) => {
+        Api.uploadPic(file, (imageRef, code, message) => {
             if (message = 'success') {
                 let reader = new FileReader();
                 reader.readAsDataURL(file);
                 reader.onload = (e) => {
                     file.thumbUrl = e.target.result;
+                    file.imageRef = imageRef;
                     this.setState(state => ({
                         fileList: [...state.fileList, file],
                     }));
