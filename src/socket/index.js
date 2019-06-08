@@ -4,7 +4,7 @@ import { SERVICE_URL } from '../global/config';
 import Variables from '../global/Variables';
 import { ToastsStore } from 'react-toasts';
 
-const IsSecurty = false;
+const IsSecurty = true;
 const OriginKey = '1s1z1GYRRNZRSJam';
 const SecurtyKey = CryptoJS.enc.Utf8.parse('1s1z1GYRRNZRSJam');
 const PlatformStr = browser.versions.ios ? 'H-I' : 'H-A';
