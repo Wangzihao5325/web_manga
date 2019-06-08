@@ -992,6 +992,14 @@ class api {
         this.securtyFetch(url, paramObj, onSuccess, onError);
     }
 
+    uploadPic(file, onSuccess, onError) {
+        const url = '/api/feed-upload';
+        let formData = new FormData();
+        //let file = { uri: uri, type: 'multipart/form-data', name: `ERoKun.png` };
+        formData.append('image', file);
+        this.normalFetch(url, formData, onSuccess, onError);
+    }
+
 }
 
 export default new api();

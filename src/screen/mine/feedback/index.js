@@ -11,17 +11,7 @@ import { Upload, Icon, Modal } from 'antd';
 import './index.css';
 import { ToastsStore } from 'react-toasts';
 
-
 const textReg = { content: '', mail: '' };
-
-function getBase64(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-    });
-}
 
 class KeyWordsItem extends PureComponent {
 
@@ -96,11 +86,11 @@ class Feedback extends PureComponent {
                     </div>
                     <div className='box' style={{ alignSelf: 'center', width: 336, height: 112, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                         <Upload
-                            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                             listType="picture-card"
                             fileList={fileList}
                             onPreview={this.handlePreview}
-                            onChange={this.handleChange}
+                            customRequest={this.customRequest}
+                            onRemove={this.handleRemove}
                         >
                             {fileList.length >= 3 ? null : uploadButton}
                         </Upload>
@@ -133,20 +123,39 @@ class Feedback extends PureComponent {
         textReg.content = target.value;
     }
 
+    customRequest = (files) => {
+        const { file } = files;
+        Api.uploadPic(file, (e, code, message) => {
+            if (message = 'success') {
+                let reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (e) => {
+                    file.thumbUrl = e.target.result;
+                    this.setState(state => ({
+                        fileList: [...state.fileList, file],
+                    }));
+                }
+            }
+        });
+    }
+
     handleCancel = () => this.setState({ previewVisible: false });
 
-    handlePreview = async file => {
-        if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj);
-        }
-
+    handlePreview = (file) => {
         this.setState({
-            previewImage: file.url || file.preview,
+            previewImage: file.thumbUrl,
             previewVisible: true,
         });
     };
 
-    handleChange = ({ fileList }) => this.setState({ fileList });
+    handleRemove = (file) => {
+        let { fileList } = this.state;
+        _.pull(fileList, file);
+        let reg = [...fileList];
+        this.setState({
+            fileList: reg
+        });
+    }
 
     itemClick = (index, isSelect, value) => {
         if (isSelect) {
