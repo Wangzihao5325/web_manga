@@ -299,6 +299,8 @@ class MangaRead extends PureComponent {
     }
 
     render() {
+        let shortTitle = this.state.title.length > 15 ? `${this.state.title.slice(0, 13)}...` : this.state.title;
+        let modalTitle = this.state.modalTitle.length > 15 ? `${this.state.modalTitle.slice(0, 13)}...` : this.state.modalTitle;
         return (
             <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }} >
                 {this.state.isControllerShow && <Header share_url={this.props.share_url} invite_code={this.props.invite_code} share_text={this.props.share_text} title={`第${this.state.nowChapterIndex}话`} back={this.goBack} rightBtnText='分享' rightBtnClick={this.share} />}
@@ -328,7 +330,7 @@ class MangaRead extends PureComponent {
                     width={281}
                 >
                     <div className='text_div' style={{ position: 'fixed', top: 0, right: 0, height: 42, width: 281, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: 'white', backgroundColor: 'rgb(34,34,34)' }}>
-                        {this.state.title}
+                        {shortTitle}
                     </div>
 
                     <div style={{ position: 'fixed', top: 42, right: 0, paddingLeft: 24, paddingRight: 24, backgroundColor: 'rgb(19,19,19)', height: 38, width: 281, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -360,7 +362,7 @@ class MangaRead extends PureComponent {
                     onRequestClose={this.closeModal}
                     isOpen={this.state.showModal}>
                     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                        <div style={{ marginTop: 20, color: 'rgb(0,0,0)', fontSize: 14, alignSelf: 'center' }}>{`${this.state.modalTitle}${this.state.modalChapterIndex}话`}</div>
+                        <div style={{ marginTop: 20, color: 'rgb(0,0,0)', fontSize: 14, alignSelf: 'center' }}>{`${modalTitle}${this.state.modalChapterIndex}话`}</div>
                         {this.state.modalChapterCoins > 0 &&
                             <div onClick={this.buyOne} style={{ alignSelf: 'center', marginTop: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 44, width: CLIENT_WIDTH - 80, borderRadius: 22, borderStyle: 'solid', borderWidth: 1, borderColor: this.state.buyType === 'one' ? 'rgb(255,42,49)' : 'rgb(168,168,168)', color: this.state.buyType === 'one' ? 'rgb(255,42,49)' : 'rgb(168,168,168)' }}>
                                 {`${this.state.modalChapterCoins} C币购买此话`}
