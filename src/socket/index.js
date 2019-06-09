@@ -23,14 +23,14 @@ class api {
             str = `${str}${item}=${value}&`;
         }
         str = `${str}key=${OriginKey}`;
-        console.log(`md5_Str==${str}`);
+        //console.log(`md5_Str==${str}`);
         const hash = CryptoJS.MD5(str).toString();
         return hash.toUpperCase();
     }
 
     securtyFetch(url, paramObj, onSuccess, onError) {
-        console.log('/*******************SecurtyFetch_Start/************************');
-        console.log(`url_Str==${url}`);
+        //console.log('/*******************SecurtyFetch_Start/************************');
+        //console.log(`url_Str==${url}`);
         const sign = this.getSign(paramObj);
         let paramObjReg = { ...paramObj };
         paramObjReg.sign = sign;
@@ -41,7 +41,7 @@ class api {
             padding: CryptoJS.pad.Pkcs7
         });
         let securtyReg = encodeURI(encryptedData.toString());
-        console.log(`securty_Body===${securtyReg}`);
+        //console.log(`securty_Body===${securtyReg}`);
 
         let formData = new FormData();
         formData.append('data', securtyReg);
@@ -75,7 +75,7 @@ class api {
             padding: CryptoJS.pad.Pkcs7
         });
         let securtyHeader = encodeURI(encryptedData.toString());
-        console.log(`header===${securtyHeader}`);
+        //console.log(`header===${securtyHeader}`);
 
         let header = { Accept: 'application/json', data: securtyHeader };
 
@@ -84,8 +84,8 @@ class api {
         fetch(fullUrl, obj).then((response) => response.json())
             .then(
                 (reponseJson) => {
-                    console.log('unEncode_Object===');
-                    console.log(reponseJson);
+                    //console.log('unEncode_Object===');
+                    //console.log(reponseJson);
                     const result = reponseJson.result ? reponseJson.result : null;
                     const code = (reponseJson.code || reponseJson.code === 0) ? reponseJson.code : null;
                     const message = reponseJson.message ? reponseJson.message : null;
@@ -125,8 +125,8 @@ class api {
                             onSuccess(result, code, message);
                         } else {
                             ToastsStore.error(message);
-                            console.log(message);
-                            console.log(code);
+                            //console.log(message);
+                            //console.log(code);
                         }
                     } catch (error) {
                         onError ? onError(result, code, message) : console.log(`error: socket error! ${error}`);
