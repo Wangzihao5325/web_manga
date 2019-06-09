@@ -34,14 +34,23 @@ class Header extends PureComponent {
     componentDidMount() {
         let shareFullUrl = `${this.props.share_url}${this.props.invite_code}`;
         let shareFullText = this.props.share_text.replace('{{share_url}}', shareFullUrl);
-        let clipboard = new ClipboardJS('.manga_invite_link_btn', {
+        this.clipboard = new ClipboardJS('.manga_invite_link_btn', {
             text: function (trigger) {
                 return shareFullText;
             }
         });
-        clipboard.on('success', function (e) {
+        this.clipboard.on('success', function (e) {
             ToastsStore.success('复制邀请链接成功，快去分享吧！');
+            Api.taskDone('SHARE_COMIC', (e, code, message) => {
+
+            });
         });
+    }
+
+    componentWillUnmount() {
+        if (this.clipboard) {
+            this.clipboard.destroy();
+        }
     }
 
     render() {

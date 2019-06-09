@@ -60,12 +60,12 @@ class Share extends PureComponent {
         store.dispatch(tab_navi_unshow());
         let fullShareUrl = `${this.props.share_url}${this.props.invite_code}`;
         let fullShareText = this.props.share_text.replace(/{{share_url}}/, fullShareUrl);
-        let clipboard = new ClipboardJS('.invite_link_btn', {
+        this.clipboard = new ClipboardJS('.invite_link_btn', {
             text: function (trigger) {
                 return fullShareText;
             }
         });
-        clipboard.on('success', function (e) {
+        this.clipboard.on('success', function (e) {
             ToastsStore.success('复制邀请链接成功，快去分享吧！');
         });
         Api.getInviteRule((e) => {
@@ -73,6 +73,12 @@ class Share extends PureComponent {
                 ruleData: e
             });
         });
+    }
+
+    componentWillUnmount() {
+        if (this.clipboard) {
+            this.clipboard.destroy();
+        }
     }
 
     render() {
