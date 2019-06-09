@@ -173,6 +173,7 @@ class GuessLike extends PureComponent {
                 </div>
                 <div style={{ height: VER_HEIGHT, width: GuessLike_WIDTH }}>
                     <ScrollMenu
+                        alignCenter={false}
                         data={items}
                         onSelect={this.onSelect}
                         itemStyle={{ outline: 'none' }}
