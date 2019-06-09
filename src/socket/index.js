@@ -1004,8 +1004,8 @@ class api {
         }
 
         let paramObj = {
-            cover_filename,
-            keys,
+            cover_filename: JSON.stringify(cover_filename),
+            keys: JSON.stringify(keys),
             platform: PlatformStr,
             remark,
             timestamp
