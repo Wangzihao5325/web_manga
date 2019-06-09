@@ -720,7 +720,7 @@ class api {
         }
 
         let paramObj = {
-            comic_id,
+            comic_id: JSON.stringify(comic_id),
             global_type,
             platform: PlatformStr,
             timestamp
@@ -761,15 +761,12 @@ class api {
             formData.append('timestamp', timestamp);
             formData.append('global_type', global_type);
             formData.append('comic_id', JSON.stringify(comic_id));
-            // comic_id.forEach((item) => {
-            //     formData.append('comic_id[]', item);
-            // });
             this.normalFetch(url, formData, onSuccess, onError);
             return;
         }
 
         let paramObj = {
-            comic_id,
+            comic_id: JSON.stringify(comic_id),
             global_type,
             platform: PlatformStr,
             timestamp
