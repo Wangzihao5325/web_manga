@@ -15,7 +15,7 @@ import { ToastsStore } from 'react-toasts';
 import Modal from 'react-modal';
 import _ from 'lodash';
 import './index.css';
-
+import ClipboardJS from 'clipboard';
 
 const dis_time = 5000;
 
@@ -30,6 +30,20 @@ class ImageItem extends PureComponent {
 }
 
 class Header extends PureComponent {
+
+    componentDidMount() {
+        let shareFullUrl = `${this.props.share_url}${this.props.invite_code}`;
+        let shareFullText = this.props.share_text.replace('{{share_url}}', shareFullUrl);
+        let clipboard = new ClipboardJS('.manga_invite_link_btn', {
+            text: function (trigger) {
+                return shareFullText;
+            }
+        });
+        clipboard.on('success', function (e) {
+            ToastsStore.success('复制邀请链接成功，快去分享吧！');
+        });
+    }
+
     render() {
         return (
             <div style={{ backgroundColor: 'rgb(34,34,34)', position: 'fixed', top: 0, left: 0, height: 38, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -40,7 +54,7 @@ class Header extends PureComponent {
                     <div className='text_div' style={{ fontSize: 18, color: 'white' }}>{this.props.title}</div>
                 </div>
                 <div style={{ height: 38, width: 70, marginRight: 15, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                    {this.props.rightBtnText && <div style={{ color: this.props.rightBtnTextColor ? this.props.rightBtnTextColor : 'white', fontSize: 16 }} onClick={this.rigthBtnClick}>{this.props.rightBtnText}</div>}
+                    {this.props.rightBtnText && <div className='manga_invite_link_btn' style={{ color: this.props.rightBtnTextColor ? this.props.rightBtnTextColor : 'white', fontSize: 16 }} onClick={this.rigthBtnClick}>{this.props.rightBtnText}</div>}
                 </div>
             </div>
         );
@@ -53,9 +67,7 @@ class Header extends PureComponent {
     }
 
     rigthBtnClick = () => {
-        if (this.props.rightBtnClick) {
-            this.props.rightBtnClick();
-        }
+
     }
 }
 
@@ -280,7 +292,7 @@ class MangaRead extends PureComponent {
     render() {
         return (
             <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }} >
-                {this.state.isControllerShow && <Header title={`第${this.state.nowChapterIndex}话`} back={this.goBack} rightBtnText='分享' rigthBtnClick={this.share} />}
+                {this.state.isControllerShow && <Header share_url={this.props.share_url} invite_code={this.props.invite_code} share_text={this.props.share_text} title={`第${this.state.nowChapterIndex}话`} back={this.goBack} rightBtnText='分享' rightBtnClick={this.share} />}
                 <div onClick={this.controllerStateChange} style={{ height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <InfiniteScroll
                         pageStart={0}
@@ -715,6 +727,9 @@ class MangaRead extends PureComponent {
 function mapState2Props(store) {
     return {
         is_auto_buy: store.read.isAutoBuy,
+        share_url: store.appInfo.share_url,
+        invite_code: store.user.invite_code,
+        share_text: store.appInfo.share_text,
     }
 }
 
