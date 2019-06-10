@@ -93,7 +93,11 @@ class api {
                         if (code === 0 || code === 200) {
                             onSuccess(result, code, message);
                         } else {
-                            ToastsStore.error(message);
+                            if (code === 401) {
+                                ToastsStore.error('您的账号正在异地登陆,请重新登陆！');
+                            } else {
+                                ToastsStore.error(message);
+                            }
                         }
                     } catch (error) {
                         onError ? onError(result, code, message) : console.log(`error: socket error! ${error}`);
@@ -124,9 +128,11 @@ class api {
                         if (code === 0 || code === 200) {
                             onSuccess(result, code, message);
                         } else {
-                            ToastsStore.error(message);
-                            //console.log(message);
-                            //console.log(code);
+                            if (code === 401) {
+                                ToastsStore.error('您的账号正在异地登陆,请重新登陆！');
+                            } else {
+                                ToastsStore.error(message);
+                            }
                         }
                     } catch (error) {
                         onError ? onError(result, code, message) : console.log(`error: socket error! ${error}`);

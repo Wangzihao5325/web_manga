@@ -177,7 +177,7 @@ class Mine extends Component {
                 />
                 <Banner />
                 <ListItem showArrow={true} onPress={this.goToSetInviteCode} title='邀请码' imgPath={require('../../image/mine/set_invite_code.png')} />
-                <ListItem showArrow={false} onPress={this.clearLocalStorage} title='清除缓存' imgPath={require('../../image/mine/set_invite_code.png')} />
+                <ListItem showArrow={false} onPress={this.clearLocalStorage} title='退出登陆' imgPath={require('../../image/mine/logout.png')} />
             </div>
         );
     }
