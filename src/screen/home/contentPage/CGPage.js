@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../../global/sizes';
 import InfiniteScroll from 'react-infinite-scroller';
 import SecurtyImage from '../../../component/securtyImage/Image';
+import { ToastsStore } from 'react-toasts';
 
 import Api from '../../../socket/index';
 import './index.css';
@@ -127,9 +129,19 @@ class CGPage extends Component {
     }
 
     _goToDetail = (id, title) => {
-        this.props.history.push(`/cg_detail/${id}/${title}/${this.props.type}`);
+        if (this.props.isLogin) {
+            this.props.history.push(`/cg_detail/${id}/${title}/${this.props.type}`);
+        } else {
+            ToastsStore.warning('请先登录');
+        }
     }
 }
 
-const CGPageWithRouter = withRouter(CGPage);
+function mapState2Props(store) {
+    return {
+        isLogin: store.user.isLogin,
+    }
+}
+
+const CGPageWithRouter = withRouter(connect(mapState2Props)(CGPage));
 export default CGPageWithRouter;
