@@ -1011,6 +1011,33 @@ class api {
         this.securtyFetch(url, paramObj, onSuccess, onError);
     }
 
+    addOrder(pay_type, recharge_id, onSuccess, onError) {
+        const url = '/api/order-add';
+        const timestamp = (new Date().getTime() / 1000).toFixed(0);
+
+        if (!IsSecurty) {
+            let formData = new FormData();
+            formData.append('timestamp', timestamp);
+            formData.append('pay_type', pay_type);
+            formData.append('recharge_id', recharge_id);
+            formData.append('device_type', 'pc');
+            formData.append('device_code', 'ABCDEFG');
+            this.normalFetch(url, formData, onSuccess, onError);
+            return;
+        }
+
+        let paramObj = {
+            device_code: 'ABCDEFG',
+            device_type: 'pc',
+            pay_type,
+            platform: PlatformStr,
+            recharge_id: recharge_id,
+            timestamp
+        }
+
+        this.securtyFetch(url, paramObj, onSuccess, onError);
+    }
+
     uploadPic(file, onSuccess, onError) {
         /**图片上传需要单独的域名，暂时共用 */
         const url = '/api/feed-upload';

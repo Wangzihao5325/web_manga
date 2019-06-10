@@ -51,6 +51,7 @@ class Pay extends PureComponent {
         Api.payList((e) => {
             let ali = 0;
             let wechat = 0;
+            console.log(e);
             e.every((item) => {
                 switch (item.key) {
                     case 'alipay':
@@ -97,14 +98,14 @@ class Pay extends PureComponent {
                     <img style={{ height: 22, width: 22, marginLeft: 21 }} src={require('../../../image/mine/aliPay.png')} alt='' />
                     <div style={{ marginLeft: 10, color: 'rgb(34,34,34)', fontSize: 16, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>支付宝支付</div>
                     <div style={{ flex: 1 }} />
-                    <div style={{ marginRight: 27 }}><img style={{ height: 19, width: 19 }} src={this.state.selectPay === 'ali' ? require('../../../image/mine/pay_select.png') : require('../../../image/mine/pay_unselect.png')} alt='' /></div>
+                    <div style={{ marginRight: 27 }}><img style={{ height: 19, width: 19 }} src={this.state.selectPay === 'alipay' ? require('../../../image/mine/pay_select.png') : require('../../../image/mine/pay_unselect.png')} alt='' /></div>
                 </div>
 
                 <div onClick={this.selectWechat} style={{ marginTop: 22, height: 22, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                     <img style={{ height: 22, width: 22, marginLeft: 21 }} src={require('../../../image/mine/weChat.png')} alt='' />
                     <div style={{ marginLeft: 10, color: 'rgb(34,34,34)', fontSize: 16, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>微信支付</div>
                     <div style={{ flex: 1 }} />
-                    <div style={{ marginRight: 27 }}><img style={{ height: 19, width: 19 }} src={this.state.selectPay === 'wechat' ? require('../../../image/mine/pay_select.png') : require('../../../image/mine/pay_unselect.png')} alt='' /></div>
+                    <div style={{ marginRight: 27 }}><img style={{ height: 19, width: 19 }} src={this.state.selectPay === 'wechatpay' ? require('../../../image/mine/pay_select.png') : require('../../../image/mine/pay_unselect.png')} alt='' /></div>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderTopStyle: 'solid', borderTopWidth: 1, borderTopColor: 'rgba(154,154,154,0.11)', height: 72, width: CLIENT_WIDTH, position: 'absolute', bottom: 0, left: 0 }}>
@@ -121,17 +122,23 @@ class Pay extends PureComponent {
     payNow = () => {
         if (this.state.selectId === -1) {
             ToastsStore.warning('请选择充值金额');
+            return;
         }
         if (this.state.selectPay === 'none') {
             ToastsStore.warning('请选择支付通道');
+            return;
         }
-        //add order
+        console.log(`selectPay:${this.state.selectPay}`);
+        console.log(`selectId:${this.state.selectId}`);
+        Api.addOrder(this.state.selectPay, this.state.selectId, (e) => {
+            console.log(e);
+        });
     }
 
     selectAli = () => {
         if (this.state.aliPay) {
             this.setState({
-                selectPay: 'ali'
+                selectPay: 'alipay'
             });
         } else {
             ToastsStore.warning('该支付通道暂时关闭，请切换支付通道');
@@ -141,7 +148,7 @@ class Pay extends PureComponent {
     selectWechat = () => {
         if (this.state.weChat) {
             this.setState({
-                selectPay: 'wechat'
+                selectPay: 'wechatpay'
             });
         } else {
             ToastsStore.warning('该支付通道暂时关闭，请切换支付通道');
