@@ -109,7 +109,7 @@ export default class History extends PureComponent {
                     >
                         {
                             this.state.historyData.map((item, index) => {
-                                return <Item over={item.dump_status} last={item.last_index} isSelect={item.isSelect} selectCallback={this._historySelectCallback} editMode={this.props.isEditMode} goOn={() => { this.props.navi.push(`/manga_detail/${item.id}/${item.global_type}`) }} key={index} index={index} source={item.cover_url} title={item.title} total={item.resource_total} id={item.id} />
+                                return <Item over={item.dump_status} last={item.last_index} isSelect={item.isSelect} selectCallback={this._historySelectCallback} editMode={this.props.isEditMode} goOn={() => { this.props.navi.push(`/manga_read/${item.id}/${item.last_resource_id}/${item.last_index}/${item.global_type}`) }} key={index} index={index} source={item.cover_url} title={item.title} total={item.resource_total} id={item.id} />
                             })
                         }
                         <div style={{ height: 80, width: CLIENT_WIDTH - 24 }} />{/**底部垫高，防止正文部分被bottom遮挡 */}
