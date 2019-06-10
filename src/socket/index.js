@@ -366,13 +366,15 @@ class api {
         this.securtyFetch(url, paramObj, onSuccess, onError);
     }
 
-    coinHistory(action, onSuccess, onError) {
+    coinHistory(action, page, limit, onSuccess, onError) {
         const url = '/api/coins-history';
         const timestamp = (new Date().getTime() / 1000).toFixed(0);
 
         if (!IsSecurty) {
             let formData = new FormData();
             formData.append('timestamp', timestamp);
+            formData.append('page', page);
+            formData.append('limit', limit);
             formData.append('action', action);
             this.normalFetch(url, formData, onSuccess, onError);
             return;
@@ -380,6 +382,8 @@ class api {
 
         let paramObj = {
             action,
+            limit,
+            page,
             platform: PlatformStr,
             timestamp
         }

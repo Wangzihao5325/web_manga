@@ -36,13 +36,17 @@ class CoinList extends PureComponent {
     state = {
         current: 'task',
         tabData: [],
+        nowPage: -1,
+        totalPage: -1,
     };
 
     componentDidMount() {
         store.dispatch(tab_navi_unshow());
-        Api.coinHistory('task', (e) => {
+        Api.coinHistory('task', 1, 10, (e) => {
             this.setState({
-                tabData: e.data
+                tabData: e.data,
+                nowPage: e.current_page,
+                totalPage: e.last_page,
             });
         });
     }
@@ -56,7 +60,7 @@ class CoinList extends PureComponent {
                     <div>
                         <InfiniteScroll
                             pageStart={0}
-                            loadMore={this.loadFunc}
+                            loadMore={this._loadMore}
                             hasMore={true}
                             useWindow={false}
                             getScrollParent={() => this.scrollParentRef}
@@ -71,10 +75,26 @@ class CoinList extends PureComponent {
         );
     }
 
-    tabChange = (key, index, title) => {
-        Api.coinHistory(key, (e) => {
+    _loadMore = () => {
+        if (this.state.nowPage >= this.state.totalPage) {
+            return
+        }
+        Api.coinHistory(this.state.current, this.state.nowPage + 1, 10, (e) => {
+            let dataReg = [...this.state.tabData];
             this.setState({
-                tabData: e.data
+                tabData: dataReg.concat(e.data),
+                nowPage: e.current_page,
+                totalPage: e.last_page,
+            });
+        });
+    }
+
+    tabChange = (key, index, title) => {
+        Api.coinHistory(key, 1, 10, (e) => {
+            this.setState({
+                tabData: e.data,
+                nowPage: e.current_page,
+                totalPage: e.last_page,
             });
         });
     }
