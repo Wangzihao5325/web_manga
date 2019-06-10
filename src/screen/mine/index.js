@@ -16,9 +16,45 @@ import bg_image from '../../image/mine/mine_header_bg.png';
 
 class Header extends Component {
     render() {
+        let imageSrcId = require('../../image/mine_tab_default.png');
+        if (this.props.isLogin) {
+            let matchId = this.props.id % 10;
+            switch (matchId) {
+                case 0:
+                    imageSrcId = require('../../image/avater/0.png');
+                    break;
+                case 1:
+                    imageSrcId = require('../../image/avater/1.png');
+                    break;
+                case 2:
+                    imageSrcId = require('../../image/avater/2.png');
+                    break;
+                case 3:
+                    imageSrcId = require('../../image/avater/3.png');
+                    break;
+                case 4:
+                    imageSrcId = require('../../image/avater/4.png');
+                    break;
+                case 5:
+                    imageSrcId = require('../../image/avater/5.png');
+                    break;
+                case 6:
+                    imageSrcId = require('../../image/avater/6.png');
+                    break;
+                case 7:
+                    imageSrcId = require('../../image/avater/7.png');
+                    break;
+                case 8:
+                    imageSrcId = require('../../image/avater/8.png');
+                    break;
+                case 9:
+                    imageSrcId = require('../../image/avater/9.png');
+                    break;
+            }
+        }
         return (
             <div style={{ height: 55, width: '100%', paddingLeft: 15, paddingRight: 15, display: 'flex', flexDirection: 'row' }}>
-                <img style={{ height: 55, width: 55 }} src={require('../../image/mine_tab_default.png')} alt='' />
+                <img style={{ height: 55, width: 55 }} src={imageSrcId} alt='' />
                 <div onClick={this.callback} style={{ flex: 1, paddingLeft: 16 }}>
                     <div style={{ color: 'white', fontSize: 17, fontWeight: 'bold' }}>{this.props.userName}</div>
                     <div style={{ color: 'white', fontSize: 13, marginTop: 5 }}>{this.props.slogan}</div>
@@ -130,7 +166,7 @@ class Mine extends Component {
             <div style={{ height: CLIENT_HEIGHT, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'column' }}>
                 <WhiteBorder toInviteList={this.goToInviteNum} toCoinsList={this.goToMyCoins} inviteNum={this.props.inviteNum} coins={this.props.coins} />
                 <div className='mine-header-container' style={{ height: 188, width: '100%', paddingTop: 53, backgroundImage: `url(${bg_image})` }} >
-                    <Header isLogin={this.props.login} goToLogin={this.goToLogin} userName={this.props.userName} slogan={this.props.slogan} />
+                    <Header id={this.props.id} isLogin={this.props.login} goToLogin={this.goToLogin} userName={this.props.userName} slogan={this.props.slogan} />
                 </div>
                 <Tabs
                     share={this.goToShare}
@@ -213,6 +249,7 @@ function mapState2Props(store) {
         inviteNum: store.user.invite,
         coins: store.user.coins,
         login: store.user.isLogin,
+        id: store.user.id
     }
 }
 
