@@ -21,9 +21,11 @@ const dis_time = 5000;
 
 class ImageItem extends PureComponent {
     render() {
+        const itemWidth = CLIENT_WIDTH - 24;
+        const itemHeight = (this.props.imageHeight / this.props.imagewidth) * itemWidth;
         return (
             <div id={`manga_image_${this.props.index}`} style={{ display: 'flex' }}>
-                <SecurtyImage source={this.props.source} style={{ display: 'flex', flexDirection: 'column' }} isFlexType={true} regWidth={CLIENT_WIDTH - 24} style={{}} />
+                <SecurtyImage source={this.props.source} style={{ display: 'flex', flexDirection: 'column' }} style={{ height: itemHeight, width: itemWidth }} />
             </div>
         );
     }
@@ -310,12 +312,12 @@ class MangaRead extends PureComponent {
                         hasMore={true}
                         useWindow={false}
                         getScrollParent={() => this.scrollParentRef}
-                        threshold={250}
+                        threshold={30}
                         loadMore={this._loadMore}
                     >
                         {
                             this.state.data.map((item, index) => {
-                                return <ImageItem source={item.image_url} key={index} index={index} />
+                                return <ImageItem source={item.image_url} imageHeight={item.height} imagewidth={item.width} key={index} index={index} />
                             })
                         }
                         {/* <div style={{ height: 80, width: CLIENT_WIDTH - 24 }} />*/}{/**底部垫高，防止正文部分被bottom遮挡 */}
@@ -482,7 +484,7 @@ class MangaRead extends PureComponent {
         const isPay = this.state.chapterListData[this.state.nowChapterDataIndex + 1].is_pay;
         if (isPay) {
             let item = this.state.chapterListData[this.state.nowChapterDataIndex + 1];
-            
+
         } else {
             const newSourceId = this.state.chapterListData[this.state.nowChapterDataIndex + 1].resource_id;
             const id = parseInt(this.props.match.params.id);
@@ -739,6 +741,7 @@ class MangaRead extends PureComponent {
     }
 
     _loadMore = () => {
+        console.log(`loadind_more_nowPage=${this.state.nowPage}_totalPage=${this.state.totalPage}`);
         if (this.state.nowPage >= this.state.totalPage) {
             return;
         }
@@ -747,7 +750,9 @@ class MangaRead extends PureComponent {
         const type = this.props.match.params.type;
         const newPage = this.state.nowPage + 1;
         const mangaIndex = parseInt(this.props.match.params.index);
+        console.log('fetch sth');
         Api.mangaImage(type, id, source, mangaIndex, newPage, 10, (e) => {
+            console.log(e);
             let regData = [...this.state.data];
             let newData = regData.concat(e.data);
             this.setState({

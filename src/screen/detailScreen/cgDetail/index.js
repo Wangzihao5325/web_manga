@@ -13,9 +13,11 @@ import { ToastsStore } from 'react-toasts';
 
 class ImageItem extends PureComponent {
     render() {
+        const itemWidth = CLIENT_WIDTH - 24;
+        const itemHeight = (this.props.imageHeight / this.props.imagewidth) * itemWidth;
         return (
             <div style={{ display: 'flex', marginTop: 12 }}>
-                <SecurtyImage source={this.props.source} style={{ display: 'flex', flexDirection: 'column' }} isFlexType={true} regWidth={CLIENT_WIDTH - 24} style={{}} />
+                <SecurtyImage source={this.props.source} style={{ display: 'flex', flexDirection: 'column' }} style={{ height: itemHeight, width: itemWidth }} />
             </div>
         );
     }
@@ -56,12 +58,12 @@ class CGDetail extends PureComponent {
                             hasMore={true}
                             useWindow={false}
                             getScrollParent={() => this.scrollParentRef}
-                            threshold={100}
+                            threshold={30}
                             loadMore={this._loadMore}
                         >
                             {
                                 this.state.data.map((item, index) => {
-                                    return <ImageItem source={item.image_url} key={index} />
+                                    return <ImageItem imageHeight={item.height} imagewidth={item.width} source={item.image_url} key={index} />
                                 })
                             }
                         </InfiniteScroll>
@@ -187,6 +189,7 @@ class CGDetail extends PureComponent {
     }
 
     _loadMore = () => {
+        console.log(`loadind_more_nowPage=${this.state.nowPage}_totalPage=${this.state.totalPage}`);
         if (this.state.nowPage >= this.state.totalPage) {
             return;
         }
@@ -194,6 +197,7 @@ class CGDetail extends PureComponent {
         const cgId = parseInt(this.props.match.params.id);
         const newPage = this.state.nowPage + 1;
         Api.mangaImage(type, cgId, 0, 0, newPage, 10, (e) => {
+            console.log(e.data);
             let regData = [...this.state.data];
             let newData = regData.concat(e.data);
             this.setState({
