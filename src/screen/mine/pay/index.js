@@ -52,7 +52,6 @@ class Pay extends PureComponent {
         Api.payList((e) => {
             let ali = 0;
             let wechat = 0;
-            console.log(e);
             e.every((item) => {
                 switch (item.key) {
                     case 'alipay':

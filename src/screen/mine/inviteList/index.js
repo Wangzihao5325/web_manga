@@ -16,15 +16,19 @@ const BG_WIDTH = CLIENT_WIDTH > 347 ? 347 : CLIENT_WIDTH - 28;
 class InviteList extends PureComponent {
 
     state = {
-        data: []
+        data: [],
+        nowPage: -1,
+        totalPage: -1
     }
 
     componentDidMount() {
         store.dispatch(tab_navi_unshow());
-        Api.inviteList((e) => {
+        Api.inviteList(1, 10, (e) => {
             if (e.data && e.data.length > 0) {
                 this.setState({
-                    data: e.data
+                    data: e.data,
+                    nowPage: e.current_page,
+                    totalPage: e.last_page
                 });
             }
         });
@@ -83,7 +87,19 @@ class InviteList extends PureComponent {
     }
 
     loadFunc = (e) => {
-        console.log(e);
+        if (this.state.nowPage >= this.state.totalPage) {
+            return;
+        }
+        Api.inviteList(this.state.nowPage + 1, 10, (e) => {
+            if (e.data && e.data.length > 0) {
+                let reg = [...this.state.data];
+                this.setState({
+                    data: reg.concat(e.data),
+                    nowPage: e.current_page,
+                    totalPage: e.last_page
+                });
+            }
+        });
     }
 
     goBack = () => {

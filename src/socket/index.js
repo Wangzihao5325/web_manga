@@ -328,18 +328,22 @@ class api {
         this.securtyFetch(url, paramObj, onSuccess, onError);
     }
 
-    inviteList(onSuccess, onError) {
+    inviteList(page, limit, onSuccess, onError) {
         const url = '/api/invite-list';
         const timestamp = (new Date().getTime() / 1000).toFixed(0);
 
         if (!IsSecurty) {
             let formData = new FormData();
             formData.append('timestamp', timestamp);
+            formData.append('page', page);
+            formData.append('limit', limit);
             this.normalFetch(url, formData, onSuccess, onError);
             return;
         }
 
         let paramObj = {
+            limit,
+            page,
             platform: PlatformStr,
             timestamp
         }
