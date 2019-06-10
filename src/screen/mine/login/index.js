@@ -37,7 +37,7 @@ class Login extends Component {
             <div style={{ flex: 1, height: '100%', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
                 <HeaderPro title='' back={this.goBack} />
                 <div className='bg-image-container' style={{ height: CLIENT_HEIGHT - 40, width: imageWidth, backgroundImage: `url(${bg_image})` }}>
-                    <div style={{ position: 'absolute', left: positionLeft, bottom: 0, height: borderHeight, width: borderWidth, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <div style={{ marginLeft: positionLeft, marginTop: CLIENT_HEIGHT - 40 - borderHeight, height: borderHeight, width: borderWidth, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                             <img style={{ height: 49, width: 49 }} src={require('../../../image/icon.png')} alt='' />
                             <div>
