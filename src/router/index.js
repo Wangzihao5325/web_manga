@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
 import store from '../store/index';
-import { set_login_state } from '../store/actions/userAction';
+import { get_user_info } from '../store/actions/userAction';
 import { pop_unshow } from '../store/actions/popAction';
 import { ToastsContainer, ToastsStore } from 'react-toasts';
 import Variables from '../global/Variables';
+import Api from '../socket/index';
 
 import Index from '../screen/home/index';
 import CGDetail from '../screen/detailScreen/cgDetail';
@@ -43,7 +44,9 @@ class AppRouter extends Component {
         if (window.localStorage.erokun_token) {
             let token = window.localStorage.erokun_token;
             Variables.account.token = token;
-            store.dispatch(set_login_state(true));
+            Api.userInfo((e) => {
+                store.dispatch(get_user_info(e));
+            });
         }
     }
 

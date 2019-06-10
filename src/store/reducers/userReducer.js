@@ -35,6 +35,10 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 isLogin: action.isLogin
             };
+        case Types.CLEAR_LOCAL_STORAGE:
+            return {
+                ...initialState
+            };
         default: return state;
     }
 };

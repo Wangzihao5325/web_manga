@@ -17,6 +17,10 @@ const reducer = (state = initialState, action) => {
                 potato_url: action.potato,
                 share_text: action.shareText
             };
+        case Types.CLEAR_LOCAL_STORAGE:
+            return {
+                ...initialState
+            };
         default: return state;
     }
 };

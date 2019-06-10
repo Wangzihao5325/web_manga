@@ -7,3 +7,7 @@ export function test_add() {
 export function test_min() {
     return { type: Types.TEST_DECREMENT };
 }
+
+export function clear_location_storage(){
+    return { type: Types.CLEAR_LOCAL_STORAGE };
+}

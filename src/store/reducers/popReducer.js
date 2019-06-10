@@ -32,6 +32,10 @@ const reducer = (state = initialState, action) => {
                     popType: action.popType,
                 };
             }
+        case Types.CLEAR_LOCAL_STORAGE:
+            return {
+                ...initialState
+            };
         default: return state;
     }
 };

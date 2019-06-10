@@ -21,6 +21,10 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 isAutoBuy: !state.isAutoBuy
             };
+        case Types.CLEAR_LOCAL_STORAGE:
+            return {
+                ...initialState
+            };
         default: return state;
     }
 };

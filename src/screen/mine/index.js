@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import store from '../../store/index';
+import { clear_location_storage } from '../../store/actions/testAction';
 import { add_app_info_url } from '../../store/actions/appInfoAction';
 import { pop_show } from '../../store/actions/popAction';
 import { get_user_info } from '../../store/actions/userAction';
@@ -138,7 +139,7 @@ class ListItem extends Component {
                     <div style={{ marginLeft: 18, color: 'rgb(34,34,34)', fontSize: 14 }}>{this.props.title}</div>
                     <div style={{ flex: 1 }} />
                     <div style={{ height: 53, width: 53, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
-                        <img style={{ height: 15, width: 8 }} src={require('../../image/mine/mine_right_arrow_2.png')} alt='' />
+                        {this.props.showArrow && <img style={{ height: 15, width: 8 }} src={require('../../image/mine/mine_right_arrow_2.png')} alt='' />}
                     </div>
                 </div>
             </div>
@@ -175,9 +176,16 @@ class Mine extends Component {
                     custom={this.goToCustom}
                 />
                 <Banner />
-                <ListItem onPress={this.goToSetInviteCode} title='邀请码' imgPath={require('../../image/mine/set_invite_code.png')} />
+                <ListItem showArrow={true} onPress={this.goToSetInviteCode} title='邀请码' imgPath={require('../../image/mine/set_invite_code.png')} />
+                <ListItem showArrow={false} onPress={this.clearLocalStorage} title='清除缓存' imgPath={require('../../image/mine/set_invite_code.png')} />
             </div>
         );
+    }
+
+    clearLocalStorage = () => {
+        window.localStorage.clear();
+        store.dispatch(clear_location_storage());
+        ToastsStore.success('缓存已清除,请重新登录App!');
     }
 
     goToInviteNum = () => {

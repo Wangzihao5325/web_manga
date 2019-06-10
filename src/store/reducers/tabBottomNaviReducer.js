@@ -22,6 +22,10 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 highlightIndex: action.index
             };
+        case Types.CLEAR_LOCAL_STORAGE:
+            return {
+                ...initialState
+            };
         default: return state;
     }
 };
