@@ -87,7 +87,7 @@ class CGPage extends Component {
                     loadMore={this._loadMore}
                 >
                     {
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'row', backgroundColor: 'rgb(249,249,249)' }}>
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'row', backgroundColor: 'rgb(249,249,249)',marginTop:5 }}>
                             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', marginRight: 3 }}>
                                 {this.state.data1}
                             </div>
