@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import store from '../../../store/index';
+import { get_user_info } from '../../../store/actions/userAction';
 import { tab_navi_unshow } from '../../../store/actions/tabBottomNaviAction';
 import { HeaderPro } from '../../../component/header/index';
 import { CLIENT_WIDTH } from '../../../global/sizes';
@@ -128,10 +129,15 @@ class Pay extends PureComponent {
             ToastsStore.warning('请选择支付通道');
             return;
         }
-        console.log(`selectPay:${this.state.selectPay}`);
-        console.log(`selectId:${this.state.selectId}`);
         Api.addOrder(this.state.selectPay, this.state.selectId, (e) => {
-            console.log(e);
+            if (e.target === 1) {
+                ToastsStore.warning('支付成功，请耐心等候C币到账');
+                Api.userInfo((e) => {
+                    store.dispatch(get_user_info(e));
+                });
+            } else {
+                window.open(e.payUrl);
+            }
         });
     }
 
