@@ -79,6 +79,7 @@ class Login extends Component {
             Api.login(reg.mobile, reg.password, (e, code, message) => {
                 ToastsStore.success('登陆成功');
                 Variables.account.token = e.api_token;
+                window.localStorage.setItem('erokun_token', e.api_token);
                 store.dispatch(get_user_info(e));
                 this.props.history.push('/mine/');
             });

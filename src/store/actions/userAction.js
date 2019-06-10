@@ -24,3 +24,7 @@ export function get_user_info(userData) {
 export function set_invite_me_code(code) {
     return { type: Types.SET_INVITE_ME_CODE, code: code }
 }
+
+export function set_login_state(state) {
+    return { type: Types.SET_LOGIN_STATE, isLogin: state }
+}

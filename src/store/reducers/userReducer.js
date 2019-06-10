@@ -30,6 +30,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 invite_me_code: action.code
             };
+        case Types.SET_LOGIN_STATE:
+            return {
+                ...state,
+                isLogin: action.isLogin
+            };
         default: return state;
     }
 };
