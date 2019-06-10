@@ -380,8 +380,8 @@ class MangaRead extends PureComponent {
                                     <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginLeft: 5 }}>{`币余额:${this.state.modalMyCoins}`}</div>
                                 </div>
                                 <div onClick={this.autoBuy} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                                    <div style={{ height: 40, width: 14, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 14, width: 14 }} src={this.props.is_auto_buy ? require('../../../../image/collect/select_all.png') : require('../../../../image/collect/unSelect_all.png')} alt='' /></div>
-                                    <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginLeft: 5 }}>下章自动购买</div>
+                                    {/* <div style={{ height: 40, width: 14, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}><img style={{ height: 14, width: 14 }} src={this.props.is_auto_buy ? require('../../../../image/collect/select_all.png') : require('../../../../image/collect/unSelect_all.png')} alt='' /></div>
+                                    <div style={{ color: 'rgb(34,34,34)', fontSize: 13, marginLeft: 5 }}>下章自动购买</div> */}
                                 </div>
                             </div>
                         }
