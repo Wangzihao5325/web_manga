@@ -28,6 +28,7 @@ import ForgetPassword from '../screen/mine/forgetPassword/index';
 import InviteList from '../screen/mine/inviteList/index';
 import CoinList from '../screen/mine/coinList/index';
 import Feedback from '../screen/mine/feedback/index';
+import NotFoundPage from '../screen/notFoundPage/index';
 
 
 import ModelContainer from '../screen/modelContainer/index';
@@ -61,6 +62,7 @@ class AppRouter extends Component {
                         <Route path="/leaderBoard/" component={LeaderBoard} />
                         <Route path="/type/" component={TypeScreen} />
                         <Route path="/feedback/" component={Feedback} />
+                        <Route path="*" component={NotFoundPage} />
                     </Switch>
                     {this.props.popShow &&
                         <div
