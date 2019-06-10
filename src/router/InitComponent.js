@@ -21,17 +21,20 @@ export default class InitComponent extends PureComponent {
 
     componentDidMount() {//ping.test
 
-        const p = Promise.race(
-            channel.map((item) => {
-                return fetch(`${item}/ping.txt`).then((reponse) => {
+        let pArr = channel.map((item) => {
+            return new Promise((resolve, reject) => {
+                fetch(item, { method: 'get', mode: 'cors' }).then((reponse) => {
                     if (reponse.status === 200) {
-                        return Promise.resolve(item);
+                        return resolve(item);
                     }
                 })
-            })
-        );
+            });
+        });
+
+        const p = Promise.race(pArr);
 
         p.then((e) => {
+
             SERVICE_URL.DomainUrl = e;
             if (window.localStorage.erokun_token) {
                 let token = window.localStorage.erokun_token;
@@ -44,7 +47,6 @@ export default class InitComponent extends PureComponent {
                 store.dispatch(app_init_done());
             }, 2000);
         })
-
     }
 
     render() {
