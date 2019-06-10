@@ -219,7 +219,7 @@ class MangaDetail extends PureComponent {
 
     componentDidMount() {
         store.dispatch(tab_navi_unshow());
-        const mangaId = this.props.match.params.id;
+        const mangaId = parseInt(this.props.match.params.id);
         const global_type = this.props.match.params.type;
         //查询漫画详情
         Api.comicInfo(global_type, mangaId, (e) => {
