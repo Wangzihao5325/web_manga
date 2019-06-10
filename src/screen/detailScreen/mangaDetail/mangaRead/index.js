@@ -473,6 +473,30 @@ class MangaRead extends PureComponent {
         }
     }
 
+    fastBuy = () => {
+        if (this.state.nowChapterDataIndex === this.state.chapterListData.length - 1) {
+            ToastsStore.warning('已经是最后一话啦！');
+            return;
+        }
+
+        const isPay = this.state.chapterListData[this.state.nowChapterDataIndex + 1].is_pay;
+        if (isPay) {
+            let item = this.state.chapterListData[this.state.nowChapterDataIndex + 1];
+            
+        } else {
+            const newSourceId = this.state.chapterListData[this.state.nowChapterDataIndex + 1].resource_id;
+            const id = parseInt(this.props.match.params.id);
+            const newIndex = this.state.chapterListData[this.state.nowChapterDataIndex + 1].index;
+
+            this.props.history.replace(`/manga_read/${id}/${newSourceId}/${newIndex}/${this.props.match.params.type}`);
+            this.draweOnClose();
+            let anchorElement = document.getElementById('manga_image_0');
+            if (anchorElement) {        // 如果对应id的锚点存在，就跳转到锚点
+                anchorElement.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            }
+        }
+    }
+
     buyNow = () => {
         let buyType = this.state.buyType;
         if (buyType === 'none') {

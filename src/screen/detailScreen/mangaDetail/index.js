@@ -264,7 +264,7 @@ class MangaDetail extends PureComponent {
                 });
             });
             //猜你喜欢查询
-            Api.guessLike(newMangaId, (e) => {
+            Api.guessLike(global_type,newMangaId, (e) => {
                 this.setState({
                     guessLikeData: e.data
                 })
