@@ -41,16 +41,6 @@ import Footer from '../component/footerBar/index';
 
 class AppRouter extends Component {
 
-    componentDidMount() {
-        if (window.localStorage.erokun_token) {
-            let token = window.localStorage.erokun_token;
-            Variables.account.token = token;
-            Api.userInfo((e) => {
-                store.dispatch(get_user_info(e));
-            });
-        }
-    }
-
     render() {
         if (this.props.isAppInit) {
             return (
