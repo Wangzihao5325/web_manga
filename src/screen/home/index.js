@@ -24,11 +24,7 @@ class Home extends Component {
     };
 
     onSelect = key => {
-        if (this.props.isLogin) {
-            this.setState({ selected: key });
-        } else {
-            ToastsStore.warning('请先登陆');
-        }
+        this.setState({ selected: key });
     }
 
     componentDidMount() {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroller';
 import Api from '../../../socket/index';
 import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../../global/sizes';
@@ -6,9 +7,11 @@ import ScrollMenu from 'react-horizontal-scrolling-menu';
 import { Menu } from '../../../component/tabSelect/WeekSelect';
 import { Comic3Item } from '../../../component/frontCover/index';
 import './index.css';
+import { ToastsStore } from 'react-toasts';
 
 
-export default class UpdatePage extends Component {
+
+class UpdatePage extends Component {
 
     state = {
         selected: 0,
@@ -78,7 +81,11 @@ export default class UpdatePage extends Component {
     }
 
     itemClick = (item) => {
-        this.props.navi.push(`/manga_detail/${item.id}/${item.global_type}`);
+        if (this.props.isLogin) {
+            this.props.navi.push(`/manga_detail/${item.id}/${item.global_type}`);
+        } else {
+            ToastsStore.warning('请先登录');
+        }
     }
 
     _onSelect = (key) => {
@@ -115,3 +122,13 @@ export default class UpdatePage extends Component {
 
     }
 }
+
+function mapState2Props(store) {
+    return {
+        isLogin: store.user.isLogin,
+    }
+}
+
+const UpdatePageWithRedux = connect(mapState2Props)(UpdatePage);
+
+export default UpdatePageWithRedux;
