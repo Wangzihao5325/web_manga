@@ -197,7 +197,9 @@ class MangaRead extends PureComponent {
         buyType: 'all',
 
         isShowStar: false,
-        starValue: 2.5
+        starValue: 2.5,
+
+        isFastBuy: false
     }
 
     componentDidMount() {
@@ -266,7 +268,13 @@ class MangaRead extends PureComponent {
                     data: e.data,
                     nowPage: e.current_page,
                     totalPage: e.last_page,
-                    isShowStar: false
+                    isShowStar: false,
+                }, () => {
+                    setTimeout(() => {
+                        this.setState({
+                            isFastBuy: false
+                        });
+                    }, 500);
                 });
             });
             Api.comicInfo(type, id, (e) => {
@@ -312,7 +320,7 @@ class MangaRead extends PureComponent {
                         hasMore={true}
                         useWindow={false}
                         getScrollParent={() => this.scrollParentRef}
-                        threshold={30}
+                        threshold={1}
                         loadMore={this._loadMore}
                     >
                         {
@@ -480,23 +488,49 @@ class MangaRead extends PureComponent {
             ToastsStore.warning('已经是最后一话啦！');
             return;
         }
+        const tureIndex = this.state.nowChapterDataIndex + 1;
+        let item = this.state.chapterListData[tureIndex];
+        const globalType = this.props.match.params.type;
+        const mangaId = item.id;
+        const resourceId = item.resource_id;
+        const index = item.index;
 
-        const isPay = this.state.chapterListData[this.state.nowChapterDataIndex + 1].is_pay;
-        if (isPay) {
-            let item = this.state.chapterListData[this.state.nowChapterDataIndex + 1];
-
-        } else {
-            const newSourceId = this.state.chapterListData[this.state.nowChapterDataIndex + 1].resource_id;
-            const id = parseInt(this.props.match.params.id);
-            const newIndex = this.state.chapterListData[this.state.nowChapterDataIndex + 1].index;
-
-            this.props.history.replace(`/manga_read/${id}/${newSourceId}/${newIndex}/${this.props.match.params.type}`);
-            this.draweOnClose();
-            let anchorElement = document.getElementById('manga_image_0');
-            if (anchorElement) {        // 如果对应id的锚点存在，就跳转到锚点
-                anchorElement.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        Api.mangaImage(globalType, mangaId, resourceId, index, 1, 10, (e, code, message) => {
+            if (code === 0) {
+                ToastsStore.success('已到底部，正为您自动跳转下一话!');
+                this.props.history.replace(`/manga_read/${mangaId}/${resourceId}/${index}/${globalType}`);
+                let anchorElement = document.getElementById('manga_image_0');
+                if (anchorElement) {        // 如果对应id的锚点存在，就跳转到锚点
+                    anchorElement.scrollIntoView({ block: 'center', behavior: 'smooth' });
+                }
+                return;
             }
-        }
+            if (code === 200) {
+                let oneCoin = Math.abs(parseInt(e.one_coins));
+                let myCoins = parseInt(e.coins);
+                if (myCoins < oneCoin) {
+                    ToastsStore.warning('为您自动购买下一话失败,您的金币不足！');
+                    return;
+                }
+                Api.resourceCoins('one', globalType, mangaId, resourceId, index, (e, code, message) => {
+                    if (message === 'success') {
+                        let dataReg = [...this.state.chapterListData];
+                        dataReg[tureIndex].is_pay = 0;
+                        this.setState({
+                            chapterListData: dataReg
+                        });
+                        ToastsStore.success('自动购买成功，正为您跳转...');
+                        this.closeModal();
+                        this.props.history.replace(`/manga_read/${mangaId}/${resourceId}/${index}/${globalType}`);
+                        let anchorElement = document.getElementById('manga_image_0');
+                        if (anchorElement) {        // 如果对应id的锚点存在，就跳转到锚点
+                            anchorElement.scrollIntoView({ block: 'center', behavior: 'smooth' });
+                        }
+                    }
+                });
+            }
+        });
+
     }
 
     buyNow = () => {
@@ -741,8 +775,13 @@ class MangaRead extends PureComponent {
     }
 
     _loadMore = () => {
-        console.log(`loadind_more_nowPage=${this.state.nowPage}_totalPage=${this.state.totalPage}`);
         if (this.state.nowPage >= this.state.totalPage) {
+            // if (this.props.is_auto_buy && this.state.nowPage >= 1 && !this.state.isFastBuy) {
+            //     this.setState({
+            //         isFastBuy: true
+            //     });
+            //     this.fastBuy();
+            // }
             return;
         }
         const id = parseInt(this.props.match.params.id);
@@ -750,9 +789,7 @@ class MangaRead extends PureComponent {
         const type = this.props.match.params.type;
         const newPage = this.state.nowPage + 1;
         const mangaIndex = parseInt(this.props.match.params.index);
-        console.log('fetch sth');
         Api.mangaImage(type, id, source, mangaIndex, newPage, 10, (e) => {
-            console.log(e);
             let regData = [...this.state.data];
             let newData = regData.concat(e.data);
             this.setState({
