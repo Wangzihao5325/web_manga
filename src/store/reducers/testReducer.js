@@ -1,20 +1,15 @@
 import * as Types from '../actionTypes';
 
 const initialState = {
-    num: 0
+    isAppInit: false
 }
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case Types.TEST_INCREMENT:
+        case Types.APP_INIT_DONE:
             return {
                 ...state,
-                num: state.num + 1
-            };
-        case Types.TEST_DECREMENT:
-            return {
-                ...state,
-                num: state.num - 1
+                isAppInit: true
             };
         default: return state;
     }
