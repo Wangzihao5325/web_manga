@@ -73,7 +73,7 @@ class CGPage extends Component {
         return (
             <div className='scrolllist' style={{ flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 {this.state.adData.length > 0 &&
-                    <div style={{marginTop:8}}>
+                    <div style={{ marginTop: 8 }}>
                         <Banner data={this.state.adData} />
                     </div>
                 }
@@ -86,10 +86,10 @@ class CGPage extends Component {
                 >
                     {
                         <div style={{ flex: 1, display: 'flex', flexDirection: 'row', backgroundColor: 'rgb(249,249,249)' }}>
-                            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', marginRight: 3 }}>
                                 {this.state.data1}
                             </div>
-                            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', marginLeft: 3 }}>
                                 {this.state.data2}
                             </div>
                         </div>
