@@ -502,13 +502,13 @@ class MangaRead extends PureComponent {
                 }
                 ToastsStore.success('购买成功，正为您跳转...');
                 this.closeModal();
-                this.props.history.push(`/manga_read/${itemObj.id}/${itemObj.resource_id}/${itemObj.index}/${globalType}`);
+                this.props.history.replace(`/manga_read/${itemObj.id}/${itemObj.resource_id}/${itemObj.index}/${globalType}`);
             }
         });
     }
 
     earnMoney = () => {
-        this.props.history.replace('/task/');
+        this.props.history.push('/task/');
     }
 
     autoBuy = () => {
