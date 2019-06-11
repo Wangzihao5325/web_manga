@@ -179,9 +179,6 @@ export default class History extends PureComponent {
         Api.mangaHistory(typeKey, this.state.nowPage + 1, 15, (e) => {
             if (e.data.length > 0) {
                 let dataReg = this.state.historyData.concat(e.data);
-                this.setState({
-
-                });
                 this.setState((preState) => {
                     return {
                         historyData: dataReg,
