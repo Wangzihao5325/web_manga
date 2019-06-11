@@ -64,7 +64,7 @@ class LeaderBoard extends PureComponent {
                                 if (index >= 3) {
                                     isShow = true;
                                 }
-                                return <Comic3Item isHiddenIndexTab={isShow} index={index} key={item.title} item={item} />;
+                                return <Comic3Item coverClick={() => this.itemClick(item)} isHiddenIndexTab={isShow} index={index} key={item.title} item={item} />;
                             })
                         }
                     </InfiniteScroll>
@@ -73,7 +73,9 @@ class LeaderBoard extends PureComponent {
         );
     }
 
-
+    itemClick = (item) => {
+        this.props.history.push(`/manga_detail/${item.id}/${item.global_type}`);
+    }
 
     _loadMore = () => {
 
