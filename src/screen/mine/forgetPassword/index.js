@@ -9,6 +9,11 @@ import { LoginPhoneNumInput, LoginPasswordInput, LoginVerCodeInput } from '../..
 import { LoginBtn } from '../../../component/btn/index';
 import bg_image from '../../../image/mine/login_bg.png'
 import './index.css';
+import Api from '../../../socket/index';
+import { ToastsStore } from 'react-toasts';
+
+
+const reg = { mobile: '', password: '', verCode: '', verKey: '123' };
 
 class ForgetPassword extends Component {
 
@@ -34,31 +39,54 @@ class ForgetPassword extends Component {
                                 <div style={{ marginLeft: 10, fontSize: 12, color: 'rgb(169,169,169)' }}>满足你所有幻想</div>
                             </div>
                         </div>
-                        <LoginPhoneNumInput marginTop={43} />
-                        <LoginPasswordInput marginTop={15} />
-                        <LoginVerCodeInput marginTop={15} />
+                        <LoginPhoneNumInput callback={this.mobileTextChange} marginTop={43} />
+                        <LoginPasswordInput callback={this.passwordTextChange} marginTop={15} />
+                        <LoginVerCodeInput send={this.sendMessage} callback={this.verCodeTextChange} marginTop={15} />
 
-                        <LoginBtn onPress={this.login} title='修改密码' marginTop={29} />
+                        <LoginBtn onPress={this.changePassword} title='修改密码' marginTop={29} />
                     </div>
                 </div>
             </div>
         );
     }
 
-    register = () => {
-
+    changePassword = () => {
+        if (reg.mobile.length === 11 && reg.verCode.length > 0 && reg.password.length >= 8 && reg.password.length <= 16) {
+            Api.register(reg.mobile, reg.verKey, reg.verCode, reg.password, reg.password, null, (e, code, message) => {
+                ToastsStore.success('找回账号成功，快去登陆吧！');
+                this.props.history.goBack();
+            });
+        } else {
+            ToastsStore.error('请输入正确的信息! (密码长度需为8-16位)');
+        }
+        Api.resetPwd();
     }
 
-    forgetPassword = () => {
-
+    sendMessage = () => {
+        if (reg.mobile.length === 11) {
+            Api.sendMessage(reg.mobile, (e) => {
+                reg.verKey = e.verification_key;
+                // send message success
+            });
+        } else {
+            ToastsStore.error('请输入手机号码!');
+        }
     }
 
-    login = () => {
+    mobileTextChange = (e) => {
+        reg.mobile = e;
+    }
 
+    passwordTextChange = (e) => {
+        reg.password = e;
+    }
+
+    verCodeTextChange = (e) => {
+        reg.verCode = e;
     }
 
     goBack = () => {
-        this.props.history.push('/login/');
+        this.props.history.goBack();
     }
 }
 

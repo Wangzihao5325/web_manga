@@ -81,7 +81,7 @@ class Login extends Component {
                 Variables.account.token = e.api_token;
                 window.localStorage.setItem('erokun_token', e.api_token);
                 store.dispatch(get_user_info(e));
-                this.props.history.push('/mine/');
+                this.props.history.goBack();
             });
         } else {
             ToastsStore.error('请输入正确的信息');
@@ -89,7 +89,7 @@ class Login extends Component {
     }
 
     goBack = () => {
-        this.props.history.push('/mine/');
+        this.props.history.goBack();
     }
 }
 

@@ -12,7 +12,7 @@ import { LoginBtn } from '../../../component/btn/index';
 import bg_image from '../../../image/mine/login_bg.png'
 import './index.css';
 
-const reg = { mobile: '', password: '', verCode: '' };
+const reg = { mobile: '', password: '', verCode: '', verKey: '123' };
 
 class Register extends Component {
 
@@ -70,6 +70,7 @@ class Register extends Component {
     sendMessage = () => {
         if (reg.mobile.length === 11) {
             Api.sendMessage(reg.mobile, (e) => {
+                reg.verKey = e.verification_key;
                 // send message success
             });
         } else {
@@ -79,17 +80,17 @@ class Register extends Component {
 
     register = () => {
         if (reg.mobile.length === 11 && reg.verCode.length > 0 && reg.password.length >= 8 && reg.password.length <= 16) {
-            Api.register(reg.mobile, '123', reg.verCode, reg.password, reg.password, null, (e, code, message) => {
+            Api.register(reg.mobile, reg.verKey, reg.verCode, reg.password, reg.password, null, (e, code, message) => {
                 ToastsStore.success('注册成功，快去登陆吧！');
-                this.props.history.push('/login/');
+                this.props.history.goBack();
             });
         } else {
-            ToastsStore.error('请输入正确的信息!');
+            ToastsStore.error('请输入正确的信息! (密码长度需为8-16位)');
         }
     }
 
     goBack = () => {
-        this.props.history.push('/login/');
+        this.props.history.goBack();
     }
 }
 

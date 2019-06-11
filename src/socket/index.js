@@ -1052,6 +1052,35 @@ class api {
         this.securtyFetch(url, paramObj, onSuccess, onError);
     }
 
+    resetPwd(mobile, password, verification_key, code, onSuccess, onError) {
+        const url = '/api/exchange-task';
+        const timestamp = (new Date().getTime() / 1000).toFixed(0);
+
+        if (!IsSecurty) {
+            let formData = new FormData();
+            formData.append('timestamp', timestamp);
+            formData.append('mobile', mobile);
+            formData.append('password', password);
+            formData.append('verification_key', verification_key);
+            formData.append('code', code);
+            formData.append('password_confirmation', password);
+            this.normalFetch(url, formData, onSuccess, onError);
+            return;
+        }
+
+        let paramObj = {
+            code,
+            mobile,
+            password,
+            password_confirmation: password,
+            platform: PlatformStr,
+            timestamp,
+            verification_key
+        }
+
+        this.securtyFetch(url, paramObj, onSuccess, onError);
+    }
+
     uploadPic(file, onSuccess, onError) {
         /**图片上传需要单独的域名，暂时共用 */
         const url = '/api/feed-upload';
