@@ -22,23 +22,6 @@
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href='%PUBLIC_URL%/icon.png' />
   <link rel="shortcut icon" href='%PUBLIC_URL%/icon.png' />
   <link rel="shortcut icon" sizes="196x196" href='%PUBLIC_URL%/icon.png' />
-  <script src="./vconsole.min.js"></script>
-  <script>
-    //禁用下拉刷新
-    // var lastY = 0;
-    // window.addEventListener('touchmove', function (e) {
-    //   var scrolly = window.pageYOffset || window.scrollTop || 0;
-    //   var direction = e.changedTouches[0].pageY > lastY ? 1 : -1;
-
-    //   if (direction > 0 && scrolly === 0) {
-    //     e.preventDefault();
-    //   }
-    //   lastY = e.changedTouches[0].pageY;
-    // }, { passive: false });
-    // init vConsole
-    var vConsole = new VConsole();
-  </script>
-
   <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
