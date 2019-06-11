@@ -8,12 +8,13 @@ import Api from '../socket/index';
 import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../global/sizes';
 
 const channel = [
-    'http://channel.gkj1.me',
-    'http://channel.gunkoj.me',
-    'http://channel.gokoju.me',
-    'http://channel.gkman.me',
-    'http://channel.ko3.me',
-    'http://channel.gkoj.me',
+    'http://192.168.0.186:50006',
+    // 'http://channel.gkj1.me',
+    // 'http://channel.gunkoj.me',
+    // 'http://channel.gokoju.me',
+    // 'http://channel.gkman.me',
+    // 'http://channel.ko3.me',
+    // 'http://channel.gkoj.me',
 ];
 
 export default class InitComponent extends PureComponent {

@@ -57,7 +57,7 @@ class Header extends PureComponent {
 
     render() {
         return (
-            <div style={{ backgroundColor: 'rgb(34,34,34)', position: 'fixed', top: 0, left: 0, height: 38, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            <div style={{ backgroundColor: 'rgb(34,34,34)', position: 'fixed', top: 0, left: 0, height: 38, width: CLIENT_WIDTH, display: 'flex', flexDirection: 'row', alignItems: 'center',zIndex:100 }}>
                 <div onClick={this.goBack} style={{ height: 38, width: 70, marginLeft: 15, display: 'flex', alignItems: 'center' }}>
                     <img style={{ height: 16, width: 8 }} src={require('../../../../image/detail/back_white.png')} alt='' />
                 </div>
@@ -314,7 +314,7 @@ class MangaRead extends PureComponent {
         return (
             <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }} >
                 {this.state.isControllerShow && <Header share_url={this.props.share_url} invite_code={this.props.invite_code} share_text={this.props.share_text} title={`第${this.state.nowChapterIndex}话`} back={this.goBack} rightBtnText='分享' rightBtnClick={this.share} />}
-                <div onClick={this.controllerStateChange} style={{ height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div className='scrolllist' onClick={this.controllerStateChange} style={{ height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <InfiniteScroll
                         pageStart={0}
                         hasMore={true}
