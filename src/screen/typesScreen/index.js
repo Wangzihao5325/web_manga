@@ -165,7 +165,7 @@ class TypeScreen extends PureComponent {
                         itemStyle={{ outline: 'none' }}
                     />
                 </div>
-                <div style={{ marginTop: 10, width: CLIENT_WIDTH, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
+                <div className='scrolllist' style={{ marginTop: 10, width: CLIENT_WIDTH, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
                     <InfiniteScroll
                         pageStart={0}
                         hasMore={true}

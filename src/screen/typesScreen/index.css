@@ -2,3 +2,7 @@
     content: "";
     flex: auto;
  }
+
+ .scrolllist{
+    -webkit-overflow-scrolling : touch;
+}
