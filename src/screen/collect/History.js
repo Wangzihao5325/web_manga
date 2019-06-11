@@ -98,7 +98,7 @@ export default class History extends PureComponent {
                         />
                     </div>
                 }
-                <div style={{ marginTop: 20, flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
+                <div className='scrolllist' style={{ marginTop: 20, flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
                     <InfiniteScroll
                         pageStart={0}
                         hasMore={true}

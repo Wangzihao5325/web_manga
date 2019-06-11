@@ -7,6 +7,7 @@ import { typeUtil } from '../../global/utils';
 import { FrontCoverWithSelect } from '../../component/frontCover/index';
 import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../global/sizes';
 import _ from 'lodash';
+import './index.css';
 
 // const mangaTypeData = [{ name: '韩漫' }, { name: 'H漫画' }, { name: '动漫' }];
 const mangaTypeData = [{ name: '韩漫' }, { name: 'H漫画' }];
@@ -52,7 +53,7 @@ export default class Collect extends PureComponent {
                     </div>
                 }
 
-                <div style={{ marginTop: 20, flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div className='scrolllist' style={{ marginTop: 20, flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <InfiniteScroll
                         pageStart={0}
                         hasMore={true}
@@ -89,10 +90,9 @@ export default class Collect extends PureComponent {
                                 })
                             }
                         </div>
-                        <div style={{ height: 80, width: CLIENT_WIDTH - 24 }} />{/**底部垫高，防止正文部分被bottom遮挡 */}
                     </InfiniteScroll>
                 </div>
-
+                <div style={{ height: 75, width: CLIENT_WIDTH - 24 }} />{/**底部垫高，防止正文部分被bottom遮挡 */}
                 {this.props.isEditMode &&
                     <div
                         style={{

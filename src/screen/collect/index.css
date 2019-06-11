@@ -8,3 +8,7 @@
     text-overflow:ellipsis;
     white-space:nowrap;
  }
+
+ .scrolllist{
+   -webkit-overflow-scrolling : touch;
+}
