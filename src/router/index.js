@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
 import store from '../store/index';
 import { get_user_info } from '../store/actions/userAction';

@@ -2,6 +2,7 @@
   "name": "bit-manga",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "antd": "^3.18.2",
     "clipboard": "^2.0.4",
