@@ -189,7 +189,6 @@ class CGDetail extends PureComponent {
     }
 
     _loadMore = () => {
-        console.log(`loadind_more_nowPage=${this.state.nowPage}_totalPage=${this.state.totalPage}`);
         if (this.state.nowPage >= this.state.totalPage) {
             return;
         }
@@ -197,7 +196,6 @@ class CGDetail extends PureComponent {
         const cgId = parseInt(this.props.match.params.id);
         const newPage = this.state.nowPage + 1;
         Api.mangaImage(type, cgId, 0, 0, newPage, 10, (e) => {
-            console.log(e.data);
             let regData = [...this.state.data];
             let newData = regData.concat(e.data);
             this.setState({
