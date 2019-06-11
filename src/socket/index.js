@@ -1053,7 +1053,7 @@ class api {
     }
 
     resetPwd(mobile, password, verification_key, code, onSuccess, onError) {
-        const url = '/api/exchange-task';
+        const url = '/api/reset-pwd';
         const timestamp = (new Date().getTime() / 1000).toFixed(0);
 
         if (!IsSecurty) {

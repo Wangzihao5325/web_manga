@@ -52,7 +52,7 @@ class ForgetPassword extends Component {
 
     changePassword = () => {
         if (reg.mobile.length === 11 && reg.verCode.length > 0 && reg.password.length >= 8 && reg.password.length <= 16) {
-            Api.register(reg.mobile, reg.verKey, reg.verCode, reg.password, reg.password, null, (e, code, message) => {
+            Api.resetPwd(reg.mobile, reg.password, reg.verKey, reg.verCode, (e, code, message) => {
                 ToastsStore.success('找回账号成功，快去登陆吧！');
                 this.props.history.goBack();
             });
