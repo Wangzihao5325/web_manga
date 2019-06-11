@@ -75,8 +75,8 @@ export default class History extends PureComponent {
         Api.mangaHistory(typeKey, 1, 15, (e) => {
             this.setState({
                 historyData: e.data,
-                nowPage: e.current_page,
-                totalPage: e.last_page
+                nowPage: 1,
+                totalPage: 2
             });
         });
     }
@@ -177,12 +177,25 @@ export default class History extends PureComponent {
         }
         let typeKey = typeUtil(this.state.innerSelected);
         Api.mangaHistory(typeKey, this.state.nowPage + 1, 15, (e) => {
-            let dataReg = this.state.historyData.concat(e.data);
-            this.setState({
-                historyData: dataReg,
-                nowPage: e.current_page,
-                totalPage: e.last_page
-            });
+            if (e.data.length > 0) {
+                let dataReg = this.state.historyData.concat(e.data);
+                this.setState({
+
+                });
+                this.setState((preState) => {
+                    return {
+                        historyData: dataReg,
+                        nowPage: preState.nowPage + 1,
+                        totalPage: preState.nowPage + 2
+                    }
+                });
+            } else {
+                this.setState((preState) => {
+                    return {
+                        totalPage: preState.nowPage
+                    }
+                });
+            }
         });
     }
 

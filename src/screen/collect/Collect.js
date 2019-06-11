@@ -128,12 +128,22 @@ export default class Collect extends PureComponent {
         }
         let typeKey = typeUtil(this.state.innerSelected);
         Api.mangaCollect(typeKey, this.state.nowPage + 1, 15, (e) => {
-            let dataReg = this.state.collectData.concat(e.data);
-            this.setState({
-                collectData: dataReg,
-                nowPage: e.current_page,
-                totalPage: e.last_page
-            });
+            if (e.data.length > 0) {
+                let dataReg = this.state.collectData.concat(e.data);
+                this.setState((preState) => {
+                    return {
+                        collectData: dataReg,
+                        nowPage: preState.nowPage + 1,
+                        totalPage: preState.nowPage + 2
+                    }
+                });
+            } else {
+                this.setState((preState) => {
+                    return {
+                        totalPage: preState.nowPage
+                    }
+                });
+            }
         });
     }
 
