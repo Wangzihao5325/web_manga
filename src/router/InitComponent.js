@@ -14,8 +14,7 @@ const channel = [
     'http://channel.gkman.me',
     'http://channel.ko3.me',
     'http://channel.gkoj.me',
-    'http://192.168.0.186:50006'
-];//http://192.168.0.186:50006
+];
 
 export default class InitComponent extends PureComponent {
 
@@ -24,7 +23,7 @@ export default class InitComponent extends PureComponent {
         let pArr = channel.map((item) => {
             return new Promise((resolve, reject) => {
                 let url = `${item}/ping.txt`;
-                fetch(url, { method: 'get', mode: 'cors' }).then((reponse) => {
+                fetch(item, { method: 'get', mode: 'cors' }).then((reponse) => {
                     if (reponse.status === 200) {
                         return resolve(item);
                     }
@@ -35,14 +34,13 @@ export default class InitComponent extends PureComponent {
         const p = Promise.race(pArr);
 
         p.then((e) => {
-
             SERVICE_URL.DomainUrl = e;
             if (window.localStorage.erokun_token) {
                 let token = window.localStorage.erokun_token;
                 Variables.account.token = token;
-                // Api.userInfo((e) => {
-                //     store.dispatch(get_user_info(e));
-                // });
+                Api.userInfo((e) => {
+                    store.dispatch(get_user_info(e));
+                });
             }
             setTimeout(() => {
                 store.dispatch(app_init_done());
