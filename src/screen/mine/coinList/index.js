@@ -6,6 +6,7 @@ import { HeaderPro } from '../../../component/header/index';
 import Api from '../../../socket/index';
 import { CLIENT_HEIGHT, CLIENT_WIDTH } from '../../../global/sizes';
 import InfiniteScroll from 'react-infinite-scroller';
+import './index.css';
 
 
 import TabSelect from '../../../component/tabSelect/index';
@@ -56,7 +57,7 @@ class CoinList extends PureComponent {
             <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
                 <HeaderPro title='C币明细' back={this.goBack} />
                 <TabSelect data={TAB_DATA} callback={this.tabChange} />
-                <div style={{ flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column' }} ref={(ref) => this.scrollParentRef = ref}>
+                <div className='scrolllist' style={{ flex: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column' }} ref={(ref) => this.scrollParentRef = ref}>
                     <div>
                         <InfiniteScroll
                             pageStart={0}
