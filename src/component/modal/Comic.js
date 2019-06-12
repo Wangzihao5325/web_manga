@@ -340,7 +340,7 @@ class Comic3 extends Component {
 
     _more = () => {
         if (this.props.isLogin) {
-            this.props.navi.push('/type/');
+            this.props.navi.push('/leaderBoard/');
         } else {
             ToastsStore.warning('请先登录');
         }
