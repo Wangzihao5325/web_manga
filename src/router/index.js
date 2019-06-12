@@ -2,42 +2,38 @@ import React, { Component } from "react";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
 import store from '../store/index';
-import { get_user_info } from '../store/actions/userAction';
 import { pop_unshow } from '../store/actions/popAction';
 import { ToastsContainer, ToastsStore } from 'react-toasts';
-import Variables from '../global/Variables';
-import Api from '../socket/index';
 import InitComponent from './InitComponent';
-
-import Index from '../screen/home/index';
-import CGDetail from '../screen/detailScreen/cgDetail';
-import MangaDetail from '../screen/detailScreen/mangaDetail';
-import MangaRead from '../screen/detailScreen/mangaDetail/mangaRead';
-import Search from '../screen/search/index';
-import LeaderBoard from '../screen/leaderBoard/index';
-import TypeScreen from '../screen/typesScreen/index';
-
-import Collect from '../screen/collect/index';
-
-import Task from '../screen/task/index';
-
-import Mine from '../screen/mine/index';
-import Register from '../screen/mine/register/index';
-import SetInviteCode from '../screen/mine/setInviteCode/index';
-import Login from '../screen/mine/login/index';
-import Share from '../screen/mine/share/index';
-import Pay from '../screen/mine/pay/index';
-import PayInfo from '../screen/mine/pay/payInfo/index';
-import ForgetPassword from '../screen/mine/forgetPassword/index';
-import InviteList from '../screen/mine/inviteList/index';
-import CoinList from '../screen/mine/coinList/index';
-import Feedback from '../screen/mine/feedback/index';
-import NotFoundPage from '../screen/notFoundPage/index';
-
-
+import asyncImport from './asyncComponent';
 import ModelContainer from '../screen/modelContainer/index';
-
 import Footer from '../component/footerBar/index';
+
+const Index = asyncImport(() => import('../screen/home/index'));
+const CGDetail = asyncImport(() => import('../screen/detailScreen/cgDetail'));
+const MangaDetail = asyncImport(() => import('../screen/detailScreen/mangaDetail'));
+const MangaRead = asyncImport(() => import('../screen/detailScreen/mangaDetail/mangaRead'));
+const Search = asyncImport(() => import('../screen/search/index'));
+const LeaderBoard = asyncImport(() => import('../screen/leaderBoard/index'));
+const TypeScreen = asyncImport(() => import('../screen/typesScreen/index'));
+
+const Collect = asyncImport(() => import('../screen/collect/index'));
+
+const Task = asyncImport(() => import('../screen/task/index'));
+
+const Mine = asyncImport(() => import('../screen/mine/index'));
+const Register = asyncImport(() => import('../screen/mine/register/index'));
+const SetInviteCode = asyncImport(() => import('../screen/mine/setInviteCode/index'));
+const Login = asyncImport(() => import('../screen/mine/login/index'));
+const Share = asyncImport(() => import('../screen/mine/share/index'));
+const Pay = asyncImport(() => import('../screen/mine/pay/index'));
+const PayInfo = asyncImport(() => import('../screen/mine/pay/payInfo/index'));
+const ForgetPassword = asyncImport(() => import('../screen/mine/forgetPassword/index'));
+const InviteList = asyncImport(() => import('../screen/mine/inviteList/index'));
+const CoinList = asyncImport(() => import('../screen/mine/coinList/index'));
+const Feedback = asyncImport(() => import('../screen/mine/feedback/index'));
+const NotFoundPage = asyncImport(() => import('../screen/notFoundPage/index'));
+
 
 class AppRouter extends Component {
 
