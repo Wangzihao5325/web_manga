@@ -4,7 +4,8 @@ const initialState = {
     offical_url: '',
     share_url: '',
     potato_url: '',
-    share_text: ''
+    share_text: '',
+    isLost: true
 }
 
 const reducer = (state = initialState, action) => {
@@ -15,7 +16,8 @@ const reducer = (state = initialState, action) => {
                 offical_url: action.offical,
                 share_url: action.share,
                 potato_url: action.potato,
-                share_text: action.shareText
+                share_text: action.shareText,
+                isLost: action.isLost ? true : false,
             };
         case Types.CLEAR_LOCAL_STORAGE:
             return {

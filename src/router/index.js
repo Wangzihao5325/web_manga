@@ -8,6 +8,7 @@ import InitComponent from './InitComponent';
 import asyncImport from './asyncComponent';
 import ModelContainer from '../screen/modelContainer/index';
 import Footer from '../component/footerBar/index';
+import LinkFooter from '../component/footerBar/LostFooter';
 
 const Index = asyncImport(() => import('../screen/home/index'));
 const CGDetail = asyncImport(() => import('../screen/detailScreen/cgDetail'));
@@ -33,7 +34,6 @@ const InviteList = asyncImport(() => import('../screen/mine/inviteList/index'));
 const CoinList = asyncImport(() => import('../screen/mine/coinList/index'));
 const Feedback = asyncImport(() => import('../screen/mine/feedback/index'));
 const NotFoundPage = asyncImport(() => import('../screen/notFoundPage/index'));
-
 
 class AppRouter extends Component {
 
@@ -85,6 +85,7 @@ class AppRouter extends Component {
                                 <ModelContainer />
                             </div>
                         }
+                        {this.props.isLost && this.props.isShow && <LinkFooter url={this.props.offical_url} />}
                         {this.props.isShow && <Footer />}
                     </div>
                 </Router >
@@ -105,7 +106,9 @@ function mapState2Props(store) {
     return {
         isShow: store.tabNavi.isShow,
         popShow: store.pop.popShow,
-        isAppInit: store.test.isAppInit
+        isAppInit: store.test.isAppInit,
+        isLost: store.appInfo.isLost,
+        offical_url: store.appInfo.offical_url,
     }
 }
 

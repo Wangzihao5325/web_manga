@@ -158,7 +158,7 @@ class Mine extends Component {
             });
         }
         Api.appVersion((e) => {
-            store.dispatch(add_app_info_url(e.official_url, e.share_url, e.potato_invite_link, e.share_text));
+            store.dispatch(add_app_info_url(e.official_url, e.share_url, e.potato_invite_link, e.share_text, e.lose));
         });
     }
 

@@ -5,6 +5,7 @@ import store from '../store/index';
 import { app_init_done } from '../store/actions/testAction';
 import { get_user_info } from '../store/actions/userAction';
 import Api from '../socket/index';
+import { add_app_info_url } from '../store/actions/appInfoAction';
 import { CLIENT_WIDTH, CLIENT_HEIGHT } from '../global/sizes';
 
 const channel = [
@@ -42,6 +43,9 @@ export default class InitComponent extends PureComponent {
                     store.dispatch(get_user_info(e));
                 });
             }
+            Api.appVersion((e) => {
+                store.dispatch(add_app_info_url(e.official_url, e.share_url, e.potato_invite_link, e.share_text, e.lose));
+            });
             setTimeout(() => {
                 store.dispatch(app_init_done());
             }, 2000);
