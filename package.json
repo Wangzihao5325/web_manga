@@ -8,7 +8,7 @@
     "clipboard": "^2.0.4",
     "crypto-js": "^3.1.9-1",
     "html2canvas": "^1.0.0-rc.3",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "qrcode.react": "^0.9.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
